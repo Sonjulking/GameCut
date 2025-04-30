@@ -1,0 +1,33 @@
+git init
+git remote add origin https://github.com/Sonjulking/GameCut.git
+
+
+git pull origin master
+:q
+git add .
+git commit -m "커밋메시지"
+git push origin master
+
+git pull origin master
+
+:q (이상한 콘솔 떴을때 이거 작성하십쇼... vim..같은...)
+
+-git checkout 브랜치명
+-git branch : 현재 브랜치 확인
+-git fetch origin : 원격저장소 최신내용 가져오기
+-git merge origin/master : 개인브랜치에 원격저장소(master) 내용 합치기.
+
+-PR(Pull Request) 요청하는 방법 :
+ https://github.com/Sonjulking/GameCut/pulls  접속 후
+ 오른쪽에 New pull request (초록색 버튼)
+ 받아줄 브랜치 / 보내줄 브랜치 선택
+ ex) dev <- sonjulking
+
+ create pull request 버튼 클릭 (초록색 버튼)
+
+ 제목과 내용 입력 후
+
+  create pull request 버튼 클릭 (초록색 버튼)
+
+  요청 확인 후 의견 남기거나, 병합
+  Merge pull request -> confirm merge
