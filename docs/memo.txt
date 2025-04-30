@@ -18,3 +18,5 @@ git pull origin master
 - 프로젝트를 누른다
 - 상단 메뉴바의 project->clean 실행
 - 프로젝트 다시시작
+
+-hello
