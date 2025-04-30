@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class TestDAO {
     public ArrayList<TestVO> findAll() {
         ArrayList<TestVO> list = new ArrayList<>();
-        String sql = "select * from board2";
+        String sql = "select * from board";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

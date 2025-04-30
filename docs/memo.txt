@@ -13,3 +13,8 @@ git pull origin master
 :q
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+프로젝트 오류사항을 고쳤는데도 안될때
+- 프로젝트를 누른다
+- 상단 메뉴바의 project->clean 실행
+- 프로젝트 다시시작
