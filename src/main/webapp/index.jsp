@@ -6,9 +6,12 @@
         <%@ include file="layout/sidebar.jsp"%>
     </div>
     <div class="main_content">
-        <div>
-            <h2>hello</h2>
-        </div>
+        <c:if test="${viewPage == null}">
+            <a href="test.do">게시판 목록</a>
+        </c:if>
+        <c:if test="${viewPage != null}">
+            <jsp:include page="${viewPage}"/>
+        </c:if>
     </div>
 </div>
 <%@ include file="layout/footer.jsp"%>

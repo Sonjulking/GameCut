@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -66,8 +67,18 @@ public class DispatcherServlet extends HttpServlet {
         GameCutAction action = map.get(cmd);
         String viewPage = action.pro(request, response);
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(viewPage);
-        dispatcher.forward(request, response);
+        if (viewPage.endsWith(".do")) {
+            response.sendRedirect(viewPage);
+        } else if (viewPage.endsWith(".jsp")) {
+            request.setAttribute("viewPage", viewPage);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
+            dispatcher.forward(request, response);
+        } else {
+            response.setContentType("application/json;charset=utf-8");
+            PrintWriter out = response.getWriter();
+            out.print(viewPage); //json 데이터 응답
+            out.close();
+        }
     }
 
     @Override
