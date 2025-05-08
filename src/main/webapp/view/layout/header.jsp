@@ -7,10 +7,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
     <body>
-        <header><a href="/">로고</a></header>
-        <a href="joinUser.do">회원가입</a>
-        <a href="login.do">로그인</a>
-        <hr>
         <header>
             <a href="<c:url value="/"/>">
                 <img src="img/main/logo/gamecut_logo.png" alt="logo" id="gamecut_logo"/>

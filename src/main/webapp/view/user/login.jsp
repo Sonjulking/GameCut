@@ -1,19 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
 <h2>로그인</h2>
 <hr>
 <form action="loginOK.do">
-	아이디 : <input type="text" name="userId">
-	비밀번호 : <input type="text" name="userPwd">
+	아이디 : <input type="text" name="userId"><br>
+	비밀번호 : <input type="text" name="userPwd"><br>
 	<input type="submit" value="확인">
 	<input type="reset" value="다시">
+	<input type="button" value="회원가입" id ="joinBtn">
 </form>
-</body>
-</html>
+<script type="text/javascript">
+	$(function(){
+		$("#joinBtn").click(function(){
+			location.href = "joinUser.do";
+		});
+	})
+</script>

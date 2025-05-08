@@ -12,7 +12,7 @@ public class UserDAO {
 	public int insertUser(UserVO vo) {
 		
 		int re = -1;
-		String sql = "insert into user_tb values(seq_user_no.nextval(),?,?,?,?,?,?,sysdate,null,?,?,1000,null,?)";
+		String sql = "insert into user_tb values(seq_user_no.nextval,?,?,?,?,?,?,sysdate,null,?,?,1000,null,null)";
 		
 		try {
 			Connection conn =  ConnectionProvider.getConnection();
@@ -23,9 +23,9 @@ public class UserDAO {
 			prst.setString(4, vo.getUserNickname());
 			prst.setString(5, vo.getPhone());
 			prst.setString(6, vo.getEmail());
-			prst.setString(7, vo.getIsSocial());
-			prst.setString(8, vo.getRole());
-			prst.setInt(9, vo.getPhotoNo());
+			prst.setString(7, "basic");
+			prst.setString(8, "role_user");
+			//prst.setInt(9, vo.getPhotoNo());
 			re = prst.executeUpdate();
 			ConnectionProvider.close(conn, prst);
 		} catch (Exception e) {
@@ -40,7 +40,7 @@ public class UserDAO {
     // 있으면:1, 없으면 :0
     public int isAlreadyId (String id){
         int re = 0;
-        String sql = "select * from user_tb where user_id=?";
+        String sql = "select user_no, user_id from user_tb where user_id=?";
         try {
             Connection conn = ConnectionProvider.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -58,29 +58,31 @@ public class UserDAO {
     
     
     //id를 매개변수로 전달받아 회원의 정보를 반환하는 메소드
-    public UserVO getMember(String id) {
+    public UserVO getUser(String id) {
         UserVO vo = new UserVO();
-        String sql =  "select * from user_tb where user_id=?";
+        String sql =  "select user_no, user_id, user_pwd, user_name, user_nickname,"
+        		+ "phone, email, user_create_date, user_delete_date, is_social, role, user_point,"
+        		+ "item_no, photo_no from user_tb where user_id=?";
         try {
             Connection conn = ConnectionProvider.getConnection();
             PreparedStatement psmt = conn.prepareStatement(sql);
             psmt.setString(1, id);
             ResultSet rs = psmt.executeQuery();
             if(rs.next()) {
-                vo.setUserNo(rs.getInt(1));
-                vo.setUserId(rs.getString(2));
-                vo.setUserPwd(rs.getString(3));
-                vo.setUserName(rs.getString(4));
-                vo.setUserNickname(rs.getString(5));
-                vo.setPhone(rs.getString(6));
-                vo.setEmail(rs.getString(7));
-                vo.setUserCreateDate(rs.getDate(8));
-                vo.setUserDeleteDate(rs.getDate(9));
-                vo.setIsSocial(rs.getString(10));
-                vo.setRole(rs.getString(11));
-                vo.setUserPoint(rs.getInt(12));
-                vo.setItemNo(rs.getInt(13));
-                vo.setPhotoNo(rs.getInt(14));
+                vo.setUserNo(rs.getInt("user_no"));
+                vo.setUserId(rs.getString("user_id"));
+                vo.setUserPwd(rs.getString("user_pwd"));
+                vo.setUserName(rs.getString("user_name"));
+                vo.setUserNickname(rs.getString("user_nickname"));
+                vo.setPhone(rs.getString("phone"));
+                vo.setEmail(rs.getString("email"));
+                vo.setUserCreateDate(rs.getDate("user_create_date"));
+                vo.setUserDeleteDate(rs.getDate("user_delete_date"));
+                vo.setIsSocial(rs.getString("is_social"));
+                vo.setRole(rs.getString("role"));
+                vo.setUserPoint(rs.getInt("user_point"));
+                vo.setItemNo(rs.getInt("item_no"));
+                vo.setPhotoNo(rs.getInt("photo_no"));
         
             }
             ConnectionProvider.close(conn, psmt, rs);
@@ -93,7 +95,7 @@ public class UserDAO {
 	
 	public int isMember( String id , String pwd){
         int re = -1;
-        String sql = "select pwd from user_tb where user_id=?";
+        String sql = "select user_pwd from user_tb where user_id=?";
         try {
             Connection conn = ConnectionProvider.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);

@@ -8,11 +8,21 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<c:if test="${re != 1 }">
-		회원가입성공!	
+	<c:if test="${re != -1 }">
+		회원가입성공! 
+	<script>
+		setTimeout(function() {
+			location.href = 'index.jsp';
+		}, 2000); 
+	</script>
 	</c:if>
 	<c:if test="${re == -1 }">
 		회원가입실패!
+	<script>
+		setTimeout(function() {
+			location.href = 'index.jsp';
+		}, 2000); 
+	</script>
 	</c:if>
 	<a href="index.jsp">메인홈</a>
 </body>

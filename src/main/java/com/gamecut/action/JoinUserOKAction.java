@@ -22,16 +22,12 @@ public class JoinUserOKAction implements GameCutAction {
 				path,1024*1024*10,"utf-8",new DefaultFileRenamePolicy());
 		String userId = multi.getParameter("userId");
 		String userPwd = multi.getParameter("userPwd");
-		String userPwd2 = multi.getParameter("userPwd2");
 		String userName = multi.getParameter("userName");
 		String userNickName = multi.getParameter("userNickname");
 		String phone = multi.getParameter("phone");
 		String email = multi.getParameter("email");
 		String ProfileName = null;
 		ProfileName = multi.getOriginalFileName("profile");
-		if(!userPwd.equals(userPwd2)) {
-			//비밀번호 불일치.
-		}
 		vo.setUserId(userId);
 		vo.setUserPwd(userPwd);
 		vo.setUserName(userName);

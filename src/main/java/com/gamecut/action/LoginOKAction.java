@@ -23,16 +23,16 @@ public class LoginOKAction implements GameCutAction {
 		switch(re) {
 		case -1:
 			//회원이아님
-			
+			System.out.println("회원이존재하지않습니다.");
 			break;
 		case 0:
 			//암호가다름
-			
+			System.out.println("암호가다릅니다.");
 			break;
 		case 1:
 			//회원인증완료.
 			HttpSession session = request.getSession();
-			session.setAttribute("loginUSER", dao.getMember(userId));
+			session.setAttribute("loginUSER", dao.getUser(userId));
 			break;
 		}
 		return "view/user/loginOK.jsp";
