@@ -10,7 +10,7 @@ body {
 
 .sidebar {
     padding: 2.5rem;
-    width: 10rem;
+    width: 8rem;
     overflow: auto;
 }
 
@@ -22,7 +22,7 @@ body {
         flex-basis: 0%; -> 본 너비를 0으로 설정하고, 전체 공간을 나누는 데에만 집중함
         즉 flex: 1은 부모 컨테이너의 남은 공간을 형제 요소들과 똑같이 나눠 갖겠다는 의미.
     */
-    padding: 0 1rem;
+    padding: 1.5rem;
     min-width: 0;
 }
 
