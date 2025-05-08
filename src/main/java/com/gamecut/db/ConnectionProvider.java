@@ -12,8 +12,8 @@ public class ConnectionProvider {
         try {
             String driver = "oracle.jdbc.driver.OracleDriver";
             String url = "jdbc:oracle:thin:@localhost:1521:XE";
-            String username = "c##madang";
-            String password = "madang";
+            String username = "c##gamecut";
+            String password = "gamecut";
 
             Class.forName(driver);
             conn = DriverManager.getConnection(url, username, password);
