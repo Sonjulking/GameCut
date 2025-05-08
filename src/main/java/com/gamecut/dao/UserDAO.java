@@ -8,46 +8,24 @@ import com.gamecut.vo.UserVO;
 
 public class UserDAO {
 	
-	
-	public int getNextUserNo() {
-		int no = 0;
-		String sql = "select nvl(max(user_no),0) from user_tb";
-		try {
-			Connection conn =  ConnectionProvider.getConnection();
-			java.sql.Statement stmt = conn.createStatement();	
-			ResultSet rs = stmt.executeQuery(sql);
-			if(rs.next()) {
-				no = rs.getInt(1);
-			}
-			ConnectionProvider.close(conn, stmt, rs);
-			
-			
-		} catch (Exception e) {
-			System.out.println("예외발생 : " + e.getMessage());
-		}
-		
-		return no + 1;
-	}
 
 	public int insertUser(UserVO vo) {
 		
 		int re = -1;
-		String sql = "insert into user_tb values(seq_user_no.nextval(),?,?,?,?,?,sysdate,?,?,?,?,1000,?,?)";
+		String sql = "insert into user_tb values(seq_user_no.nextval(),?,?,?,?,?,?,sysdate,null,?,?,1000,null,?)";
 		
 		try {
 			Connection conn =  ConnectionProvider.getConnection();
 			PreparedStatement prst = conn.prepareStatement(sql);
-			prst.setString(1, vo.getUser_id());
-			prst.setString(2, vo.getUser_pwd());
-			prst.setString(3, vo.getUser_name());
-			prst.setString(4, vo.getUser_nickname());
+			prst.setString(1, vo.getUserId());
+			prst.setString(2, vo.getUserPwd());
+			prst.setString(3, vo.getUserName());
+			prst.setString(4, vo.getUserNickname());
 			prst.setString(5, vo.getPhone());
 			prst.setString(6, vo.getEmail());
-			prst.setDate(7, null);
-			prst.setString(8, vo.getIs_social());
-			prst.setString(9, vo.getRole());
-			prst.setInt(10, vo.getItem_no());
-			prst.setInt(11, vo.getPhoto_no());
+			prst.setString(7, vo.getIsSocial());
+			prst.setString(8, vo.getRole());
+			prst.setInt(9, vo.getPhotoNo());
 			re = prst.executeUpdate();
 			ConnectionProvider.close(conn, prst);
 		} catch (Exception e) {
@@ -89,21 +67,21 @@ public class UserDAO {
             psmt.setString(1, id);
             ResultSet rs = psmt.executeQuery();
             if(rs.next()) {
-                vo.setUser_no(rs.getInt(1));
-                vo.setUser_id(rs.getString(2));
-                vo.setUser_pwd(rs.getString(3));
-                vo.setUser_name(rs.getString(4));
-                vo.setUser_nickname(rs.getString(5));
+                vo.setUserNo(rs.getInt(1));
+                vo.setUserId(rs.getString(2));
+                vo.setUserPwd(rs.getString(3));
+                vo.setUserName(rs.getString(4));
+                vo.setUserNickname(rs.getString(5));
                 vo.setPhone(rs.getString(6));
                 vo.setEmail(rs.getString(7));
-                vo.setUser_create_date(rs.getDate(8));
-                vo.setUser_delete_date(rs.getDate(9));
-                vo.setIs_social(rs.getString(10));
+                vo.setUserCreateDate(rs.getDate(8));
+                vo.setUserDeleteDate(rs.getDate(9));
+                vo.setIsSocial(rs.getString(10));
                 vo.setRole(rs.getString(11));
-                vo.setUser_point(rs.getInt(12));
-                vo.setItem_no(rs.getInt(13));
-                vo.setPhoto_no(rs.getInt(14));
-                
+                vo.setUserPoint(rs.getInt(12));
+                vo.setItemNo(rs.getInt(13));
+                vo.setPhotoNo(rs.getInt(14));
+        
             }
             ConnectionProvider.close(conn, psmt, rs);
         }catch (Exception e) {
@@ -111,7 +89,6 @@ public class UserDAO {
         }
         return vo;
     }
-	
 	
 	
 	public int isMember( String id , String pwd){
