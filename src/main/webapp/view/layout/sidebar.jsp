@@ -4,7 +4,7 @@
         <a href="#">홈</a>
     </div>
     <div>
-        <a href="#">프로필</a>
+        <a href="myPage.do">프로필</a>
     </div>
     <div>
         <a href="#">영상관리</a>
