@@ -8,18 +8,14 @@
         </a>
     </div>
     <div>
-<<<<<<< HEAD
-        <a href="myPage.do">프로필</a>
-=======
         <a href="#">
             <img
                     src="img/main/icons/home_icon.png" alt="home_icon" class="sidebar_icons"
             >
         </a>
->>>>>>> refs/heads/dev
     </div>
     <div>
-        <a href="#">
+        <a href="myPage.do">
             <img
                     src="img/main/icons/profile_icon.png" alt="profile_icon" class="sidebar_icons"
             >
