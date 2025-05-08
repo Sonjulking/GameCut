@@ -65,16 +65,26 @@ body {
 
 
 #videoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     height: 100vh;
-    width: 100vw;
-    overflow-y: scroll;
-    scroll-snap-type: y mandatory; /* 스크롤 스냅 */
+    overflow-y: scroll; /* 스크롤 생김 */
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
 }
 
+.video-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 한 화면을 꽉 채움 */
+    scroll-snap-align: start;
+}
+
+
 .video-player {
-    height: 100vh;
-    width: 100vw;
-    object-fit: cover;
     scroll-snap-align: start; /* 딱 맞춰 스냅 */
 }
 
