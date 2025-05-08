@@ -1,17 +1,45 @@
+body {
+    background: #121212;
+    color: rgb(245, 245, 245);
+}
+
 .main_container {
     display: flex;
-    height: 50vh;
+    min-height: 78vh;
 }
-.sidebar{
-    width: 25rem;
+
+.sidebar {
+    padding: 2.5rem;
+    width: 10rem;
+    overflow: auto;
 }
-.main_content{
+
+.main_content {
     flex: 1;
-/*
-    flex-grow: 1; -> 여유 공간이 있으면 다른 요소들과 비율에 따라 공간을 나눠가짐 (값이 클수록 더 많이 차지함)
-    flex-shrink: 1; -> 공간이 부족할 떄 줄어들 수 있음
-    flex-basis: 0%; -> 본 너비를 0으로 설정하고, 전체 공간을 나누는 데에만 집중함
-    즉 flex: 1은 부모 컨테이너의 남은 공간을 형제 요소들과 똑같이 나눠 갖겠다는 의미.
-*/
+    /*
+        flex-grow: 1; -> 여유 공간이 있으면 다른 요소들과 비율에 따라 공간을 나눠가짐 (값이 클수록 더 많이 차지함)
+        flex-shrink: 1; -> 공간이 부족할 떄 줄어들 수 있음
+        flex-basis: 0%; -> 본 너비를 0으로 설정하고, 전체 공간을 나누는 데에만 집중함
+        즉 flex: 1은 부모 컨테이너의 남은 공간을 형제 요소들과 똑같이 나눠 갖겠다는 의미.
+    */
     padding: 0 1rem;
+    min-width: 0;
+}
+
+#gamecut_logo {
+    margin-left: 4rem;
+    width: 12.5rem;
+}
+
+.sidebar_icons {
+    margin-left: 1.5rem;
+    width: 2.5rem;
+    padding: 0.5rem;
+}
+
+footer {
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
