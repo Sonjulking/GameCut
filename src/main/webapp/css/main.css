@@ -1,6 +1,36 @@
-body {
+html, body {
+    margin: 0;
+    padding-top: 1rem;
+    overflow: hidden;
     background: #121212;
-    color: rgb(245, 245, 245);
+    color: rgba(255, 255, 255, 0.87);
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header div {
+    padding: 1rem 1.25rem;
+}
+
+header div img {
+    padding: 0 0.5rem;
+}
+
+header a {
+    text-decoration: none;
+    outline: none;
+}
+
+.header_icon {
+    width: 2rem;
+}
+
+body {
+
 }
 
 .main_container {
@@ -10,7 +40,6 @@ body {
 
 .sidebar {
     padding: 2.5rem;
-    width: 8rem;
     overflow: auto;
 }
 
@@ -26,6 +55,37 @@ body {
     min-width: 0;
 }
 
+.main_content div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 10rem 0 0;
+}
+
+
+#videoContainer {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory; /* 스크롤 스냅 */
+}
+
+.video-player {
+    height: 100vh;
+    width: 100vw;
+    object-fit: cover;
+    scroll-snap-align: start; /* 딱 맞춰 스냅 */
+}
+
+.widthVideo {
+    width: 50rem;
+}
+
+.heightVideo {
+    height: 34rem;
+}
+
 #gamecut_logo {
     margin-left: 4rem;
     width: 12.5rem;
@@ -38,7 +98,8 @@ body {
 }
 
 footer {
-    padding: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    padding-top: 0.5rem;
     display: flex;
     flex-direction: row;
     justify-content: center;
