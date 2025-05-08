@@ -1,8 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
-<%@ include file="layout/header.jsp"%>
+<%@ include file="/view/layout/header.jsp"%>
 <div class="main_container">
     <div class="sidebar">
-        <%@ include file="layout/sidebar.jsp"%>
+        <%@ include file="/view/layout/sidebar.jsp"%>
     </div>
     <div class="main_content">
         <c:if test="${viewPage == null}">
@@ -13,4 +13,4 @@
         </c:if>
     </div>
 </div>
-<%@ include file="layout/footer.jsp"%>
+<%@ include file="view/layout/footer.jsp"%>

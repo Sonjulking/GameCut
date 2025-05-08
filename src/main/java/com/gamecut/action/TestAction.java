@@ -14,7 +14,7 @@ public class TestAction implements GameCutAction {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws ServletException, IOException {
-        String viewPage = "test.jsp";
+        String viewPage = "/view/test/test.jsp";
         request.setCharacterEncoding("UTF-8");
         TestDAO dao = new TestDAO();
         request.setAttribute("list", dao.findAll());
