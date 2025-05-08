@@ -7,17 +7,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.gamecut.dao.UserDAO;
-import com.gamecut.vo.UserVO;
 
-public class MyPageAction implements GameCutAction {
+public class DeleteUserAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
 		int userNo = 1;
 		UserDAO dao = new UserDAO();
-		request.setAttribute("user", dao.selectUser(userNo));
-		return "/view/myPage/myPage.jsp";
+		int re = dao.deleteUser(userNo);
+		if(re == -1) {
+			System.out.println("삭제 실패");
+		} else {
+			System.out.println("삭제 성공");
+		}
+		return "/view/main/main.jsp";
 	}
 
 }

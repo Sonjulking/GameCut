@@ -7,6 +7,21 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.UserVO;
 
 public class UserDAO {
+	// 유저의 번호를 받아 해당 유저를 탈퇴하는 메소드
+	public int deleteUser(int userNo) {
+		int re = -1;
+		String sql = "update user_tb set user_delete_date = sysdate where user_no = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			re = pstmt.executeUpdate();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("UserDAO 예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
 	
 	public UserVO selectUser(int userNo) {
 		UserVO user = new UserVO();
@@ -17,20 +32,20 @@ public class UserDAO {
 			pstmt.setInt(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
-			    user.setUserNo(rs.getInt(1));
-			    user.setUserId(rs.getString(2));
-			    user.setUserPwd(rs.getString(3));
-			    user.setUserName(rs.getString(4));
-			    user.setUserNickname(rs.getString(5));
-			    user.setPhone(rs.getString(6));
-			    user.setEmail(rs.getString(7));
-			    user.setUserCreateDate(rs.getDate(8));
-			    user.setUserDeleteDate(rs.getDate(9));
-			    user.setIsSocial(rs.getString(10));
-			    user.setRole(rs.getString(11));
-			    user.setUserPoint(rs.getInt(12));
-			    user.setItemNo(rs.getInt(13));
-			    user.setPhotoNo(rs.getInt(14));
+			    user.setUserNo(rs.getInt("user_no"));
+			    user.setUserId(rs.getString("user_id"));
+			    user.setUserPwd(rs.getString("user_pwd"));
+			    user.setUserName(rs.getString("user_name"));
+			    user.setUserNickname(rs.getString("user_nickname"));
+			    user.setPhone(rs.getString("phone"));
+			    user.setEmail(rs.getString("email"));
+			    user.setUserCreateDate(rs.getDate("user_create_date"));
+			    user.setUserDeleteDate(rs.getDate("user_delete_date"));
+			    user.setIsSocial(rs.getString("is_social"));
+			    user.setRole(rs.getString("role"));
+			    user.setUserPoint(rs.getInt("user_point"));
+			    user.setItemNo(rs.getInt("item_no"));
+			    user.setPhotoNo(rs.getInt("photo_no"));
 			}
 			ConnectionProvider.close(conn, pstmt, rs);
 		} catch (Exception e) {
@@ -38,4 +53,31 @@ public class UserDAO {
 		}
 		return user;
 	}
+	
+	public int insertUser(UserVO vo) {
+	      
+	      int re = -1;
+	      String sql = "insert into user_tb values(seq_user_no.nextval(),?,?,?,?,?,?,sysdate,null,?,?,1000,null,?)";
+	      
+	      try {
+	         Connection conn =  ConnectionProvider.getConnection();
+	         PreparedStatement prst = conn.prepareStatement(sql);
+	         prst.setString(1, vo.getUserId());
+	         prst.setString(2, vo.getUserPwd());
+	         prst.setString(3, vo.getUserName());
+	         prst.setString(4, vo.getUserNickname());
+	         prst.setString(5, vo.getPhone());
+	         prst.setString(6, vo.getEmail());
+	         prst.setString(7, vo.getIsSocial());
+	         prst.setString(8, vo.getRole());
+	         prst.setInt(9, vo.getPhotoNo());
+	         re = prst.executeUpdate();
+	         ConnectionProvider.close(conn, prst);
+	      } catch (Exception e) {
+	         System.out.println("예외발생 : " + e.getMessage());
+	      }
+	      return re;
+	      
+	   }
+
 }

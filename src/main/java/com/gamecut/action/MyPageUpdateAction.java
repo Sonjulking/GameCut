@@ -18,7 +18,7 @@ public class MyPageUpdateAction implements GameCutAction {
 		FileDAO fDao = new FileDAO();
 		request.setAttribute("user", uDao.selectUser(userNo));
 		request.setAttribute("file", fDao.selectProfileFileByUserId(userNo));
-		return "updateMyPage.jsp";
+		return "/view/myPage/updateMyPage.jsp";
 	}
 
 }

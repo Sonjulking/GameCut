@@ -16,20 +16,24 @@ public class FileDAO {
 		try {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				file.setAttachNo(rs.getInt(1));
-				file.setUserNo(rs.getInt(2));
-				file.setFileUrl(rs.getString(3));
-				file.setMimeType(rs.getString(4));
-				file.setUploadTime(rs.getDate(5));
-				file.setOriginalFileName(rs.getString(6));
+				file.setAttachNo(rs.getInt("attach_no"));
+				file.setUserNo(rs.getInt("user_no"));
+				file.setUuid(rs.getString("uuid"));
+				file.setFileUrl(rs.getString("file_url"));
+				file.setMimeType(rs.getString("mime_type"));
+				file.setUploadTime(rs.getDate("upload_time"));
+				file.setOriginalFileName(rs.getString("original_file_name"));
 			}
 			ConnectionProvider.close(conn, pstmt, rs);
 		} catch (Exception e) {
-			System.out.println("예외발생 : " + e.getMessage());
+			System.out.println("FileDAO 예외발생 : " + e.getMessage());
 		}
 		return file;
 	}
+	
+	
 	
 }
