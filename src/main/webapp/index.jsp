@@ -6,7 +6,7 @@
     </div>
     <div class="main_content">
         <c:if test="${viewPage == null}">
-            <a href="test.do">게시판 목록</a>
+            <jsp:include page="view/main/main.jsp"/>
         </c:if>
         <c:if test="${viewPage != null}">
             <jsp:include page="${viewPage}"/>
