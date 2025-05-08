@@ -7,5 +7,6 @@
     </head>
     <body>
         <header><a href="/">로고</a></header>
+        <a href="joinUser.do">회원가입</a>
         <hr>
 
