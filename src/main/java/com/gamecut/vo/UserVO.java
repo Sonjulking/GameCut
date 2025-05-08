@@ -124,6 +124,4 @@ public class UserVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 }
