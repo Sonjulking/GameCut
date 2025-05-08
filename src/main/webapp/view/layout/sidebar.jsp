@@ -15,7 +15,7 @@
         </a>
     </div>
     <div>
-        <a href="#">
+        <a href="myPage.do">
             <img
                     src="img/main/icons/profile_icon.png" alt="profile_icon" class="sidebar_icons"
             >
