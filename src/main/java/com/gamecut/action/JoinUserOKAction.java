@@ -21,26 +21,18 @@ public class JoinUserOKAction implements GameCutAction {
     ) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         UserVO vo = new UserVO();
-        String path = request.getRealPath("upload");
-        MultipartRequest multi = FileUtil.uploadFile(request, "profile");
-        String userId = multi.getParameter("userId");
-        String userPwd = multi.getParameter("userPwd");
-        String userName = multi.getParameter("userName");
-        String userNickName = multi.getParameter("userNickname");
-        String phone = multi.getParameter("phone");
-        String email = multi.getParameter("email");
-        String ProfileName = multi.getOriginalFileName("profile");
+        String userId = request.getParameter("userId");
+        String userPwd = request.getParameter("userPwd");
+        String userName = request.getParameter("userName");
+        String userNickName = request.getParameter("userNickname");
+        String phone = request.getParameter("phone");
+        String email = request.getParameter("email");
         vo.setUserId(userId);
         vo.setUserPwd(userPwd);
         vo.setUserName(userName);
         vo.setUserNickname(userNickName);
         vo.setPhone(phone);
         vo.setEmail(email);
-        if (ProfileName != null && !ProfileName.equals("")) {
-            //프로필파일업로드시
-            request.setAttribute("profileName", ProfileName);
-
-        }
 
         UserDAO dao = new UserDAO();
         int re = dao.insertUser(vo);
