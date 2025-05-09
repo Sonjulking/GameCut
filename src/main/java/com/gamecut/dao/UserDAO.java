@@ -19,7 +19,7 @@ public class UserDAO {
 			}
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, vo.getUserNo());
+			pstmt.setString(1, vo.getUserName());
 			pstmt.setString(2, vo.getUserNickname());
 			pstmt.setString(3, vo.getPhone());
 			pstmt.setString(4, vo.getEmail());

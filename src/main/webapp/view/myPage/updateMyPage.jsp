@@ -12,14 +12,14 @@
 			<c:if test="${!empty file.originalFileName}">
 			<img class="oldFile" id="previewImage" src="${file.fileUrl}" width="200" height="200" style="border-radius: 100%;"> <br>
 			</c:if>
-			이름 : <input type="text" name="userName" id="userName" value="${user.userName }"> <br>
+			이름 : <input type="text" name="userName" id="userName" value="${user.userName }"	 required> <br>
 			아이디 : <input type="text" name="userId" id="userId" value="${user.userId }" disabled> <br>
-			사용자닉네임 : <input type="text" name="userNickname" id="userNickname" value="${user.userNickname }"> <br>
+			사용자닉네임 : <input type="text" name="userNickname" id="userNickname" value="${user.userNickname }" required> <br>
 			<button type = "button" id="checkNickname">중복확인</button><br>
-			핸드폰번호 :  <input type="text" name="phone" id="phone" value="${user.phone }"><br>
-			이메일 :  <input type="text" name="email" id="email" value="${user.email }"><br>
-			프로필 : <input type="file" name="originalFileName" id="originalFileName"><br>
-			<input type="hidden" name="oldFileName" value="${file.originalFileName }">
+			핸드폰번호 :  <input type="text" name="phone" id="phone" value="${user.phone }" required><br>
+			이메일 :  <input type="text" name="email" id="email" value="${user.email }" required><br>
+			프로필 : <input type="file" name="originalFileName" id="originalFileName" required><br>
+			<input type="hidden" name="oldFileName" value="${file.originalFileName }" >
 			<input type="hidden" name="isProfileDeleted" id="isProfileDeleted" value="false">
 			<input type="hidden" name="userNo" id="userNo" value="${user.userNo }">
 			<input type="hidden" name="oldfileUrl" value="${file.fileUrl }">
