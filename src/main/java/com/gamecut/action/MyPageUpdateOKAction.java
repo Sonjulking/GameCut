@@ -7,23 +7,28 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 import com.gamecut.dao.FileDAO;
 import com.gamecut.dao.PhotoDAO;
 import com.gamecut.dao.UserDAO;
+
+import com.gamecut.util.FileUtil;
+
 import com.gamecut.vo.FileVO;
 import com.gamecut.vo.UserVO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 
-public class MyPageUpdateOKAction implements GameCutAction{
+public class MyPageUpdateOKAction implements GameCutAction {
+
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		String path = request.getRealPath("upload");
 		System.out.println("path : " + path);
-		MultipartRequest multi = new MultipartRequest(request, path, 1024*1024*5, "utf-8", new DefaultFileRenamePolicy());
+    MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName");
 		UserVO u = new UserVO();
 		FileVO f = new FileVO();
 		UserDAO userDao = new UserDAO();
@@ -61,4 +66,5 @@ public class MyPageUpdateOKAction implements GameCutAction{
 //		}
 		return "/view/myPage/myPage.jsp";
 	}
+
 }
