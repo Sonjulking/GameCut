@@ -1,11 +1,14 @@
 package com.gamecut.util;
 
+import com.gamecut.dao.FileDAO;
+import com.gamecut.vo.FileVO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -20,6 +23,9 @@ public class FileUtil {
         String tempDir = "upload";
         String tempRealPath = request.getServletContext().getRealPath(tempDir);
 
+        FileDAO fileDAO = new FileDAO();
+        FileVO fileVO = new FileVO();
+
         MultipartRequest multi = new MultipartRequest(
                 request,
                 tempRealPath,
@@ -27,6 +33,14 @@ public class FileUtil {
                 "utf-8",
                 new DefaultFileRenamePolicy()
         );
+
+        //세션확인
+        String userId = multi.getParameter("userId");
+
+        int userNo = 0;
+        if (multi.getParameter("userNo") != null) {
+            userNo = Integer.parseInt(multi.getParameter("userNo"));
+        }
 
         String originalFileName = multi.getOriginalFileName(fileParam); //원본 파일명
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
@@ -37,7 +51,7 @@ public class FileUtil {
             if (lastDot != -1) { //.이 없으면 실행 안됨
                 ext = originalFileName.substring(lastDot + 1).toLowerCase(); //확장자 소문자로 변환
             }
-
+            String mimeType = URLConnection.guessContentTypeFromName(savedFileName);
             String uploadType = getUploadType(ext);
             if (uploadType.equals("Not Supported")) { //지원하지않는 확장자
                 File invalidFile = new File(tempRealPath + File.separator + savedFileName);  //File.separator : 슬래시, 역슬래시
@@ -75,15 +89,22 @@ public class FileUtil {
             }
 
             String uuid = UUID.randomUUID().toString();
-            String newFileName = uuid + "_" + originalFileName;
+            String newFileName = uuid + "_" + userId + "_" + originalFileName;
 
             File oldFile = new File(tempRealPath + File.separator + savedFileName);
             File newFile = new File(realPath + File.separator + newFileName);
             if (oldFile.renameTo(newFile)) {
+                fileVO.setUserNo(userNo);
+                fileVO.setUuid(uuid);
+                fileVO.setFileUrl(realPath + File.separator + newFileName);
+                fileVO.setMimeType(mimeType);
+                fileVO.setOriginalFileName(originalFileName);
+                fileDAO.insertFile(fileVO);
                 return multi;
             } else {
                 return null;
             }
+
         }
         return null;
     }
