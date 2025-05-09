@@ -7,6 +7,31 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.UserVO;
 
 public class UserDAO {
+	
+
+	public int insertUser(UserVO vo) {
+		int re = -1;
+		String sql = "insert into user_tb values(seq_user_no.nextval,?,?,?,?,?,?,sysdate,null,?,?,1000,null,null)";
+		try {
+			Connection conn =  ConnectionProvider.getConnection();
+			PreparedStatement prst = conn.prepareStatement(sql);
+			prst.setString(1, vo.getUserId());
+			prst.setString(2, vo.getUserPwd());
+			prst.setString(3, vo.getUserName());
+			prst.setString(4, vo.getUserNickname());
+			prst.setString(5, vo.getPhone());
+			prst.setString(6, vo.getEmail());
+			prst.setString(7, "basic");
+			prst.setString(8, "role_user");
+			//prst.setInt(9, vo.getPhotoNo());
+			re = prst.executeUpdate();
+			ConnectionProvider.close(conn, prst);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+}
+	
 	// 유저의 번호를 받아 해당 유저를 탈퇴하는 메소드
 	public int deleteUser(int userNo) {
 		int re = -1;
@@ -54,30 +79,83 @@ public class UserDAO {
 		return user;
 	}
 	
-	public int insertUser(UserVO vo) {
-	      
-	      int re = -1;
-	      String sql = "insert into user_tb values(seq_user_no.nextval(),?,?,?,?,?,?,sysdate,null,?,?,1000,null,?)";
-	      
-	      try {
-	         Connection conn =  ConnectionProvider.getConnection();
-	         PreparedStatement prst = conn.prepareStatement(sql);
-	         prst.setString(1, vo.getUserId());
-	         prst.setString(2, vo.getUserPwd());
-	         prst.setString(3, vo.getUserName());
-	         prst.setString(4, vo.getUserNickname());
-	         prst.setString(5, vo.getPhone());
-	         prst.setString(6, vo.getEmail());
-	         prst.setString(7, vo.getIsSocial());
-	         prst.setString(8, vo.getRole());
-	         prst.setInt(9, vo.getPhotoNo());
-	         re = prst.executeUpdate();
-	         ConnectionProvider.close(conn, prst);
-	      } catch (Exception e) {
-	         System.out.println("예외발생 : " + e.getMessage());
-	      }
-	      return re;
-	      
-	   }
-
+	// 아이디를 매개변수로 전달받아 그 아이디가 이미 있는지 판별하여 결과를 반환하는 메소드
+    // 있으면:1, 없으면 :0
+    public int isAlreadyId (String id){
+        int re = 0;
+        String sql = "select user_no, user_id from user_tb where user_id=?";
+        try {
+            Connection conn = ConnectionProvider.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                re = 1;
+            }
+            ConnectionProvider.close(conn, pstmt,rs);
+        }catch (Exception e) {
+            System.out.println("예외발생:"+e.getMessage());
+        }
+        return re;
+    }
+    
+    
+    //id를 매개변수로 전달받아 회원의 정보를 반환하는 메소드
+    public UserVO getUser(String id) {
+        UserVO vo = new UserVO();
+        String sql =  "select user_no, user_id, user_pwd, user_name, user_nickname,"
+        		+ "phone, email, user_create_date, user_delete_date, is_social, role, user_point,"
+        		+ "item_no, photo_no from user_tb where user_id=?";
+        try {
+            Connection conn = ConnectionProvider.getConnection();
+            PreparedStatement psmt = conn.prepareStatement(sql);
+            psmt.setString(1, id);
+            ResultSet rs = psmt.executeQuery();
+            if(rs.next()) {
+                vo.setUserNo(rs.getInt("user_no"));
+                vo.setUserId(rs.getString("user_id"));
+                vo.setUserPwd(rs.getString("user_pwd"));
+                vo.setUserName(rs.getString("user_name"));
+                vo.setUserNickname(rs.getString("user_nickname"));
+                vo.setPhone(rs.getString("phone"));
+                vo.setEmail(rs.getString("email"));
+                vo.setUserCreateDate(rs.getDate("user_create_date"));
+                vo.setUserDeleteDate(rs.getDate("user_delete_date"));
+                vo.setIsSocial(rs.getString("is_social"));
+                vo.setRole(rs.getString("role"));
+                vo.setUserPoint(rs.getInt("user_point"));
+                vo.setItemNo(rs.getInt("item_no"));
+                vo.setPhotoNo(rs.getInt("photo_no"));
+        
+            }
+            ConnectionProvider.close(conn, psmt, rs);
+        }catch (Exception e) {
+            System.out.println("에외발생:"+e.getMessage());
+        }
+        return vo;
+    }
+	
+	
+	public int isMember( String id , String pwd){
+        int re = -1;
+        String sql = "select user_pwd from user_tb where user_id=?";
+        try {
+            Connection conn = ConnectionProvider.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                String dbPwd = rs.getString(1);
+                if(dbPwd.equals(pwd)) {
+                    re = 1;
+                }else {
+                    re = 0;
+                }
+            }
+            ConnectionProvider.close(conn, pstmt, rs);
+        }catch (Exception e) {
+            System.out.println("예외발생:"+e.getMessage());
+        }
+        return re;
+    }
 }

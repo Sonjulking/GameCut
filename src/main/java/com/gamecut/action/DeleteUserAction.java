@@ -15,6 +15,7 @@ public class DeleteUserAction implements GameCutAction {
 		int userNo = 1;
 		UserDAO dao = new UserDAO();
 		int re = dao.deleteUser(userNo);
+		
 		if(re == -1) {
 			System.out.println("삭제 실패");
 		} else {
