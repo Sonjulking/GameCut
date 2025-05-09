@@ -37,8 +37,8 @@ public class LoginOKAction implements GameCutAction {
 		case 1:
 			//회원인증완료.
 			session.setAttribute("loginUSER", dao.getUserById(userId));
-			
 			System.out.println("loginUER : " + dao.getUserById(userId));
+			
 			System.out.println("회원인증완료");
 			break;
 		case 2:

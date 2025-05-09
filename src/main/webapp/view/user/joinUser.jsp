@@ -7,7 +7,7 @@
     <form action="joinUserOK.do" method="post" enctype="multipart/form-data">
       <label for="userId">아이디</label>
       <div class="input-row">
-        <input type="text" name="userId" id="userId" />
+        <input type="text" name="userId" id="userId" required/>
         <button type="button" id="checkID">중복확인</button>
       </div>
       <label for="userPwd">비밀번호</label>
@@ -17,19 +17,19 @@
       <input type="password" name="userPwd2" id="userPwd2" />
 
       <label for="userName">사용자 이름</label>
-      <input type="text" name="userName" id="userName" />
+      <input type="text" name="userName" id="userName" required/>
 
       <label for="userNickname">사용자 닉네임</label>
       <div class="input-row">
-        <input type="text" name="userNickname" id="userNickname" />
+        <input type="text" name="userNickname" id="userNickname" required/>
         <button type="button" id="checkNickname">중복확인</button>
       </div>
 
       <label for="phone">핸드폰 번호</label>
-      <input type="text" name="phone" id="phone" />
+      <input type="text" name="phone" id="phone" required/>
 
       <label for="email">이메일</label>
-      <input type="text" name="email" id="email" />
+      <input type="text" name="email" id="email" required/>
 
       <div class="btn-group">
         <input type="submit" value="등록" id="btnOK" />

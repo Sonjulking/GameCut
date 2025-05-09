@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:if test="${loginUSER != null}">
-	
+	$("profileSrc")
     <c:set var="profileImageUrl" value="img/main/icons/friend_management_icon.png" />
     
 </c:if>
