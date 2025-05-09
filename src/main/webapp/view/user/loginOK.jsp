@@ -22,7 +22,7 @@
 		<script>
 			setTimeout(function() {
 				location.href = 'index.jsp';
-			}, 1500); 
+			}, 1000); 
 		</script>
 </c:if>
 <c:if test="${re == 2 }">

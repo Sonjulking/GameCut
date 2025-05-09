@@ -15,6 +15,14 @@
         </a>
     </div>
     <div>
+        <a href="selectAllBoards.do">
+            <img
+                    src="img/main/icons/board_view_icon.png" alt="board_view_icon"
+                    class="sidebar_icons"
+            >
+        </a>
+    </div>
+    <div>
         <a href="myPage.do">
             <img
                     src="img/main/icons/profile_icon.png" alt="profile_icon" class="sidebar_icons"
