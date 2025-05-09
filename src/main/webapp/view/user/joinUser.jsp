@@ -48,11 +48,12 @@ $(function(){
 	$("#checkNickname").click(function(){
 		let userNickname = $("#userNickname").val().trim();
 		if (userNickname === "") {
-			alert("아이디를 입력해주세요.");
-			return;
+			alert("닉네임를 입력해주세요.");
+			return
 		}
 		
-		$.get("nickNameCheck.do?nickName="+userNickname,(data)=>{
+		$.get("nicknameCheck.do?userNickname="+userNickname,(data)=>{
+			console.log(userNickname);
 			if(data.result == 1){
 				alert("이미 사용 중인 닉네임 입니다.");
 				

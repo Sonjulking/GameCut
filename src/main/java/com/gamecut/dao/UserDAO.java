@@ -99,6 +99,28 @@ public class UserDAO {
         return re;
     }
     
+    
+    public int isAlreadyNickname(String userNickname) {
+    	int re = 0;
+    	String sql = "select user_nickname from user_tb where user_nickname = ?";
+    	System.out.println(userNickname);
+    	try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userNickname);
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(userNickname);
+			if(rs.next()) {
+				re = 1;
+			}
+			ConnectionProvider.close(conn, pstmt, rs);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+    	return re;
+    }
+    
+    
     public int isAlreadyNickname(String userNickname, int userNo) {
     	int re = 0;
     	String sql = "select user_nickname from user_tb where user_no = ?";
