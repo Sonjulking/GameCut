@@ -8,7 +8,29 @@ import com.gamecut.vo.UserVO;
 
 public class UserDAO {
 	
-
+	public int updateUser(UserVO vo) {
+		int re = 0;
+		String sql = "";
+		try {
+			if(vo.getPhotoNo() == 0) {
+				sql = "update user_tb set user_name = ?, user_nickname = ?, phone = ?, email =?, photo_no = null where user_no = ?";
+			} else {
+				sql = "update user_tb set user_name = ?, user_nickname = ?, phone = ?, email =? where user_no = ?";
+			}
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getUserName());
+			pstmt.setString(2, vo.getUserNickname());
+			pstmt.setString(3, vo.getPhone());
+			pstmt.setString(4, vo.getEmail());
+			pstmt.setInt(5, vo.getUserNo());
+			re = pstmt.executeUpdate();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
 	public int insertUser(UserVO vo) {
 		int re = -1;
 		String sql = "insert into user_tb values(seq_user_no.nextval,?,?,?,?,?,?,sysdate,null,?,?,1000,null,null)";
@@ -36,6 +58,7 @@ public class UserDAO {
 	public int deleteUser(int userNo) {
 		int re = -1;
 		String sql = "update user_tb set user_delete_date = sysdate where user_no = ?";
+		
 		try {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -103,39 +126,13 @@ public class UserDAO {
     public int isAlreadyNickname(String userNickname) {
     	int re = 0;
     	String sql = "select user_nickname from user_tb where user_nickname = ?";
-    	System.out.println(userNickname);
     	try {
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, userNickname);
 			ResultSet rs = pstmt.executeQuery();
-			System.out.println(userNickname);
 			if(rs.next()) {
 				re = 1;
-			}
-			ConnectionProvider.close(conn, pstmt, rs);
-		} catch (Exception e) {
-			System.out.println("예외발생 : " + e.getMessage());
-		}
-    	return re;
-    }
-    
-    
-    public int isAlreadyNickname(String userNickname, int userNo) {
-    	int re = 0;
-    	String sql = "select user_nickname from user_tb where user_no = ?";
-    	try {
-			Connection conn = ConnectionProvider.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, userNo);
-			ResultSet rs = pstmt.executeQuery();
-			System.out.println(userNickname);
-			System.out.println(userNo);
-			if(rs.next()) {
-				System.out.println(rs.getString("user_nickname"));
-				if(!rs.getString("user_nickname").equals(userNickname)) {
-					re = 1;
-				}
 			}
 			ConnectionProvider.close(conn, pstmt, rs);
 		} catch (Exception e) {
