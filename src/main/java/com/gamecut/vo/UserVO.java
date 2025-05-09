@@ -4,20 +4,20 @@ import java.sql.Date;
 
 public class UserVO {
 	private int userNo;
-	   private String userId;
-	   private String userPwd;
-	   private String userName;
-	   private String userNickname;
-	   private String phone;
-	   private String email;
-	   private Date userCreateDate;
-	   private Date userDeleteDate;
-	   private String isSocial;
-	   private String role;
-	   private int userPoint;
-	   private int itemNo;
-	   private int photoNo;
-	   public UserVO(int userNo, String userId, String userPwd, String userName, String userNickname, String phone,
+	private String userId;
+	private String userPwd;
+	private String userName;
+	private String userNickname;
+	private String phone;
+	private String email;
+	private Date userCreateDate;
+	private Date userDeleteDate;
+	private String isSocial;
+	private String role;
+	private int userPoint;
+	private int itemNo;
+	private int photoNo;
+	public UserVO(int userNo, String userId, String userPwd, String userName, String userNickname, String phone,
 			String email, Date userCreateDate, Date userDeleteDate, String isSocial, String role, int userPoint,
 			int itemNo, int photoNo) {
 		super();
@@ -35,9 +35,6 @@ public class UserVO {
 		this.userPoint = userPoint;
 		this.itemNo = itemNo;
 		this.photoNo = photoNo;
-	}
-	public UserVO() {
-		super();
 	}
 	public int getUserNo() {
 		return userNo;
@@ -123,8 +120,9 @@ public class UserVO {
 	public void setPhotoNo(int photoNo) {
 		this.photoNo = photoNo;
 	}
-	
-	
-	
+	public UserVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 }
