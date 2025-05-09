@@ -1,0 +1,37 @@
+.main_content {
+    height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.main_content::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.video_container {
+    height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    justify-content: center; /* 이건 그대로 두고 */
+    align-items: flex-start; /* 위로 붙임 */
+    overflow: hidden;
+}
+
+.video_player {
+    height: 70vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    padding-bottom: 12rem;
+}
+
+.widthVideo {
+    width: 50rem;
+}
+
+.heightVideo {
+    height: 34rem;
+}
