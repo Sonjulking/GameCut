@@ -149,7 +149,7 @@ input[type='reset']:hover {
 
 <script>
 $(function(){
-	
+	let checkClick = false;
 	let checkIdOK = false;
 	let checkNickname = false;
 	
@@ -192,24 +192,27 @@ $(function(){
 		
 	});
 	
-	
-	$("#btnOK").click(function(){
-
-		let pw1 = $("#userPwd").val();
-		let pw2 = $("#userPwd2").val();
-		if(checkIdOK == true && checkNickname == true){
-			if(!(pw1 === pw2) || pw1 === ""){
-				//비밀번호가 다름
-				alert("비밀번호를 다시 확인해주세요.");
+	if(checkClick === false){
+		$("#btnOK").click(function(){
+			
+			let pw1 = $("#userPwd").val();
+			let pw2 = $("#userPwd2").val();
+			if(checkIdOK == true && checkNickname == true){
+				if(!(pw1 === pw2) || pw1 === ""){
+					//비밀번호가 다름
+					alert("비밀번호를 다시 확인해주세요.");
+				}else{
+					//회원가입성공
+					checkClick = true;
+					$("form").submit();
+				}
 			}else{
-				//회원가입성공
-				$("form").submit();
+				//아이디 중복을 확인해주세요.
+				alert("아이디와 닉네임 중복 확인해주세요.");
 			}
-		}else{
-			//아이디 중복을 확인해주세요.
-			alert("아이디와 닉네임 중복 확인해주세요.");
-		}
-	});
+		})
+	};
+	
 });
 	
 </script>
