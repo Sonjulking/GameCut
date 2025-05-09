@@ -12,16 +12,24 @@
 		로그인실패! 아이디가 없습니다.
 		<script>
 			setTimeout(function() {
-				location.href = 'index.jsp';
-			}, 1000); 
+				location.href = "login.do";
+			}, 1500); 
 		</script>
 	</c:if>
 	<c:if test="${re == 0 }">
 		로그인실패! 비밀번호를 확인해주세요!
 		<script>
 			setTimeout(function() {
-				location.href = 'index.jsp';
-			}, 1000); 
+				location.href = 'login.do';
+			}, 1500); 
+		</script>
+	</c:if>
+	<c:if test="${re == 2 }">
+		로그인실패! 이미탈퇴한 유저입니다.
+		<script>
+			setTimeout(function() {
+				location.href = 'login.do';
+			}, 1500); 
 		</script>
 	</c:if>
 	<c:if test="${re == 1 }">
@@ -29,7 +37,7 @@
 		<script>
 			setTimeout(function() {
 				location.href = 'index.jsp';
-			}, 1000); 
+			}, 1500); 
 		</script>
 	</c:if>
 </body>

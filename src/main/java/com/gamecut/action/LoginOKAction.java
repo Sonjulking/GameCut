@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.gamecut.dao.UserDAO;
+import com.gamecut.vo.UserVO;
 
 public class LoginOKAction implements GameCutAction {
 
@@ -18,7 +19,10 @@ public class LoginOKAction implements GameCutAction {
 		String userPwd = request.getParameter("userPwd");
 		
 		UserDAO dao = new UserDAO();
+		
 		int re = dao.isMember(userId, userPwd);
+		UserVO vo = dao.getUserById(userId);
+		
 		request.setAttribute("re", re);
 		switch(re) {
 		case -1:
@@ -31,8 +35,12 @@ public class LoginOKAction implements GameCutAction {
 			break;
 		case 1:
 			//회원인증완료.
-			HttpSession session = request.getSession();
-			session.setAttribute("loginUSER", dao.getUser(userId));
+			if(vo.getUserCreateDate()== null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("loginUSER", dao.getUserById(userId));
+			}else {
+				re = 2;
+			}
 			break;
 		}
 		return "view/user/loginOK.jsp";

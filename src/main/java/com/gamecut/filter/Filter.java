@@ -60,8 +60,6 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
 				chain.doFilter(request, response);
 			}
 		}
-		
-		chain.doFilter(request, response);
 	}
 
 	/**

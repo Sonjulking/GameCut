@@ -101,7 +101,7 @@ public class UserDAO {
     
     
     //id를 매개변수로 전달받아 회원의 정보를 반환하는 메소드
-    public UserVO getUser(String id) {
+    public UserVO getUserById(String id) {
         UserVO vo = new UserVO();
         String sql =  "select user_no, user_id, user_pwd, user_name, user_nickname,"
         		+ "phone, email, user_create_date, user_delete_date, is_social, role, user_point,"
