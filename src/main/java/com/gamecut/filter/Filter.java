@@ -17,11 +17,11 @@ import javax.servlet.http.HttpSession;
  */
 @WebFilter("*.do")
 public class Filter extends HttpFilter implements javax.servlet.Filter {
-       
-	String arr[] = {
-		"login.do", "joinUser.do","joinUserOK.do","idCheck.do","loginOK.do"
-	};
-	
+
+    String arr[] = {
+            "login.do", "joinUser.do", "joinUserOK.do", "idCheck.do", "loginOK.do","nicknameCheck.do"
+    };
+
     /**
      * @see HttpFilter#HttpFilter()
      */
@@ -30,13 +30,13 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
-
+    /**
+     * @see Filter#destroy()
+     */
+    public void destroy() {
+        // TODO Auto-generated method stub
+    }
+    
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
@@ -60,15 +60,13 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
 				chain.doFilter(request, response);
 			}
 		}
-		
-		chain.doFilter(request, response);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
-	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * @see Filter#init(FilterConfig)
+     */
+    public void init(FilterConfig fConfig) throws ServletException {
+        // TODO Auto-generated method stub
+    }
 
 }

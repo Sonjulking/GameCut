@@ -34,6 +34,6 @@ public class FileDAO {
 		return file;
 	}
 	
-	
+	// 프로필 사진을 수정하는 구문
 	
 }
