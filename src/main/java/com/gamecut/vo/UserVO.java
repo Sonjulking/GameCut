@@ -124,5 +124,14 @@ public class UserVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@Override
+	public String toString() {
+		return "UserVO [userNo=" + userNo + ", userId=" + userId + ", userPwd=" + userPwd + ", userName=" + userName
+				+ ", userNickname=" + userNickname + ", phone=" + phone + ", email=" + email + ", userCreateDate="
+				+ userCreateDate + ", userDeleteDate=" + userDeleteDate + ", isSocial=" + isSocial + ", role=" + role
+				+ ", userPoint=" + userPoint + ", itemNo=" + itemNo + ", photoNo=" + photoNo + "]";
+	}
+	
+	
 	
 }
