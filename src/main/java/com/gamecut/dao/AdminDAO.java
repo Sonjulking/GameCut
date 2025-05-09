@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.gamecut.db.ConnectionProvider;
-//import com.gamecut.vo.ReportVO;
+import com.gamecut.vo.ReportVO;
 import com.gamecut.vo.UserVO;
 
 public class AdminDAO {
@@ -143,7 +143,6 @@ public class AdminDAO {
 	}
 
 	// 신고된 게시글 목록 조회
-	/*
 	public ArrayList<ReportVO> getReportedBoard(){
 
 		ArrayList<ReportVO> list = new ArrayList<ReportVO>();
@@ -193,7 +192,6 @@ public class AdminDAO {
 		}
 		return list;
 	}
-	*/
 
 }
 
