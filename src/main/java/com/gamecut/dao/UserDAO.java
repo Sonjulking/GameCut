@@ -99,6 +99,24 @@ public class UserDAO {
         return re;
     }
     
+    public int isAlreadyNickname (String nickName){
+        int re = 0;
+        String sql = "select user_no, user_id from user_tb where user_nickname=?";
+        try {
+            Connection conn = ConnectionProvider.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, nickName);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                re = 1;
+            }
+            ConnectionProvider.close(conn, pstmt,rs);
+        }catch (Exception e) {
+            System.out.println("예외발생:"+e.getMessage());
+        }
+        return re;
+    }
+    
     
     //id를 매개변수로 전달받아 회원의 정보를 반환하는 메소드
     public UserVO getUserById(String id) {
@@ -138,24 +156,32 @@ public class UserDAO {
 	
 	public int isMember( String id , String pwd){
         int re = -1;
-        String sql = "select user_pwd from user_tb where user_id=?";
-        try {
-            Connection conn = ConnectionProvider.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                String dbPwd = rs.getString(1);
-                if(dbPwd.equals(pwd)) {
-                    re = 1;
-                }else {
-                    re = 0;
+        
+        if(getUserById(id).getUserDeleteDate() == null) {
+        	String sql = "select user_pwd from user_tb where user_id=?";
+            try {
+                Connection conn = ConnectionProvider.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, id);
+                ResultSet rs = pstmt.executeQuery();
+                if(rs.next()) {
+                    String dbPwd = rs.getString(1);
+                    if(dbPwd.equals(pwd)) {
+                        re = 1;
+                    }else {
+                        re = 0;
+                    }
                 }
+                ConnectionProvider.close(conn, pstmt, rs);
+            }catch (Exception e) {
+                System.out.println("예외발생:"+e.getMessage());
             }
-            ConnectionProvider.close(conn, pstmt, rs);
-        }catch (Exception e) {
-            System.out.println("예외발생:"+e.getMessage());
+        }else {
+        	System.out.println("탈퇴한회원입니다.");
+        	re = 2;
         }
+        
+        
         return re;
     }
 }

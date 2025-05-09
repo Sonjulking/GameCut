@@ -22,7 +22,8 @@ public class LoginOKAction implements GameCutAction {
 		
 		int re = dao.isMember(userId, userPwd);
 		UserVO vo = dao.getUserById(userId);
-		
+		System.out.println("회원닉네임 : " + vo.getUserNickname() );
+		HttpSession session = request.getSession();
 		request.setAttribute("re", re);
 		switch(re) {
 		case -1:
@@ -35,13 +36,15 @@ public class LoginOKAction implements GameCutAction {
 			break;
 		case 1:
 			//회원인증완료.
-			if(vo.getUserCreateDate()== null) {
-				HttpSession session = request.getSession();
-				session.setAttribute("loginUSER", dao.getUserById(userId));
-			}else {
-				re = 2;
-			}
+			session.setAttribute("loginUSER", dao.getUserById(userId));
+			System.out.println("loginUER : " + dao.getUserById(userId));
+			System.out.println("회원인증완료");
 			break;
+		case 2:
+			//이미 탈퇴한 회원
+			
+			break;
+			
 		}
 		return "view/user/loginOK.jsp";
 	}
