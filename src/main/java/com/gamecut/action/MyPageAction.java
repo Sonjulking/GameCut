@@ -23,6 +23,6 @@ public class MyPageAction implements GameCutAction {
 		FileDAO fileDao = new FileDAO();
 		request.setAttribute("user", userDao.selectUser(userNo));
 		request.setAttribute("file", fileDao.selectProfileFileByUserId(userNo));
-		return "/view/myPage/myPage.jsp";
+		return "/view/mypage/myPage.jsp";
 	}
 }

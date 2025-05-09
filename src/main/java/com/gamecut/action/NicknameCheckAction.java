@@ -20,13 +20,13 @@ public class NicknameCheckAction implements GameCutAction {
 			userNo = Integer.parseInt(request.getParameter("userNo"));
 		}
 		UserDAO dao = new UserDAO();
-		System.out.println("nickname : " + userNickname);
-		System.out.println("userNo : " + userNo);
 		int re = 0;
 		if(userNo == 0) {
 			re = dao.isAlreadyNickname(userNickname);
 		}else {
-			re = dao.isAlreadyNickname(userNickname, userNo);
+			if(!(dao.selectUser(userNo).getUserNickname()).equals(userNickname)) {
+				re = dao.isAlreadyNickname(userNickname);
+			}
 		}
 		
 		System.out.println(re);
