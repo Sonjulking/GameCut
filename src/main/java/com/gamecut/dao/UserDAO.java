@@ -99,7 +99,28 @@ public class UserDAO {
         return re;
     }
     
-    
+    public int isAlreadyNickname(String userNickname, int userNo) {
+    	int re = 0;
+    	String sql = "select user_nickname from user_tb where user_no = ?";
+    	try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println(userNickname);
+			System.out.println(userNo);
+			if(rs.next()) {
+				System.out.println(rs.getString("user_nickname"));
+				if(!rs.getString("user_nickname").equals(userNickname)) {
+					re = 1;
+				}
+			}
+			ConnectionProvider.close(conn, pstmt, rs);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+    	return re;
+    }
     //id를 매개변수로 전달받아 회원의 정보를 반환하는 메소드
     public UserVO getUser(String id) {
         UserVO vo = new UserVO();
