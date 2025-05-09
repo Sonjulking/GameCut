@@ -143,6 +143,7 @@ public class AdminDAO {
 	}
 
 	// 신고된 게시글 목록 조회
+
 	public ArrayList<ReportVO> getReportedBoard(){
 
 		ArrayList<ReportVO> list = new ArrayList<ReportVO>();
