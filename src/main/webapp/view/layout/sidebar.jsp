@@ -1,27 +1,69 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <aside class="left">
     <div>
-        <a href="#">홈</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/hamburger_icon.png" alt="home_icon" class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">프로필</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/home_icon.png" alt="home_icon" class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">영상관리</a>
+        <a href="myPage.do">
+            <img
+                    src="img/main/icons/profile_icon.png" alt="profile_icon" class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">친구관리</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/video_management_icon.png" alt="video_management_icon"
+                    class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">웹게임</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/friend_management_icon.png" alt="friend_management_icon"
+                    class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">쇼핑</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/web_game_icon.png" alt="web_game_icon" class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">시즌랭킹</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/shopping_icon.png" alt="shopping_icon" class="sidebar_icons"
+            >
+        </a>
     </div>
     <div>
-        <a href="#">환경설정</a>
+        <a href="#">
+            <img
+                    src="img/main/icons/season_ranking_icon.png" alt="season_ranking_icon"
+                    class="sidebar_icons"
+            >
+        </a>
+    </div>
+    <div>
+        <a href="#">
+            <img
+                    src="img/main/icons/setting_icon.png" alt="setting_icon" class="sidebar_icons"
+            >
+        </a>
     </div>
 </aside>

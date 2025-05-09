@@ -1,15 +1,1 @@
-git init
-git remote add origin https://github.com/Sonjulking/GameCut.git
-
-
-git pull origin master
-:q
-git add .
-git commit -m "커밋메시지"
-git push origin master
-
-git pull origin master
-
-:q
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+하고싶은 아무말 남기세요.

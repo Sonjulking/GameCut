@@ -31,3 +31,13 @@ git pull origin master
 
   요청 확인 후 의견 남기거나, 병합
   Merge pull request -> confirm merge
+  
+	1. 내 로컬 브랜치에서 한 작업을 push를 통해 내 원격 브랜치로 백업
+	2. swich to 를 이용해 dev 로컬 브랜치로 이동
+	3. pull 을 통해 dev 로컬 브랜치를 최신화
+	4. swich to 를 이용해 내 로컬 브랜치로 이동
+	5. merge를 통해 내 로컬 브랜치와 dev의 로컬브랜치를 합체
+	6. 정상작동 확인
+	7. push를 통해 정상작동하는 나의 최종코드를 내 원격 브랜치로 최신화
+	8. 깃허브 홈페이지 -> GameCut -> Pull request -> New pull request를 이용해 원격 dev에 푸쉬 요청
+	9. 끝
