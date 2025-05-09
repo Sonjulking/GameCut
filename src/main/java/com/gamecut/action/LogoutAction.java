@@ -14,8 +14,7 @@ public class LogoutAction implements GameCutAction {
 		
 		HttpSession session = request.getSession();
 		session.invalidate();
-		
-		return "/view/main/main.jsp";
+		return "/view/user/logoutOK.jsp";
 	}
 
 }
