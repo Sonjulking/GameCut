@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.gamecut.db.ConnectionProvider;
-import com.gamecut.vo.ReportVO;
+//import com.gamecut.vo.ReportVO;
 import com.gamecut.vo.UserVO;
 
 public class AdminDAO {
