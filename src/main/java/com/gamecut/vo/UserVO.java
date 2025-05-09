@@ -3,71 +3,68 @@ package com.gamecut.vo;
 import java.sql.Date;
 
 public class UserVO {
-	private int user_no;
-	private String user_id;
-	private String user_pwd;
-	private String user_name;
-	private String user_nickname;
+	private int userNo;
+	private String userId;
+	private String userPwd;
+	private String userName;
+	private String userNickname;
 	private String phone;
 	private String email;
-	private Date user_create_date;
-	private Date user_delete_date;
-	private String is_social;
+	private Date userCreateDate;
+	private Date userDeleteDate;
+	private String isSocial;
 	private String role;
-	private int user_point;
-	private int item_no;
-	private int photo_no;
-	public UserVO(int user_no, String user_id, String user_pwd, String user_name, String user_nickname, String phone,
-			String email, Date user_create_date, Date user_delete_date, String is_social, String role, int user_point,
-			int item_no, int photo_no) {
+	private int userPoint;
+	private int itemNo;
+	private int photoNo;
+	public UserVO(int userNo, String userId, String userPwd, String userName, String userNickname, String phone,
+			String email, Date userCreateDate, Date userDeleteDate, String isSocial, String role, int userPoint,
+			int itemNo, int photoNo) {
 		super();
-		this.user_no = user_no;
-		this.user_id = user_id;
-		this.user_pwd = user_pwd;
-		this.user_name = user_name;
-		this.user_nickname = user_nickname;
+		this.userNo = userNo;
+		this.userId = userId;
+		this.userPwd = userPwd;
+		this.userName = userName;
+		this.userNickname = userNickname;
 		this.phone = phone;
 		this.email = email;
-		this.user_create_date = user_create_date;
-		this.user_delete_date = user_delete_date;
-		this.is_social = is_social;
+		this.userCreateDate = userCreateDate;
+		this.userDeleteDate = userDeleteDate;
+		this.isSocial = isSocial;
 		this.role = role;
-		this.user_point = user_point;
-		this.item_no = item_no;
-		this.photo_no = photo_no;
+		this.userPoint = userPoint;
+		this.itemNo = itemNo;
+		this.photoNo = photoNo;
 	}
-	public UserVO() {
-		super();
+	public int getUserNo() {
+		return userNo;
 	}
-	public int getUser_no() {
-		return user_no;
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
 	}
-	public void setUser_no(int user_no) {
-		this.user_no = user_no;
+	public String getUserId() {
+		return userId;
 	}
-	public String getUser_id() {
-		return user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public String getUserPwd() {
+		return userPwd;
 	}
-	public String getUser_pwd() {
-		return user_pwd;
+	public void setUserPwd(String userPwd) {
+		this.userPwd = userPwd;
 	}
-	public void setUser_pwd(String user_pwd) {
-		this.user_pwd = user_pwd;
+	public String getUserName() {
+		return userName;
 	}
-	public String getUser_name() {
-		return user_name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public String getUserNickname() {
+		return userNickname;
 	}
-	public String getUser_nickname() {
-		return user_nickname;
-	}
-	public void setUser_nickname(String user_nickname) {
-		this.user_nickname = user_nickname;
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
 	}
 	public String getPhone() {
 		return phone;
@@ -81,23 +78,23 @@ public class UserVO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Date getUser_create_date() {
-		return user_create_date;
+	public Date getUserCreateDate() {
+		return userCreateDate;
 	}
-	public void setUser_create_date(Date user_create_date) {
-		this.user_create_date = user_create_date;
+	public void setUserCreateDate(Date userCreateDate) {
+		this.userCreateDate = userCreateDate;
 	}
-	public Date getUser_delete_date() {
-		return user_delete_date;
+	public Date getUserDeleteDate() {
+		return userDeleteDate;
 	}
-	public void setUser_delete_date(Date user_delete_date) {
-		this.user_delete_date = user_delete_date;
+	public void setUserDeleteDate(Date userDeleteDate) {
+		this.userDeleteDate = userDeleteDate;
 	}
-	public String getIs_social() {
-		return is_social;
+	public String getIsSocial() {
+		return isSocial;
 	}
-	public void setIs_social(String is_social) {
-		this.is_social = is_social;
+	public void setIsSocial(String isSocial) {
+		this.isSocial = isSocial;
 	}
 	public String getRole() {
 		return role;
@@ -105,25 +102,27 @@ public class UserVO {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	public int getUser_point() {
-		return user_point;
+	public int getUserPoint() {
+		return userPoint;
 	}
-	public void setUser_point(int user_point) {
-		this.user_point = user_point;
+	public void setUserPoint(int userPoint) {
+		this.userPoint = userPoint;
 	}
-	public int getItem_no() {
-		return item_no;
+	public int getItemNo() {
+		return itemNo;
 	}
-	public void setItem_no(int item_no) {
-		this.item_no = item_no;
+	public void setItemNo(int itemNo) {
+		this.itemNo = itemNo;
 	}
-	public int getPhoto_no() {
-		return photo_no;
+	public int getPhotoNo() {
+		return photoNo;
 	}
-	public void setPhoto_no(int photo_no) {
-		this.photo_no = photo_no;
+	public void setPhotoNo(int photoNo) {
+		this.photoNo = photoNo;
 	}
-	
-	
+	public UserVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	
 }

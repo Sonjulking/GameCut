@@ -18,12 +18,23 @@
                             class="header_icon"
                     />
                 </a>
-                <a href="login.do">
-                    <img
-                            src="img/main/icons/login_icon.png" alt="login_icon" id="login_icon"
-                            class="header_icon"
-                    />
-                </a>
+                <c:if test="${loginUSER != null }">
+                	<a href="logout.do">
+	                    <img
+	                            src="img/main/icons/logout_icon.png" alt="logout_icon" id="logout_icon"
+	                            class="header_icon"
+	                    />
+                	</a>
+                </c:if>
+                <c:if test="${loginUSER == null }">
+                	<a href="login.do">
+	                    <img
+	                            src="img/main/icons/login_icon.png" alt="login_icon" id="login_icon"
+	                            class="header_icon"
+	                    />
+                	</a>
+                </c:if>
+                
             </div>
         </header>
 

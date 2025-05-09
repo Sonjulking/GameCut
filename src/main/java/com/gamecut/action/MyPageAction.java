@@ -6,12 +6,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class JoinUserAction implements GameCutAction {
+import com.gamecut.dao.UserDAO;
+import com.gamecut.vo.UserVO;
+
+public class MyPageAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		return "view/user/joinUser.jsp";
+		request.setCharacterEncoding("utf-8");
+		int userNo = 1;
+		UserDAO dao = new UserDAO();
+		request.setAttribute("user", dao.selectUser(userNo));
+		return "/view/myPage/myPage.jsp";
 	}
 
 }
