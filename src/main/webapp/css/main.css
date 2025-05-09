@@ -29,10 +29,6 @@ header a {
     width: 2rem;
 }
 
-body {
-
-}
-
 .main_container {
     display: flex;
     min-height: 78vh;
@@ -63,38 +59,6 @@ body {
     padding: 2rem 10rem 0 0;
 }
 
-
-#videoContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    overflow-y: scroll; /* 스크롤 생김 */
-    scroll-snap-type: y mandatory;
-    -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
-}
-
-.video-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* 한 화면을 꽉 채움 */
-    scroll-snap-align: start;
-}
-
-
-.video-player {
-    scroll-snap-align: start; /* 딱 맞춰 스냅 */
-}
-
-.widthVideo {
-    width: 50rem;
-}
-
-.heightVideo {
-    height: 34rem;
-}
 
 #gamecut_logo {
     margin-left: 4rem;
