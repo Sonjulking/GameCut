@@ -1,17 +1,116 @@
+html, body {
+    margin: 0;
+    padding-top: 1rem;
+    overflow: hidden;
+    background: #121212;
+    color: rgba(255, 255, 255, 0.87);
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+header div {
+    padding: 1rem 1.25rem;
+}
+
+header div img {
+    padding: 0 0.5rem;
+}
+
+header a {
+    text-decoration: none;
+    outline: none;
+}
+
+.header_icon {
+    width: 2rem;
+}
+
+body {
+
+}
+
 .main_container {
     display: flex;
-    height: 50vh;
+    min-height: 78vh;
 }
-.sidebar{
-    width: 25rem;
+
+.sidebar {
+    padding: 2.5rem;
+    overflow: auto;
 }
-.main_content{
+
+.main_content {
     flex: 1;
-/*
-    flex-grow: 1; -> 여유 공간이 있으면 다른 요소들과 비율에 따라 공간을 나눠가짐 (값이 클수록 더 많이 차지함)
-    flex-shrink: 1; -> 공간이 부족할 떄 줄어들 수 있음
-    flex-basis: 0%; -> 본 너비를 0으로 설정하고, 전체 공간을 나누는 데에만 집중함
-    즉 flex: 1은 부모 컨테이너의 남은 공간을 형제 요소들과 똑같이 나눠 갖겠다는 의미.
-*/
-    padding: 0 1rem;
+    /*
+        flex-grow: 1; -> 여유 공간이 있으면 다른 요소들과 비율에 따라 공간을 나눠가짐 (값이 클수록 더 많이 차지함)
+        flex-shrink: 1; -> 공간이 부족할 떄 줄어들 수 있음
+        flex-basis: 0%; -> 본 너비를 0으로 설정하고, 전체 공간을 나누는 데에만 집중함
+        즉 flex: 1은 부모 컨테이너의 남은 공간을 형제 요소들과 똑같이 나눠 갖겠다는 의미.
+    */
+    padding: 1.5rem;
+    min-width: 0;
+}
+
+.main_content div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 10rem 0 0;
+}
+
+
+#videoContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow-y: scroll; /* 스크롤 생김 */
+    scroll-snap-type: y mandatory;
+    -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
+}
+
+.video-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* 한 화면을 꽉 채움 */
+    scroll-snap-align: start;
+}
+
+
+.video-player {
+    scroll-snap-align: start; /* 딱 맞춰 스냅 */
+}
+
+.widthVideo {
+    width: 50rem;
+}
+
+.heightVideo {
+    height: 34rem;
+}
+
+#gamecut_logo {
+    margin-left: 4rem;
+    width: 12.5rem;
+}
+
+.sidebar_icons {
+    margin-left: 1.5rem;
+    width: 2.5rem;
+    padding: 0.5rem;
+}
+
+footer {
+    color: rgba(255, 255, 255, 0.5);
+    padding-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
