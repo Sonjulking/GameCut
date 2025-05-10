@@ -4,16 +4,13 @@
 
 <style>
   .login-container {
-    background-color: #1e1e1e;
     padding: 40px;
     border-radius: 10px;
     width: 300px;
     margin: 0 auto;
     color: #ffffff;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
   }
-
   .login-container h2 {
     text-align: center;
     margin-bottom: 5px;

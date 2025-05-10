@@ -2,13 +2,10 @@
     pageEncoding="UTF-8"%>
 <script>
 $(function(){
-	setTimeout(function() {
-		location.href = 'index.jsp';
-	}, 1000); 
-
+	alert("로그아웃 완료!")
+	location.href = 'index.jsp'; 
 });
 </script>    
 <div>
-	로그아웃 성공!
 	잠시후 메인 홈으로 돌아갑니다.
 </div>

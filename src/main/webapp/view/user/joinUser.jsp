@@ -3,10 +3,10 @@
         pageEncoding="UTF-8"
 %>
 
-<h2 class="joinUserTitle">회원가입</h2>
+
 <div class="joinUserWrapper">
-    <div class="joinUserView">
         <form action="joinUserOK.do" method="post">
+        	<h2 class="joinUserTitle">회원가입</h2>
             <div class="input-row">
             	<label for="userId">아이디</label>
                 <input type="text" name="userId" id="userId"/>
@@ -44,7 +44,6 @@
                 <input type="reset" value="다시" id="btnReset"/>
             </div>
         </form>
-    </div>
 </div>
 
 <style>
@@ -61,7 +60,7 @@
     }
 
     .joinUserTitle {
-        text-align: center;
+        padding-left : 10rem;
         font-size: 1.5rem;
         margin: 1.5rem 0 0.625rem;
         color: #f0f0f0;
@@ -73,20 +72,10 @@
         padding-bottom: 2.5rem;
     }
 
-    .joinUserView {
-        background-color: #1e1e1e;
-        display: flex;
-        justify-content: center;
-        padding: 1.275rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-        width: 38.75rem;
-    }
-
     form {
         display: flex;
-        justify-content: center;
-        flex-direction: column;
+        justify-content: flex-start;
+        flex-direction: column; 
         gap: 0.375rem;
         font-size: 0.875rem;
         box-sizing: border-box;
@@ -97,6 +86,7 @@
         font-weight: 500;
         margin-bottom: 0.25rem;
         padding-left: 0.425rem;
+        padding-right: 0.425rem;
     }
 
     input[type='text'],
@@ -107,13 +97,14 @@
         background-color: #2c2c2c;
         color: white;
         font-size: 0.875rem;
-        width: 100%;
+        width: 70%;
     }
 
     .input-row {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
-    gap : 0rem;
+    gap : 0rem; 
 	}
 
 
