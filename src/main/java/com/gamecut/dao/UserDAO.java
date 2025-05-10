@@ -8,6 +8,24 @@ import com.gamecut.vo.UserVO;
 
 public class UserDAO {
 	
+	
+	public int updateUserPasswordByUserid(String userid, String newPassword) {
+		int re = -1;
+		String sql = "update user_tb set user_pwd = ? where user_id = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newPassword);
+			pstmt.setString(2, userid);
+			re = pstmt.executeUpdate();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
+	
 	public int updateUser(UserVO vo) {
 		int re = 0;
 		String sql = "";
