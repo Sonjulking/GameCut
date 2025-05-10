@@ -43,6 +43,7 @@ public class LoginOKAction implements GameCutAction {
 			//회원인증완료.
 			session.setAttribute("loginUSER", dao.getUserById(userId));
 			System.out.println("loginUER : " + dao.getUserById(userId));
+			//프로필사진 경로가져와서 session에 넣기.
 			FileVO fvo =  fdao.selectProfileFileByUserId(vo.getUserNo());
 			String profileUrl = fvo.getFileUrl();
 			session.setAttribute("profileUrl", profileUrl);

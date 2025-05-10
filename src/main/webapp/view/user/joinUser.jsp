@@ -5,34 +5,36 @@
 
 
 <div class="joinUserWrapper">
-        <form action="joinUserOK.do" method="post">
-        	<h2 class="joinUserTitle">회원가입</h2>
+	 <form action="joinUserOK.do" method="post">
+        	
+        	<div class="input-row">
+            	<h2 class="joinUserTitle">회원가입</h2>
+            </div>
             <div class="input-row">
             	<label for="userId">아이디</label>
                 <input type="text" name="userId" id="userId"/>
                 <button type="button" id="checkID">중복확인</button>
             </div>
-            
             <div class="input-row">
             	<label for="userPwd">비밀번호</label>
           		<input type="password" name="userPwd" id="userPwd"/>
-          		
             </div>
             <div class="input-row">
-            	 <label for="userPwd2">비밀번호확인</label>
+            	 <label for="userPwd2">비밀번호 확인</label>
          	     <input type="password" name="userPwd2" id="userPwd2"/>	
             </div>
             <div class="input-row">
-	            <label for="userName">사용자이름</label>
+	            <label for="userName">사용자 이름</label>
 		        <input type="text" name="userName" id="userName"/>
             </div>
             <div class="input-row">
-            	<label for="userNickname">사용자닉네임</label>
+            	<label for="userNickname">사용자 닉네임</label>
                 <input type="text" name="userNickname" id="userNickname"/>
                 <button type="button" id="checkNickname">중복확인</button>
             </div>
+            
 			<div class="input-row">
-            	<label for="phone">핸드폰번호</label>
+            	<label for="phone">핸드폰 번호</label>
           	 	<input type="text" name="phone" id="phone"/>
             </div>
            <div class="input-row">
@@ -40,8 +42,7 @@
 	           <input type="text" name="email" id="email"/>
            </div>
             <div class="btn-group">
-                <input type="submit" value="등록" id="btnOK"/>
-                <input type="reset" value="다시" id="btnReset"/>
+                <input type="submit" value="가입하기" id="btnOK"/>
             </div>
         </form>
 </div>
@@ -60,62 +61,56 @@
     }
 
     .joinUserTitle {
-        padding-left : 10rem;
         font-size: 1.5rem;
-        margin: 1.5rem 0 0.625rem;
         color: #f0f0f0;
     }
 
     .joinUserWrapper {
-        display: flex;
-        justify-content: center;
         padding-bottom: 2.5rem;
     }
 
     form {
-        display: flex;
-        justify-content: flex-start;
         flex-direction: column; 
-        gap: 0.375rem;
+        /* gap: 0.375rem; */
         font-size: 0.875rem;
-        box-sizing: border-box;
-        padding: 0 1rem;
+        box-sizing: content-box;
+        /* padding: 0 1rem; */
+    }
+    
+    .input-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.25rem;
+	}
+	.input-row label {
+		width:9rem;
+	    font-weight: 500;
+	}
+	.input-row input[type='password'],
+    .input-row input[type='text'] {
+        flex: 1;
     }
 
-    label {
-        font-weight: 500;
-        margin-bottom: 0.25rem;
-        padding-left: 0.425rem;
-        padding-right: 0.425rem;
-    }
+  	
 
     input[type='text'],
     input[type='password'] {
-        padding: 0.625rem 0.75rem;
+       	padding: 0.75rem;
         border: none;
         border-radius: 0.375rem;
         background-color: #2c2c2c;
         color: white;
         font-size: 0.875rem;
-        width: 70%;
+        width: 100%;
     }
 
-    .input-row {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap : 0rem; 
-	}
-
-
-    .input-row input[type='text'] {
-        flex: 1;
-    }
+    
 
     button,
-    input[type='submit'],
-    input[type='reset'] {
-        padding: 0.625rem 0.75rem;
+    input[type='submit'] {
+        padding: 0.75rem;
         height: 2.375rem;
         border: none;
         border-radius: 0.375rem;
@@ -131,17 +126,12 @@
     }
 
     button:hover,
-    input[type='submit']:hover,
-    input[type='reset']:hover {
+    input[type='submit']:hover
+    {
         background-color: #555;
     }
 
-    .btn-group {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.35rem;
-        margin-top: 0.225rem;
-    }
+
 </style>
 
 

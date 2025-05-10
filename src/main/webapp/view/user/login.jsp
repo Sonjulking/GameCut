@@ -32,7 +32,6 @@
   }
 
   .login-container input[type="submit"],
-  .login-container input[type="reset"],
   .login-container input[type="button"] {
     padding: 10px;
     margin-bottom: 10px;
@@ -45,7 +44,6 @@
   }
 
   .login-container input[type="submit"]:hover,
-  .login-container input[type="reset"]:hover,
   .login-container input[type="button"]:hover {
     background-color: #555;
   }
@@ -56,10 +54,10 @@
 <div class="login-container">
   
   <form action="loginOK.do">
-    ID<input type="text" name="userId">
-    PW<input type="password" name="userPwd">
+    <input type="text" name="userId" placeholder="ID">
+    <input type="password" name="userPwd" placeholder="PW">
     <input type="submit" value="확인">
-    <input type="reset" value="다시">
+    <input type="button" value="비번찾기" id="findPwBtn">
     <input type="button" value="회원가입" id="joinBtn">
   </form>
 </div>
@@ -69,5 +67,9 @@
 		$("#joinBtn").click(function(){
 			location.href = "joinUser.do";
 		});
+		$("#findPwBtn").click(function(){
+			alert("비밀번호찾기 구현중..")
+		});
 	})
+
 </script>

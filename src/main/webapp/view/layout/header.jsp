@@ -1,19 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${loginUSER != null}">
+
+<html>
+    <head>
+        <title>인생겜컷</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        
+        <!-- 로그인시 프로필사진 보이기 -->
+    <c:if test="${loginUSER != null}">
 		<c:if test="${profileUrl != null}">
 			<c:set var="profileImageUrl" value="${profileUrl}" />
 		</c:if>
 		<c:if test="${profileUrl == null}">
 			<c:set var="profileImageUrl" value="img/main/icons/friend_management_icon.png" />
 		</c:if>
-</c:if>
-<html>
-    <head>
-        <title>인생겜컷</title>
-        <link rel="stylesheet" type="text/css" href="css/main.css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	</c:if>
+	
          <!-- 자동 로그아웃 스크립트 (로그인된 사용자에만 작동) -->
     <c:if test="${loginUSER != null}">
         <script>
