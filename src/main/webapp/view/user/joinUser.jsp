@@ -7,32 +7,38 @@
 <div class="joinUserWrapper">
     <div class="joinUserView">
         <form action="joinUserOK.do" method="post">
-            <label for="userId">아이디</label>
             <div class="input-row">
+            	<label for="userId">아이디</label>
                 <input type="text" name="userId" id="userId"/>
                 <button type="button" id="checkID">중복확인</button>
             </div>
-            <label for="userPwd">비밀번호</label>
-            <input type="password" name="userPwd" id="userPwd"/>
-
-            <label for="userPwd2">비밀번호 확인</label>
-            <input type="password" name="userPwd2" id="userPwd2"/>
-
-            <label for="userName">사용자 이름</label>
-            <input type="text" name="userName" id="userName"/>
-
-            <label for="userNickname">사용자 닉네임</label>
+            
             <div class="input-row">
+            	<label for="userPwd">비밀번호</label>
+          		<input type="password" name="userPwd" id="userPwd"/>
+          		
+            </div>
+            <div class="input-row">
+            	 <label for="userPwd2">비밀번호확인</label>
+         	     <input type="password" name="userPwd2" id="userPwd2"/>	
+            </div>
+            <div class="input-row">
+	            <label for="userName">사용자이름</label>
+		        <input type="text" name="userName" id="userName"/>
+            </div>
+            <div class="input-row">
+            	<label for="userNickname">사용자닉네임</label>
                 <input type="text" name="userNickname" id="userNickname"/>
                 <button type="button" id="checkNickname">중복확인</button>
             </div>
-
-            <label for="phone">핸드폰 번호</label>
-            <input type="text" name="phone" id="phone"/>
-
-            <label for="email">이메일</label>
-            <input type="text" name="email" id="email"/>
-
+			<div class="input-row">
+            	<label for="phone">핸드폰번호</label>
+          	 	<input type="text" name="phone" id="phone"/>
+            </div>
+           <div class="input-row">
+	           <label for="email">이메일</label>
+	           <input type="text" name="email" id="email"/>
+           </div>
             <div class="btn-group">
                 <input type="submit" value="등록" id="btnOK"/>
                 <input type="reset" value="다시" id="btnReset"/>
@@ -69,29 +75,28 @@
 
     .joinUserView {
         background-color: #1e1e1e;
-        padding: 1.875rem;
+        display: flex;
+        justify-content: center;
+        padding: 1.275rem;
         border-radius: 0.75rem;
         box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-        width: 23.75rem;
+        width: 38.75rem;
     }
 
     form {
         display: flex;
+        justify-content: center;
         flex-direction: column;
-        gap: 0.875rem;
+        gap: 0.375rem;
         font-size: 0.875rem;
         box-sizing: border-box;
-        padding: 0 0.5rem;
-    }
-
-    form * {
-        box-sizing: border-box;
+        padding: 0 1rem;
     }
 
     label {
         font-weight: 500;
         margin-bottom: 0.25rem;
-        padding-left: 0.125rem;
+        padding-left: 0.425rem;
     }
 
     input[type='text'],
@@ -106,9 +111,11 @@
     }
 
     .input-row {
-        display: flex;
-        align-items: center;
-    }
+    display: flex;
+    align-items: center;
+    gap : 0rem;
+	}
+
 
     .input-row input[type='text'] {
         flex: 1;
@@ -141,8 +148,8 @@
     .btn-group {
         display: flex;
         justify-content: space-between;
-        gap: 0.75rem;
-        margin-top: 0.625rem;
+        gap: 0.35rem;
+        margin-top: 0.225rem;
     }
 </style>
 

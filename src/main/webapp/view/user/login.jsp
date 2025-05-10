@@ -59,8 +59,8 @@
 <div class="login-container">
   
   <form action="loginOK.do">
-    아이디 : <input type="text" name="userId">
-    비밀번호 : <input type="password" name="userPwd">
+    ID<input type="text" name="userId">
+    PW<input type="password" name="userPwd">
     <input type="submit" value="확인">
     <input type="reset" value="다시">
     <input type="button" value="회원가입" id="joinBtn">

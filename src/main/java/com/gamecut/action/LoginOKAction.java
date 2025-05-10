@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.gamecut.dao.FileDAO;
 import com.gamecut.dao.UserDAO;
+import com.gamecut.vo.FileVO;
 import com.gamecut.vo.UserVO;
 
 public class LoginOKAction implements GameCutAction {
@@ -19,9 +21,12 @@ public class LoginOKAction implements GameCutAction {
 		String userPwd = request.getParameter("userPwd");
 		
 		UserDAO dao = new UserDAO();
+		FileDAO fdao = new FileDAO();
 		
 		int re = dao.isMember(userId, userPwd);
 		UserVO vo = dao.getUserById(userId);
+		
+		
 		System.out.println("회원닉네임 : " + vo.getUserNickname() );
 		HttpSession session = request.getSession();
 		request.setAttribute("re", re);
@@ -38,7 +43,9 @@ public class LoginOKAction implements GameCutAction {
 			//회원인증완료.
 			session.setAttribute("loginUSER", dao.getUserById(userId));
 			System.out.println("loginUER : " + dao.getUserById(userId));
-			
+			FileVO fvo =  fdao.selectProfileFileByUserId(vo.getUserNo());
+			String profileUrl = fvo.getFileUrl();
+			session.setAttribute("profileUrl", profileUrl);
 			System.out.println("회원인증완료");
 			break;
 		case 2:
