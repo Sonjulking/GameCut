@@ -1,7 +1,11 @@
 package com.gamecut.util;
 
 import com.gamecut.dao.FileDAO;
+import com.gamecut.dao.PhotoDAO;
+import com.gamecut.dao.VideoDAO;
 import com.gamecut.vo.FileVO;
+import com.gamecut.vo.PhotoVO;
+import com.gamecut.vo.VideoVO;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -18,13 +22,14 @@ public class FileUtil {
 
     public static MultipartRequest uploadFile(
             HttpServletRequest request,
-            String fileParam
+            String fileParam,
+            String type,
+            int order
     ) throws IOException {
         String tempDir = "upload";
         String tempRealPath = request.getServletContext().getRealPath(tempDir);
 
-        FileDAO fileDAO = new FileDAO();
-        FileVO fileVO = new FileVO();
+
 
         MultipartRequest multi = new MultipartRequest(
                 request,
@@ -37,6 +42,7 @@ public class FileUtil {
         //세션확인
         String userId = multi.getParameter("userId");
 
+        //TODO 세션에서 유저 번호 가져오기
         int userNo = 0;
         if (multi.getParameter("userNo") != null) {
             userNo = Integer.parseInt(multi.getParameter("userNo"));
@@ -89,17 +95,40 @@ public class FileUtil {
             }
 
             String uuid = UUID.randomUUID().toString();
-            String newFileName = uuid + "_" + userId + "_" + originalFileName;
+
+            //54942ea7-5ced-41aa-a429-2b39a6791fae_userId.png
+            String newFileName = uuid + "_" + userId + "." + ext ;
 
             File oldFile = new File(tempRealPath + File.separator + savedFileName);
             File newFile = new File(realPath + File.separator + newFileName);
-            if (oldFile.renameTo(newFile)) {
+            //db처리부분
+            if (oldFile.renameTo(newFile)) { //파일이 옮겨졌다면..
+                FileDAO fileDAO = new FileDAO();
+                FileVO fileVO = new FileVO();
                 fileVO.setUserNo(userNo);
                 fileVO.setUuid(uuid);
-                fileVO.setFileUrl(realPath + File.separator + newFileName);
+
+                String relativePath = uploadDir + File.separator + newFileName;
+                //웹경로에서는 슬래시 사용
+                fileVO.setFileUrl(relativePath.replace(File.separatorChar, '/'));
                 fileVO.setMimeType(mimeType);
                 fileVO.setOriginalFileName(originalFileName);
-                fileDAO.insertFile(fileVO);
+                int attachNo = fileDAO.insertFile(fileVO);
+
+                if(uploadType.equals("videos")) { //비디오 일떄
+                    VideoDAO videoDAO = new VideoDAO();
+                    VideoVO videoVO = new VideoVO();
+                    videoVO.setAttachNo(attachNo);
+                    videoDAO.insertVideo(videoVO);
+                } else{ //사진일때
+                    PhotoDAO photoDAO = new PhotoDAO();
+                    PhotoVO photoVO = new PhotoVO();
+                    photoVO.setAttachNo(attachNo);
+                    photoVO.setPhotoOrder(order);
+                    int photoNo = photoDAO.insertPhoto(photoVO,type);
+                    request.setAttribute("photoNo", photoNo);
+                }
+
                 return multi;
             } else {
                 return null;

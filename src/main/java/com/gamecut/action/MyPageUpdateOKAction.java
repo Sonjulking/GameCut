@@ -28,7 +28,7 @@ public class MyPageUpdateOKAction implements GameCutAction {
 		request.setCharacterEncoding("utf-8");
 		String path = request.getRealPath("upload");
 		System.out.println("path : " + path);
-    MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName");
+    	MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName","profile",1);
 		UserVO u = new UserVO();
 		FileVO f = new FileVO();
 		UserDAO userDao = new UserDAO();
@@ -39,6 +39,9 @@ public class MyPageUpdateOKAction implements GameCutAction {
 		u.setUserNickname(multi.getParameter("userNickname"));
 		u.setPhone(multi.getParameter("phone"));
 		u.setEmail(multi.getParameter("email"));
+		if(request.getAttribute("photoNo") != null ){
+			u.setPhotoNo((int)request.getAttribute("photoNo"));
+		}
 		System.out.println(u);
 		userDao.updateUser(u);
 //		String oldFileName = multi.getParameter("oldFileName");
