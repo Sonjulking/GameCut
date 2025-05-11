@@ -45,13 +45,13 @@
             >
         </a>
     </div>
+    <c:if test="${not empty sessionScope.loginUSER}">
     <div>
-        <a href="#">
-            <img
-                    src="img/main/icons/shopping_icon.png" alt="shopping_icon" class="sidebar_icons"
-            >
+        <a href="itemShop.do">
+            <img src="img/main/icons/shopping_icon.png" alt="shopping_icon" class="sidebar_icons">
         </a>
     </div>
+</c:if>
     <div>
         <a href="#">
             <img
