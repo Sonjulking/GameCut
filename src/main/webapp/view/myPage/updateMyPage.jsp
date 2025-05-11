@@ -3,14 +3,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" ></script>
 <div class="main_container">
     <div class="main_content">
-		<h2 class="joinUserTitle">내 정보 수정</h2>
-		<hr>
+		<h2 class="joinUserTitle" >내 정보 수정</h2>
 		<form action="updateMyPageOK.do" method="post" enctype="multipart/form-data">
 			<c:if test="${empty file.originalFileName}">
-			<img class="oldFile" id="previewImage" src="img/common/empty.png" width="200" height="200" style="border-radius: 100%;"> <br>
+			<img class="oldFile" id="previewImage" src="img/common/empty.png" width="200rem" height="200rem" style="border-radius: 100%;"> <br>
 			</c:if>
 			<c:if test="${!empty file.originalFileName}">
-			<img class="oldFile" id="previewImage" src="${file.fileUrl}" width="200" height="200" style="border-radius: 100%;"> <br>
+			<img class="oldFile" id="previewImage" src="${file.fileUrl}" width="200rem" height="200rem" style="border-radius: 100%;"> <br>
 			</c:if>
 			이름 : <input type="text" name="userName" id="userName" value="${user.userName }"	 required> <br>
 			아이디 : <input type="text" name="userId" id="userId" value="${user.userId }" disabled> <br>

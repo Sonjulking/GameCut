@@ -1,5 +1,6 @@
 package com.gamecut.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,23 +11,40 @@ import com.gamecut.vo.FileVO;
 public class FileDAO {
 
     public int insertFile(FileVO fileVO) {
-        int re = -1;
-        String sql = "insert into file_tb(ATTACH_NO, USER_NO, UUID, FILE_URL, MIME_TYPE, ORIGINAL_FILE_NAME)" +
-                " values(SEQ_ATTACH_NO.nextval, ?, ?, ?, ?, ?)";
-        try {
-            Connection conn = ConnectionProvider.getConnection();
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, fileVO.getUserNo());
-            pstmt.setString(2, fileVO.getUuid());
-            pstmt.setString(3, fileVO.getFileUrl());
-            pstmt.setString(4, fileVO.getMimeType());
-            pstmt.setString(5, fileVO.getOriginalFileName());
-            re = pstmt.executeUpdate();
+        int attachNo = -1;
+
+        String getSeqSql = "SELECT SEQ_ATTACH_NO.NEXTVAL FROM dual";
+        String insertSql = "INSERT INTO file_tb(ATTACH_NO, USER_NO, UUID, FILE_URL, MIME_TYPE, ORIGINAL_FILE_NAME) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (
+                Connection conn = ConnectionProvider.getConnection();
+                PreparedStatement seqStmt = conn.prepareStatement(getSeqSql);
+                PreparedStatement pstmt = conn.prepareStatement(insertSql);
+        ) {
+            // 시퀀스 먼저 조회
+            ResultSet rs = seqStmt.executeQuery();
+            if (rs.next()) {
+                attachNo = rs.getInt(1); // 시퀀스 값
+            }
+
+            // INSERT 수행
+            pstmt.setInt(1, attachNo);
+            pstmt.setInt(2, fileVO.getUserNo());
+            pstmt.setString(3, fileVO.getUuid());
+            pstmt.setString(4, fileVO.getFileUrl());
+            pstmt.setString(5, fileVO.getMimeType());
+            pstmt.setString(6, fileVO.getOriginalFileName());
+
+            pstmt.executeUpdate();
+
         } catch (Exception e) {
             System.out.println("예외발생 : " + e.getMessage());
         }
-        return re;
+
+        return attachNo;
     }
+
 
     // 유저의 번호를 이용해 프로필 사진의 파일 정보를 가져오기 위한 메소드
     public FileVO selectProfileFileByUserId(int userNo) {

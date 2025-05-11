@@ -7,6 +7,23 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.UserVO;
 
 public class UserDAO {
+
+	public int updateUserPasswordByUserid(String userid, String newPassword) {
+		int re = -1;
+		String sql = "update user_tb set user_pwd = ? where user_id = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, newPassword);
+			pstmt.setString(2, userid);
+			re = pstmt.executeUpdate();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
 	
 	public int updateUser(UserVO vo) {
 		int re = 0;
@@ -15,7 +32,7 @@ public class UserDAO {
 			if(vo.getPhotoNo() == 0) {
 				sql = "update user_tb set user_name = ?, user_nickname = ?, phone = ?, email =?, photo_no = null where user_no = ?";
 			} else {
-				sql = "update user_tb set user_name = ?, user_nickname = ?, phone = ?, email =? where user_no = ?";
+				sql = "update user_tb set user_name = ?, user_nickname = ?, phone = ?, email =?, photo_no = ? where user_no = ?";
 			}
 			Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -23,7 +40,13 @@ public class UserDAO {
 			pstmt.setString(2, vo.getUserNickname());
 			pstmt.setString(3, vo.getPhone());
 			pstmt.setString(4, vo.getEmail());
-			pstmt.setInt(5, vo.getUserNo());
+			if(vo.getPhotoNo() == 0) {
+				pstmt.setInt(5, vo.getUserNo());
+			}
+			if(vo.getPhotoNo() != 0) {
+				pstmt.setInt(5, vo.getPhotoNo());
+				pstmt.setInt(6, vo.getUserNo());
+			}
 			re = pstmt.executeUpdate();
 			ConnectionProvider.close(conn, pstmt);
 		} catch (Exception e) {
