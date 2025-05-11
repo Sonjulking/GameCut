@@ -2,12 +2,12 @@
 
 <div class="main_container">
     <div class="main_content">
-        <div id="userImg"> <img alt="" src="upload/${file.originalFileName }"> </div>
+        <div id="userImg"><img alt="" src="${file.fileUrl }"></div>
         <div id="userId">${user.userId }</div>
         <div id="userNickname">${user.userNickname }</div>
         <div id="userPoint">${user.userPoint }</div>
-       	<a href="updateMyPage.do">내 정보 수정</a>
+        <a href="updateMyPage.do">내 정보 수정</a>
         <a href="updatePassword.do">비밀번호 변경</a>
         <a href="deleteUser.do">탈퇴하기</a>
-  	</div>
+    </div>
 </div>
