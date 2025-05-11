@@ -19,7 +19,12 @@ import javax.servlet.http.HttpSession;
 public class Filter extends HttpFilter implements javax.servlet.Filter {
 
     String arr[] = {
-            "login.do", "joinUser.do", "joinUserOK.do", "idCheck.do", "loginOK.do","nicknameCheck.do"
+            "login.do", 
+            "joinUser.do", 
+            "joinUserOK.do", 
+            "idCheck.do", 
+            "loginOK.do",
+            "nicknameCheck.do",
     };
 
     /**

@@ -9,17 +9,17 @@
 </head>
 <body>
 	<c:if test="${re != -1 }">
-			회원가입성공! 잠시 후 메인홈으로 돌아갑니다.
+			비밀번호 변경 성공!
 		<script>
-			alert("회원가입성공!")
-			location.href = 'index.jsp';
+			alert("비밀번호변경성공!")
+			location.href = 'myPage.do';
 		</script>
 	</c:if>
 	<c:if test="${re == -1 }">
-			회원가입실패! 잠시 후 메인홈으로 돌아갑니다.
+			비밀번호 변경 실패!
 		<script>
-			alert("회원가입실패")
-			location.href = 'index.jsp';
+			alert("비밀번호변경실패!")
+			location.href = 'myPage.do';
 		</script>
 	</c:if>
 </body>
