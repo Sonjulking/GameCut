@@ -1,6 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="<c:url value="/css/video.css"/>">
+<style>
+    video::-webkit-media-controls-fullscreen-button {
+        display: none !important;
+    }
+</style>
 <div class="video_container">
     <video class="video_player" controls muted loop playsinline>
         <source src="<c:url value="/upload/videos/2025/05/test01.mp4"/>" type="video/mp4">
