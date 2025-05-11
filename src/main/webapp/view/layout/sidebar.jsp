@@ -3,13 +3,6 @@
     <div>
         <a href="#">
             <img
-                    src="img/main/icons/hamburger_icon.png" alt="home_icon" class="sidebar_icons"
-            >
-        </a>
-    </div>
-    <div>
-        <a href="#">
-            <img
                     src="img/main/icons/home_icon.png" alt="home_icon" class="sidebar_icons"
             >
         </a>
