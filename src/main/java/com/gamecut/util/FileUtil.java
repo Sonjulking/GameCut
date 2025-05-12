@@ -131,14 +131,9 @@ public class FileUtil {
                     int photoNo = photoDAO.insertPhoto(photoVO, type);
                     request.setAttribute("photoNo", photoNo);
                 }
-
-                return multi;
-            } else {
-                return null;
             }
-
         }
-        return null;
+        return multi;
     }
 
     private static String getUploadType(String ext) {

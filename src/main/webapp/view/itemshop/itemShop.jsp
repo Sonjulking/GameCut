@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="main.css">
 
 <%
-    UserVO user = (UserVO) session.getAttribute("user");
+    UserVO user = (UserVO) session.getAttribute("loginUSER");
     boolean isAdmin = user != null && "admin".equals(user.getRole());
     int userNo = user.getUserNo();
     int userPoint = user.getUserPoint();
