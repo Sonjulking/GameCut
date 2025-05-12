@@ -57,9 +57,7 @@ public class FileUtil {
 
         if (originalFileName == null || savedFileName == null) {
             return multi;
-        }
-
-        if (originalFileName != null && savedFileName != null) {
+        } else {
             //확장자 확인
             String ext = "";
             int lastDot = originalFileName.lastIndexOf("."); //.있는 위치를 반환 없으면 -1
@@ -117,9 +115,12 @@ public class FileUtil {
                 fileVO.setUserNo(userNo);
                 fileVO.setUuid(uuid);
 
+
+                System.out.println(" realPath + File.separator + newFileName" + realPath + File.separator + newFileName);
                 String relativePath = uploadDir + File.separator + newFileName;
                 //웹경로에서는 슬래시 사용
                 fileVO.setFileUrl(relativePath.replace(File.separatorChar, '/'));
+                fileVO.setRealPath(realPath + File.separator + newFileName);
                 fileVO.setMimeType(mimeType);
                 fileVO.setOriginalFileName(originalFileName);
                 int attachNo = fileDAO.insertFile(fileVO);
@@ -141,6 +142,20 @@ public class FileUtil {
         }
         return multi;
     }
+
+    //파일삭제
+    public static boolean deleteFile(int attachNo, String realPath) {
+        if (realPath == null || realPath.trim().isEmpty()) {
+            return false;
+        }
+
+        File file = new File(realPath);
+        if (file.exists()) {
+            return file.delete();
+        }
+        return false;
+    }
+
 
     private static String getUploadType(String ext) {
         String[] imgExts = {"jpg", "jpeg", "png", "gif", "webp"};

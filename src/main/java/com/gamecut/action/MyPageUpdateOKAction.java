@@ -30,8 +30,6 @@ public class MyPageUpdateOKAction implements GameCutAction {
             HttpServletResponse response
     ) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-        String path = request.getRealPath("upload");
-        System.out.println("path : " + path);
         MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName", "profile", 1);
         UserVO u = new UserVO();
         FileVO f = new FileVO();
@@ -72,6 +70,11 @@ public class MyPageUpdateOKAction implements GameCutAction {
 //			}
 //		}
         FileVO fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
+        if (multi.getParameter("isProfileDeleted").equals("true")) {
+            FileUtil.deleteFile(fvo.getAttachNo(), fvo.getRealPath());
+        }
+
+
         HttpSession session = request.getSession();
         session.setAttribute("profileUrl", fvo.getFileUrl());
         return "/view/myPage/myPage.jsp";
