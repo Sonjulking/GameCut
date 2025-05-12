@@ -13,7 +13,16 @@ public class BoardVO {
     private int boardLike;         
     private Date boardCreateDate;  
     private Date boardDeleteDate; 
+    private boolean likedByCurrentUser;
 
+    public boolean isLikedByCurrentUser() {
+        return likedByCurrentUser;
+    }
+
+    public void setLikedByCurrentUser(boolean likedByCurrentUser) {
+        this.likedByCurrentUser = likedByCurrentUser;
+    }
+    
     public int getBoardNo() {
         return boardNo;
     }

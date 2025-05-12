@@ -20,7 +20,8 @@ public class SelectAllBoardsAction implements GameCutAction {
 		ArrayList<BoardVO> list = dao.findAll();
 		
 		request.setAttribute("list", list);
-		return  "selectAllBoards.jsp";
+		System.out.println("게시글 개수: " + list.size());
+		return  "/view/board/selectAllBoards.jsp";
 	}
 
 }

@@ -2,11 +2,76 @@ package com.gamecut.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.UserVO;
 
 public class UserDAO {
+	public int userFollow(int followerNo, int followNo) {
+		int re = 0;
+		String sql = "insert into follow values(?, ?)";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, followerNo);
+			pstmt.setInt(2, followNo);
+			re = pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	public int userUnfollow(int followerNo, int followNo) {
+		int re = 0;
+		String sql = "delete from follow where follower_no=? and user_no=?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, followerNo);
+			pstmt.setInt(2, followNo);
+			re = pstmt.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
+	public ArrayList<UserVO> selectFollow(int userNo) {
+		ArrayList<UserVO> followList = new ArrayList<UserVO>();
+		String sql = "select user_no from follow where follower_no = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				followList.add(selectUser(rs.getInt("user_no")));
+			}
+			ConnectionProvider.close(conn, pstmt, rs);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return followList;
+	}
+	
+	public ArrayList<UserVO> selectFollower(int userNo) {
+		ArrayList<UserVO> followerList = new ArrayList<UserVO>();
+		String sql = "select follower_no from follow where user_no = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				followerList.add(selectUser(rs.getInt("follower_no")));
+			}
+			ConnectionProvider.close(conn, pstmt, rs);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return followerList;
+	}
 
 	public int updateUserPasswordByUserid(String userid, String newPassword) {
 		int re = -1;
@@ -28,6 +93,7 @@ public class UserDAO {
 	public int updateUser(UserVO vo) {
 		int re = 0;
 		String sql = "";
+		System.out.println(vo);
 		try {
 			if(vo.getPhotoNo() == 0) {
 				sql = "update user_tb set user_name = ?, user_nickname = ?, phone = ?, email =?, photo_no = null where user_no = ?";

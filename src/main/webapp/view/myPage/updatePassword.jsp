@@ -39,7 +39,7 @@
 		box-sizing: border-box;
 	}
 
-	.password-form-container input[type="button"] {
+	.password-form-container input[type="submit"] {
 		margin-top: 20px;
 		width: 100%;
 		padding: 10px;
@@ -51,7 +51,7 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.password-form-container input[type="button"]:hover {
+	.password-form-container input[type="submit"]:hover {
 		background-color: #0056b3;
 	}
 </style>
@@ -60,7 +60,7 @@
 	
 	<form action="updatePasswordOK.do" method="post">
 		<label id="title">비밀번호 변경</label>
-		
+
 		<label for="userPassword">현재 비밀번호</label>
 		<input type="password" id="userPassword" name="userPassword">
 
@@ -72,7 +72,7 @@
 
 		<input type="hidden" id="userID" name="userID" value="${loginUSER.userId}">
 
-		<input type="button" id="btnOK" value="변경하기">
+		<input type="submit" id="btnOK" value="변경하기">
 	</form>
 </div>
 
@@ -82,7 +82,6 @@
 			let formUserPw = $("#userPassword").val().trim();
 			let newPw = $("#newUserPassword").val().trim();
 			let newPw2 = $("#newUserPassword2").val().trim();
-			let userID = "${loginUSER.userId}";
 			let userPW = "${loginUSER.userPwd}";
 			
 			if (formUserPw === "") {
@@ -91,7 +90,9 @@
 			}
 			
 			if (formUserPw !== userPW){
+
 				alert("기존 비밀번호가 다릅니다.");
+
 				return;
 			}
 

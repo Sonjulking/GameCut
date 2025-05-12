@@ -22,7 +22,7 @@
 			<c:set var="profileImageUrl" value="${profileUrl}" />
 		</c:if>
 		<c:if test="${profileUrl == null}">
-			<c:set var="profileImageUrl" value="img/main/icons/friend_management_icon.png" />
+			<c:set var="profileImageUrl" value="img/main/icons/profile_icon.png" />
 		</c:if>
 	</c:if>
 	
