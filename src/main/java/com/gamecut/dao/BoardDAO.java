@@ -10,7 +10,7 @@ import com.gamecut.vo.BoardVO;
 
 public class BoardDAO {
 	
-	Connection conn = null;
+	  Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
 

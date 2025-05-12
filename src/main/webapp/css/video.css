@@ -57,7 +57,7 @@
 
 /* 댓글 영역 스타일링 - 깔끔하게 수정 */
 .main_comment_wrapper {
-    display: none;
+    /*display: none;*/
     position: relative;
     top: 5rem;
     left: 2rem;
@@ -130,6 +130,7 @@
     color: #999;
     margin-left: 0.5rem;
 }
+
 
 .comment-input {
     display: flex;
