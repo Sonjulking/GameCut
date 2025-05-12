@@ -30,9 +30,9 @@
     <div class="main_comment_wrapper">
         <p>댓글</p>
         <hr>
-        <div>hell</div>
-        <div>hell</div>
-        <div>hell</div>
+        <div>우진님 주말에 너무 열심히하심</div>
+        <div>ㄴ이제 편히 쉬셔도될듯</div>
+        <div>ㄴ ㅇㅇ ㅇㅈ</div>
         <div>hell</div>
     </div>
 </div>
@@ -58,9 +58,9 @@
         >
     </div>
     <div class="main_comment_wrapper">
-        <div>hell</div>
-        <div>hell</div>
-        <div>hell</div>
+        <div>우진님 주말에 너무 열심히하심</div>
+        <div>ㄴ이제 편히 쉬셔도될듯</div>
+        <div>ㄴ ㅇㅇ ㅇㅈ</div>
         <div>hell</div>
     </div>
 </div>
