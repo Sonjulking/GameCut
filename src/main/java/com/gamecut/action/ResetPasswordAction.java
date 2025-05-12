@@ -6,12 +6,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class MyPointHistoryAction implements GameCutAction {
+public class ResetPasswordAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		return "/view/myPage/myPointHistory.jsp";
+		return "view/user/resetPassword.jsp";
 	}
 
 }
