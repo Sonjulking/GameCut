@@ -39,7 +39,7 @@
 		box-sizing: border-box;
 	}
 
-	.password-form-container input[type="submit"] {
+	.password-form-container input[type="button"] {
 		margin-top: 20px;
 		width: 100%;
 		padding: 10px;
@@ -51,62 +51,68 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.password-form-container input[type="submit"]:hover {
+	.password-form-container input[type="button"]:hover {
 		background-color: #0056b3;
 	}
 </style>
 
 <div class="password-form-container">
 	
-	<form action="updatePasswordOK.do" method="post">
+	<form action="resetPasswordOK.do" method="post">
 		<label id="title">비밀번호 변경</label>
-
-		<label for="userPassword">현재 비밀번호</label>
-		<input type="password" id="userPassword" name="userPassword">
-
-		<label for="newUserPassword">새로운 비밀번호</label>
+		
+		<label for="userId">사용자 아이디</label>
+		<input type="text" id="userId" name="userId">
+		
+		<label for="userName">사용자 이름</label>
+		<input type="text" id="userName" name="userName">
+		
+		<label for="userEmail">사용자 이메일</label>
+		<input type="text" id="userEmail" name="userEmail">
+		
+		<label for="newUserPassword">변경할 비밀번호</label>
 		<input type="password" id="newUserPassword" name="newUserPassword">
 
-		<label for="newUserPassword2">새로운 비밀번호 확인</label>
+		<label for="newUserPassword2">변경할 비밀번호 확인</label>
 		<input type="password" id="newUserPassword2">
-
-		<input type="hidden" id="userID" name="userID" value="${loginUSER.userId}">
-
-		<input type="submit" id="btnOK" value="변경하기">
+		
+		<input type="button" id="btnOK" value="변경하기">
 	</form>
 </div>
 
 <script type="text/javascript">
 	$(function(){
+		let limitOk = false;
 		$("#btnOK").click(function(){
-			let formUserPw = $("#userPassword").val().trim();
+			let userID = $("#userId").val().trim();
+			let userName = $("#userName").val().trim();
+			let userEmail = $("#userEmail").val().trim();
 			let newPw = $("#newUserPassword").val().trim();
 			let newPw2 = $("#newUserPassword2").val().trim();
-			let userPW = "${loginUSER.userPwd}";
 			
-			if (formUserPw === "") {
-				alert("아이디와 기존 비밀번호를 입력해주세요.");
-				return;
-			}
 			
-			if (formUserPw !== userPW){
-
-				alert("기존 비밀번호가 다릅니다.");
-
+			if(userID === "" || userName === "" || userEmail === "" || newPw === "" || newPw2 === ""){
+				alert("빈칸없이 전부 입력해주세요.");
 				return;
 			}
-
-			if (newPw === "" || newPw2 === "") {
-				alert("새 비밀번호를 입력해주세요.");
-				return;
-			}
-
 			if (newPw !== newPw2) {
 				alert("새 비밀번호가 서로 다릅니다.");
 				return;
 			}
-
-			$("form").submit(); // 최종 제출
+			
+			 $.get("userInfoCheck.do?userId=" + userID + "&userName=" + userName + "&userEmail=" + userEmail, (data) => {
+				
+	                if (data.result != 1) {
+	                    alert("사용자 정보가 일치하지않습니다.");
+	                    return;
+	                } else{
+	                	if(limitOk == false){
+	                		limitOk = true;
+	                		$("form").submit(); // 최종 제출
+	                	}
+	                	
+	                }
+	          });
 		});
 	});
 </script>
