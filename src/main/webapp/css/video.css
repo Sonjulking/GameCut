@@ -20,12 +20,13 @@
 }
 
 .video_player {
-    height: 70vh;
+    height: 60vh;
     width: auto;
     max-width: 100%;
     object-fit: cover;
     border-radius: 10px;
-    padding-bottom: 12rem;
+    margin-top: 2.5rem;
+    border: 2px rgba(255, 255, 255, 0.7) solid;
 }
 
 .widthVideo {
@@ -34,4 +35,31 @@
 
 .heightVideo {
     height: 34rem;
+}
+
+.video_side_buttons_wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    top: 17.5rem;
+    left: 1rem;
+}
+
+.video_side_buttons {
+    cursor: pointer;
+    position: relative;
+    top: 4rem;
+    left: 0;
+    width: 2rem;
+}
+
+.main_comment_wrapper {
+    display: none;
+    position: relative;
+    top: 5rem;
+    left: 2rem;
+    border: 2px solid red;
+    max-width: 20rem;
+    min-width: 20rem;
 }

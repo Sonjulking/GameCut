@@ -30,8 +30,6 @@ public class MyPageUpdateOKAction implements GameCutAction {
             HttpServletResponse response
     ) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-        String path = request.getRealPath("upload");
-        System.out.println("path : " + path);
         MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName", "profile", 1);
         UserVO u = new UserVO();
         FileVO f = new FileVO();
@@ -49,6 +47,7 @@ public class MyPageUpdateOKAction implements GameCutAction {
         System.out.println(u);
         userDao.updateUser(u);
         FileVO fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
+
         HttpSession session = request.getSession();
         session.setAttribute("profileUrl", fvo.getFileUrl());
         return "myPage.do";
