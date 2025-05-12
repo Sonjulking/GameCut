@@ -19,7 +19,7 @@ public class MainBoardAction implements GameCutAction {
             throws ServletException, IOException {
         BoardDAO dao = new BoardDAO();
         FileDAO fileDAO = new FileDAO();
-        ArrayList<BoardVO> boardList = dao.findAll();
+        ArrayList<BoardVO> boardList = dao.findTop5();
 
         ArrayList<BoardWithFileVO> resultList = new ArrayList<>();
         for (BoardVO board : boardList) {

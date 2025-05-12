@@ -58,11 +58,14 @@ public class FileUtil {
 
         if (originalFileName == null || savedFileName == null) {
             //프사 삭제
-            if (multi.getParameter("isProfileDeleted").equals("true")) {
+            String isDeleted = multi.getParameter("isProfileDeleted");
+            if (isDeleted != null && isDeleted.equals("true")) {
                 System.out.println("isProfileDeleted");
                 FileDAO fileDao = new FileDAO();
                 FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
                 FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
+            } else {
+                System.out.println("no delete");
             }
             return multi;
         } else {
@@ -137,7 +140,8 @@ public class FileUtil {
                     VideoDAO videoDAO = new VideoDAO();
                     VideoVO videoVO = new VideoVO();
                     videoVO.setAttachNo(attachNo);
-                    videoDAO.insertVideo(videoVO);
+                    int videoNo = videoDAO.insertVideo(videoVO);
+                    request.setAttribute("videoNo", videoNo);
                 } else { //사진일때
                     PhotoDAO photoDAO = new PhotoDAO();
                     PhotoVO photoVO = new PhotoVO();

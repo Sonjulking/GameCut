@@ -139,8 +139,12 @@
                         '</div>';
 
                 $(".video_wrap").append(videoContainer);
+                $(".video_player").each(function () {
+                    observer.observe(this);
+                });
             });
         });
+
     }
 
     loadBoard();
