@@ -1,7 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<style>
+#profile_icon {
+    border-radius: 50%;         /* 원형 모양 */
+    object-fit: cover;          /* 비율 유지하면서 잘 맞게 채움 */
+    width: 40px;                /* 원하는 크기로 조정 */
+    height: 40px;
+}
 
+</style>
 <html>
     <head>
         <title>인생겜컷</title>

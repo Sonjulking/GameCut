@@ -60,9 +60,7 @@
 	
 	<form action="updatePasswordOK.do" method="post">
 		<label id="title">비밀번호 변경</label>
-		<label for="userId">사용자 아이디</label>
-		<input type="text" id="userId" name="userId">
-
+		
 		<label for="userPassword">현재 비밀번호</label>
 		<input type="password" id="userPassword" name="userPassword">
 
@@ -81,20 +79,19 @@
 <script type="text/javascript">
 	$(function(){
 		$("#btnOK").click(function(){
-			let formUserId = $("#userId").val().trim();
 			let formUserPw = $("#userPassword").val().trim();
 			let newPw = $("#newUserPassword").val().trim();
 			let newPw2 = $("#newUserPassword2").val().trim();
 			let userID = "${loginUSER.userId}";
 			let userPW = "${loginUSER.userPwd}";
 			
-			if (formUserId === "" || formUserPw === "") {
+			if (formUserPw === "") {
 				alert("아이디와 기존 비밀번호를 입력해주세요.");
 				return;
 			}
 			
-			if (formUserId !== userID || formUserPw !== userPW){
-				alert("기존 아이디와 비밀번호가 다릅니다.");
+			if (formUserPw !== userPW){
+				alert("기존 비밀번호가 다릅니다.");
 				return;
 			}
 

@@ -163,6 +163,29 @@ public class UserDAO {
 		}
     	return re;
     }
+    
+    public int checkUserInfo(String userId, String userName, String userEmail) {
+    	int re = 0;
+    	String sql = "select user_no from user_tb where user_id = ? and user_name = ? and email = ?";
+    	try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userId);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, userEmail);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				re = 1;
+			}
+			ConnectionProvider.close(conn, pstmt, rs);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+    	return re;
+    }
+    
+    
+    
 
     //id를 매개변수로 전달받아 회원의 정보를 반환하는 메소드
     public UserVO getUserById(String id) {
