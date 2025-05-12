@@ -41,17 +41,51 @@
             <input type="reset" value="다시" id="btnReset">
         </form>
     </div>
-    <script type="text/javascript">
-        $(function () {
-            var isProfileDeleted = false;
-            // 프로필사진 삭제 이벤트
-            $("#deleteFile").click(function () {
-                $(".oldFile").attr("src", "img/common/empty.png");
-                $("#isProfileDeleted").val("true"); // 삭제 상태를 true로 설정
-                $("#originalFileName").val("");
-                isProfileDeleted = true;
-                console.log("프로필 삭제 상태: " + isProfileDeleted);
-            });
+<script type="text/javascript">
+$(function() {
+	const isProfileDeleted = false;
+	// 프로필사진 삭제 이벤트
+	$("#deleteFile").click(function() {
+		$(".oldFile").attr("src", "img/common/empty.png");
+	    $("#isProfileDeleted").val("true"); // 삭제 상태를 true로 설정
+	    $("#originalFileName").val("");
+	    isProfileDeleted = true;
+	    console.log("프로필 삭제 상태: " + isProfileDeleted);
+	});
+	
+	$("#btnReset").click(function() {
+		$(".oldFile").attr("src", "${file.fileUrl }");
+		 $("#isProfileDeleted").val("false"); // 삭제 상태 초기화
+	    isProfileDeleted = false;
+	})
+	
+	// 파일 선택 시 이미지 미리보기
+    $("#originalFileName").change(function() {
+        readURL(this);
+    });
+	
+    // 이미지 미리보기 함수
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                $("#previewImage").attr("src", e.target.result);
+                console.log("이미지 미리보기 로드됨");
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+	
+	let checkNickname = false;
+	$("#checkNickname").click(function(){
+	    let userNickname = $("#userNickname").val().trim();
+	    let userNo = $("#userNo").val().trim();
+	    if (userNickname === "") {
+	        alert("닉네임을 입력해주세요.");
+	        return;
+	    }
 
             $("#btnReset").click(function () {
                 $(".oldFile").attr("src", "${file.fileUrl }");
