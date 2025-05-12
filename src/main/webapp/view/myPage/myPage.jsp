@@ -18,13 +18,13 @@
         
         <div class="mypage_user_section">
             <div class="mypage_profile">
-                <div id="userImg" class="mypage_user_image">
-                    <img alt="프로필 이미지" src="${file.fileUrl}">
+                <div id="userImg">
+                    <img class="mypage_user_image" alt="프로필 이미지" src="${file.fileUrl}">
                 </div>
                 <div class="mypage_user_details">
-                    <div id="userId" class="mypage_user_id">${user.userId}</div>
-                    <div id="userNickname" class="mypage_user_nickname">${user.userNickname}</div>
-                    <div id="userPoint" class="mypage_user_point">포인트: <span>${user.userPoint}</span>P</div>
+                    <p id="userId" class="mypage_user_id">${user.userId}</p>
+                    <p id="userNickname" class="mypage_user_nickname">${user.userNickname}</p>
+                    <p id="userPoint" class="mypage_user_point">포인트: <span>${user.userPoint}</span>P</p>
                 </div>
             </div>
             
@@ -40,7 +40,7 @@
 <style>
     /* 마이페이지 전용 클래스 - 기존 스타일과 충돌 방지 */
     .mypage_sidebar {
-        width: 250px;
+        width: 15.625rem;
         background-color: #2c2c2c;
         padding: 2rem;
         border-radius: 0.75rem;
@@ -51,7 +51,7 @@
         color: #f0f0f0;
         margin-bottom: 2rem;
         font-weight: bold;
-        border-bottom: 1px solid #3a3a3a;
+        border-bottom: 0.0625rem solid #3a3a3a;
         padding-bottom: 1rem;
     }
 
@@ -68,7 +68,7 @@
         padding: 0.75rem 1rem;
         border-radius: 0.375rem;
         transition: all 0.2s ease;
-        border: 1px solid transparent;
+        border: 0.0625rem solid transparent;
     }
 
     .mypage_menu_item:hover {
@@ -94,15 +94,15 @@
         gap: 1.5rem;
     }
 
-    .mypage_user_image {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
+    #userImg {
+        width: 7.5rem;
+        height: 7.5rem;
+        border-radius: 100%;
         overflow: hidden;
-        border: 2px solid #3a3a3a;
+        border: 0.125rem solid #3a3a3a;
     }
 
-    .mypage_user_image img {
+    .mypage_user_image {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -118,17 +118,20 @@
     .mypage_user_id {
         font-size: 1rem;
         color: #ccc;
+        margin: 0;
     }
 
     .mypage_user_nickname {
         font-size: 1.5rem;
         font-weight: bold;
         color: #f0f0f0;
+        margin: 0;
     }
 
     .mypage_user_point {
         font-size: 0.925rem;
         color: #ccc;
+        margin: 0;
     }
 
     .mypage_user_point span {
@@ -141,7 +144,7 @@
         flex-direction: column;
         gap: 1rem;
         width: 100%;
-        max-width: 300px;
+        max-width: 18.75rem;
     }
 
     .mypage_action_btn {
@@ -176,8 +179,8 @@
         flex-direction: row;
         background-color: #1a1a1a;
         border-radius: 0.75rem;
-        min-height: 600px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        min-height: 37.5rem;
+        box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
         align-items: stretch;
     }
 
@@ -190,4 +193,3 @@
         justify-content: flex-start;
     }
 </style>
-```
