@@ -3,13 +3,13 @@ package com.gamecut.vo;
 import java.sql.Date;
 
 public class FileVO {
-	int attachNo;
-	int userNo;
-	String uuid;
-	String fileUrl;
-	String mimeType;
-	Date uploadTime;
-	String originalFileName;
+	private int attachNo;
+	private int userNo;
+	private String uuid;
+	private String fileUrl;
+	private String mimeType;
+	private Date uploadTime;
+	private String originalFileName;
 	public FileVO(int attachNo, int userNo, String uuid, String fileUrl, String mimeType, Date uploadTime,
 			String originalFileName) {
 		super();

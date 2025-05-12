@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 import com.gamecut.dao.FileDAO;
@@ -23,24 +24,30 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class MyPageUpdateOKAction implements GameCutAction {
 
 
-	@Override
-	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String path = request.getRealPath("upload");
-		System.out.println("path : " + path);
-    MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName");
-		UserVO u = new UserVO();
-		FileVO f = new FileVO();
-		UserDAO userDao = new UserDAO();
-		FileDAO fileDao = new FileDAO();
-		PhotoDAO photoDao = new PhotoDAO();
-		u.setUserName(multi.getParameter("userName"));
-		u.setUserNo(Integer.parseInt(multi.getParameter("userNo")));
-		u.setUserNickname(multi.getParameter("userNickname"));
-		u.setPhone(multi.getParameter("phone"));
-		u.setEmail(multi.getParameter("email"));
-		System.out.println(u);
-		userDao.updateUser(u);
+    @Override
+    public String pro(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        String path = request.getRealPath("upload");
+        System.out.println("path : " + path);
+        MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName", "profile", 1);
+        UserVO u = new UserVO();
+        FileVO f = new FileVO();
+        UserDAO userDao = new UserDAO();
+        FileDAO fileDao = new FileDAO();
+        PhotoDAO photoDao = new PhotoDAO();
+        u.setUserName(multi.getParameter("userName"));
+        u.setUserNo(Integer.parseInt(multi.getParameter("userNo")));
+        u.setUserNickname(multi.getParameter("userNickname"));
+        u.setPhone(multi.getParameter("phone"));
+        u.setEmail(multi.getParameter("email"));
+        if (request.getAttribute("photoNo") != null) {
+            u.setPhotoNo((int) request.getAttribute("photoNo"));
+        }
+        System.out.println(u);
+        userDao.updateUser(u);
 //		String oldFileName = multi.getParameter("oldFileName");
 //		String oldFileUrl = multi.getParameter("oldFileUrl");
 //		if(multi.getParameter("originalFileName") == null || multi.getParameter("originalFileName").equals("")) { // 수정하기 위해 넣은 프로필 사진이 없음
@@ -64,7 +71,10 @@ public class MyPageUpdateOKAction implements GameCutAction {
 //				
 //			}
 //		}
-		return "/view/myPage/myPage.jsp";
-	}
+        FileVO fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
+        HttpSession session = request.getSession();
+        session.setAttribute("profileUrl", fvo.getFileUrl());
+        return "/view/myPage/myPage.jsp";
+    }
 
 }
