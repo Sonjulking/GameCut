@@ -11,7 +11,7 @@
                 <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
                 <a href="myPointHistory.do" class="mypage_menu_item">내 포인트 내역</a>
                 <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
-                <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
+                <a href="myGTRHistory.do" class="mypage_menu_item">	게스더랭크 기록</a>
                 <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
             </nav>
         </div>
