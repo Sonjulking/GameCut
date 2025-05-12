@@ -10,7 +10,11 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.ItemVO;
 
 public class ItemDAO {
-
+	public int selectLastAttachNo() {
+		
+	}
+	
+	
 	// 포인트 상점 아이템 전체 조회 메서드
 	public ArrayList<ItemVO> selectAllItems(){
 		ArrayList<ItemVO> list = new ArrayList();
@@ -100,10 +104,10 @@ public class ItemDAO {
 	public boolean insertItem(int attachNo, String name, int price ) {
 		try {
 			// ITEM 테이블에 아이템 등록
-			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE) VALUES (SEQ_ITEM_NO.NEXTVAL, ?, ?)";
+			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE, ITEM_DELETE_DATE) VALUES (500, ?, ?, null)";
 			Connection conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"ITEM_NO"});
+			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, name);
 			pstmt.setInt(2, price);
 			pstmt.executeUpdate();

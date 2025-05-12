@@ -7,7 +7,7 @@
 <div class="joinUserWrapper">
     <form action="joinUserOK.do" method="post">
 
-        <div class="input-row">
+        <div class="joinUserTitle">
             <h2 class="joinUserTitle">회원가입</h2>
         </div>
         <div class="input-row">
@@ -42,7 +42,7 @@
             <input type="text" name="email" id="email"/>
         </div>
         <div class="btn-group">
-            <input type="submit" value="가입하기" id="btnOK"/>
+            <input type="Button" value="가입하기" id="btnOK"/>
         </div>
     </form>
 </div>
@@ -63,14 +63,20 @@
     .joinUserTitle {
         font-size: 1.5rem;
         color: #f0f0f0;
+        display: flex;
+		justify-content: center;
     }
 
     .joinUserWrapper {
         padding-bottom: 2.5rem;
+        display: flex;
+		justify-content: center;
     }
 
     form {
         flex-direction: column;
+        display: flex;
+		justify-content: center;
         /* gap: 0.375rem; */
         font-size: 0.875rem;
         box-sizing: content-box;
@@ -83,6 +89,7 @@
         justify-content: flex-start;
         align-items: center;
         gap: 0.25rem;
+        padding: 0.5rem;
     }
     .input-row label {
         width:9rem;
@@ -90,7 +97,7 @@
     }
     .input-row input[type='password'],
     .input-row input[type='text'] {
-        flex: 1;
+        /* flex: 1; */
     }
 
 
@@ -103,18 +110,24 @@
         background-color: #2c2c2c;
         color: white;
         font-size: 0.875rem;
-        width: 100%;
+        /* width: 50%; */
     }
-
+	
+	.btn-group{
+		display: flex;
+		justify-content: center;
+		
+	}
 
 
     button,
-    input[type='submit'] {
+    input[type='button'] {
         padding: 0.75rem;
         height: 2.375rem;
         border: none;
         border-radius: 0.375rem;
         background-color: #3a3a3a;
+        
         color: white;
         cursor: pointer;
         font-weight: bold;
@@ -126,7 +139,7 @@
     }
 
     button:hover,
-    input[type='submit']:hover
+    input[type='button']:hover
     {
         background-color: #555;
     }
@@ -140,6 +153,7 @@
 
         let checkIdOK = false;
         let checkNickname = false;
+        let limitOK = false;
 
         $("#checkID").click(function () {
             let id = $("#userId").val().trim();
@@ -171,10 +185,12 @@
                 console.log(userNickname);
                 if (data.result == 1) {
                     alert("이미 사용 중인 닉네임 입니다.");
+                    return;
 
                 } else {
                     alert("사용 가능한 닉네임 입니다.");
                     checkNickname = true;
+                    
                 }
             });
 
@@ -182,20 +198,38 @@
 
 
         $("#btnOK").click(function () {
-
+        	let userId = $("#userID").val();
             let pw1 = $("#userPwd").val();
             let pw2 = $("#userPwd2").val();
+            let userName = $("#userName").val();
+            let userNickname = $("#userNickname").val();
+            let userPhone = $("#phone").val();
+            let userEmail = $("#email").val();
+			
+            
+            
+            
+            
             if (checkIdOK == true && checkNickname == true) {
+            	if(userId === "" || userName === "" || userNickname === "" || userPhone === "" || userEmail === ""){
+            		alert("모든 정보를 입력해주세요.");
+                    return;
+            	}
                 if (!(pw1 === pw2) || pw1 === "") {
                     //비밀번호가 다름
                     alert("비밀번호를 다시 확인해주세요.");
+                    return;
                 } else {
-                    //회원가입성공
-                    $("form").submit();
+                	if(limitOK == false){
+                		//회원가입성공
+                		limitOK == true;
+                        $("form").submit();
+                	}
                 }
             } else {
                 //아이디 중복을 확인해주세요.
                 alert("아이디와 닉네임 중복 확인해주세요.");
+                return;
             }
         });
     });

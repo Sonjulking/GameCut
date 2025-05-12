@@ -1,0 +1,8 @@
+CREATE USER c##gamecut IDENTIFIED by gamecut;
+GRANT CONNECT, RESOURCE, DBA TO c##gamecut;
+
+
+<<           >>
+prev        next
+
+/jsp/myPage/myPage.jsp

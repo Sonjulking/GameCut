@@ -35,7 +35,7 @@ public class UpdateBoardSubmitAction implements GameCutAction
             return "detailBoard.do?boardNo=" + boardNo;
         } else {
             request.setAttribute("error", "수정 실패");
-            return "updateBoard.jsp";
+            return "/view/board/updateBoard.jsp";
 
         	}
         }

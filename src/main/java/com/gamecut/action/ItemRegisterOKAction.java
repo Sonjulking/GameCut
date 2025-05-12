@@ -24,6 +24,7 @@ public class ItemRegisterOKAction implements GameCutAction {
 		}
 
 		int attachNo = -1;
+		System.out.println(multi.getParameter("attachNo"));
 		if (multi.getParameter("attachNo") != null) {
 		    attachNo = Integer.parseInt(multi.getParameter("attachNo"));
 		}
