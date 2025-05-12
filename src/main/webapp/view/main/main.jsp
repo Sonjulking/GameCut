@@ -30,12 +30,11 @@
     <div class="main_comment_wrapper comment-box">
         <div class="comment-title">댓글</div>
         <hr>
-        <div>우진님 주말에 너무 열심히하심</div>
-        <div>ㄴ이제 편히 쉬셔도될듯</div>
-        <div>ㄴ ㅇㅇ ㅇㅈ</div>
-        <div>hell</div>
         <div class="comment-list">
-            <div class="comment"><span class="nickname">우진(아이디)</span> : 와 대박 미쳤다... <span
+            <div class="comment"><span class="nickname">희재</span> :우진님이 내꺼도와줌 <span
+                    class="comment_write_date"
+            >2025-05-19</span>
+            <span class="nickname">강찬</span> :우진님은 이제 누워서 쉬세요^^ <span
                     class="comment_write_date"
             >2025-05-19</span>
             </div>
@@ -67,27 +66,28 @@
                 alt=""
         >
     </div>
-<<<<<<< HEAD
-    <div class="main_comment_wrapper">
+    <!-- <div class="main_comment_wrapper">
         <div>우진님 주말에 너무 열심히하심</div>
         <div>ㄴ이제 편히 쉬셔도될듯</div>
         <div>ㄴ ㅇㅇ ㅇㅈ</div>
         <div>hell</div>
-=======
+    </div> -->
     <div class="main_comment_wrapper comment-box">
         <div class="comment-title">댓글</div>
         <hr>
         <div class="comment-list">
-            <div class="comment"><span class="nickname">우진(아이디)</span> : 와 대박 미쳤다... <span
+           <!--  <div class="comment"><span class="nickname">희재</span> : 우진님이 내꺼도와줌 ㄷㄷ <span
                     class="comment_write_date"
             >2025-05-19</span>
-            </div>
+            <div class="comment"><span class="nickname">강찬</span> : 우진님은 이제 쉬세요. <span
+                    class="comment_write_date"
+            >2025-05-19</span>
+            </div> -->
         </div>
         <div class="comment-input">
             <input type="text" placeholder="댓글쓰기"/>
             <button>↑</button>
         </div>
->>>>>>> refs/heads/dev
     </div>
 </div>
 <div class="video_container">
@@ -115,9 +115,12 @@
 		    <div class="comment-title">댓글</div>
 		    <div class="comment-list">
 		        <div class="comment">
-		            <span class="nickname">우진</span>
-		            와 대박 미쳤다...
+		            <!-- <span class="nickname">희재</span>
+		            우진님이 내꺼도와줌 ㄷㄷ
 		            <span class="comment_write_date">2025-05-19</span>
+		            <span class="nickname">강찬</span>
+		            우진님은 이제 그만하고 쉬셈
+		            <span class="comment_write_date">2025-05-19</span> -->
 		        </div>
 		        <!-- 필요시 댓글 추가 -->
 		    </div>
