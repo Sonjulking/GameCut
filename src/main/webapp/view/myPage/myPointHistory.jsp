@@ -1,94 +1,118 @@
-html
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="main_container">
     <div class="main_content">
-        <div class="mypage_sidebar">
-            <h2 class="mypage_title">마이페이지</h2>
-            <nav class="mypage_menu">
-                <a href="" class="mypage_menu_item">내 쪽지</a>
-                <a href="myBoard.do" class="mypage_menu_item">내 게시글</a>
-                <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
-                <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
-                <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
-                <a href="myPointHistory.do" class="mypage_menu_item active">내 포인트 내역</a>
-                <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
-                <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
-                <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
-            </nav>
-        </div>
-        
-        <div class="mypage_user_section">
-            <h2 class="mypage_section_title">포인트 사용내역</h2>
-            
-            <div class="mypage_point_summary">
-                <div class="mypage_point_current">
-                    <span class="mypage_point_label">현재 포인트</span>
-                    <span class="mypage_point_value">${user.userPoint}P</span>
-                </div>
+        <div class="content_wrapper">
+            <!-- 왼쪽 사이드바 -->
+            <div class="mypage_sidebar">
+                <h2 class="mypage_title">마이페이지</h2>
+                <nav class="mypage_menu">
+                    <a href="" class="mypage_menu_item">내 쪽지</a>
+                    <a href="myBoard.do" class="mypage_menu_item">내 게시글</a>
+                    <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
+                    <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
+                    <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
+                    <a href="myPointHistory.do" class="mypage_menu_item active">내 포인트 내역</a>
+                    <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
+                    <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
+                    <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
+                </nav>
             </div>
             
-            <div class="mypage_point_container">
-                <!-- 포인트 내역 테이블 -->
-                <table class="mypage_point_table">
-                    <thead>
-                        <tr>
-                            <th>번호</th>
-                            <th>내용</th>
-                            <th>포인트 변동</th>
-                            <th>날짜</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:if test="${empty pointHistoryList}">
-                            <tr class="mypage_empty_row">
-                                <td colspan="4">포인트 사용내역이 없습니다.</td>
-                            </tr>
-                        </c:if>
-                        
-                        <c:forEach var="point" items="${pointHistoryList}" varStatus="status">
-                            <tr>
-                                <td>${status.count}</td>
-                                <td>${point.pointSource}</td>
-                                <td class="point_amount ${point.pointAmount > 0 ? 'plus' : 'minus'}">
-                                    ${point.pointAmount > 0 ? '+' : ''}${point.pointAmount}P
-                                </td>
-                                <td><fmt:formatDate value="${point.pointDate}" pattern="yyyy-MM-dd"/></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+            <!-- 오른쪽 내 정보 섹션 -->
+            <div class="mypage_user_section">
+                <h2 class="mypage_section_title">포인트 사용내역</h2>
                 
-                <!-- 페이징 처리 -->
-                <c:if test="${!empty pointHistoryList}">
-                    <div class="mypage_pagination">
-                        <c:if test="${currentPage > 1}">
-                            <a href="myPointHistory.do?page=${currentPage - 1}" class="page_btn prev">&lt;</a>
-                        </c:if>
-                        
-                        <c:forEach var="i" begin="${startPage}" end="${endPage}">
-                            <a href="myPointHistory.do?page=${i}" class="page_btn ${currentPage == i ? 'active' : ''}">${i}</a>
-                        </c:forEach>
-                        
-                        <c:if test="${currentPage < totalPages}">
-                            <a href="myPointHistory.do?page=${currentPage + 1}" class="page_btn next">&gt;</a>
-                        </c:if>
+                <div class="mypage_point_summary">
+                    <div class="mypage_point_current">
+                        <span class="mypage_point_label">현재 포인트</span>
+                        <span class="mypage_point_value">${user.userPoint}P</span>
                     </div>
-                </c:if>
+                </div>
+                
+                <div class="mypage_point_container">
+                    <!-- 포인트 내역 테이블 -->
+                    <table class="mypage_point_table">
+                        <thead>
+                            <tr>
+                                <th>번호</th>
+                                <th>내용</th>
+                                <th>포인트 변동</th>
+                                <th>날짜</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:if test="${empty pointHistoryList}">
+                                <tr class="mypage_empty_row">
+                                    <td colspan="4">포인트 사용내역이 없습니다.</td>
+                                </tr>
+                            </c:if>
+                            
+                            <c:forEach var="point" items="${pointHistoryList}" varStatus="status">
+                                <tr>
+                                    <td>${status.count}</td>
+                                    <td>${point.pointSource}</td>
+                                    <td class="point_amount ${point.pointAmount > 0 ? 'plus' : 'minus'}">
+                                        ${point.pointAmount > 0 ? '+' : ''}${point.pointAmount}P
+                                    </td>
+                                    <td><fmt:formatDate value="${point.pointDate}" pattern="yyyy-MM-dd"/></td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    
+                    <!-- 페이징 처리 -->
+                    <c:if test="${!empty pointHistoryList}">
+                        <div class="mypage_pagination">
+                            <c:if test="${currentPage > 1}">
+                                <a href="myPointHistory.do?page=${currentPage - 1}" class="page_btn prev">&lt;</a>
+                            </c:if>
+                            
+                            <c:forEach var="i" begin="${startPage}" end="${endPage}">
+                                <a href="myPointHistory.do?page=${i}" class="page_btn ${currentPage == i ? 'active' : ''}">${i}</a>
+                            </c:forEach>
+                            
+                            <c:if test="${currentPage < totalPages}">
+                                <a href="myPointHistory.do?page=${currentPage + 1}" class="page_btn next">&gt;</a>
+                            </c:if>
+                        </div>
+                    </c:if>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-    /* 마이페이지 전용 클래스 - 기존 스타일과 충돌 방지 */
+    /* 전체 레이아웃 */
+    .main_container {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    .main_content {
+        background-color: #1a1a1a;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
+        padding: 1rem;
+    }
+    
+    /* 컨텐츠 래퍼 - 사이드바와 내 정보 섹션을 감싸는 컨테이너 */
+    .content_wrapper {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+    }
+
+    /* 사이드바 */
     .mypage_sidebar {
         width: 15.625rem;
         background-color: #2c2c2c;
         padding: 2rem;
         border-radius: 0.75rem;
+        flex-shrink: 0;
     }
 
     .mypage_title {
@@ -122,19 +146,23 @@ html
         border-color: #555;
     }
 
+    /* 사용자 섹션 */
     .mypage_user_section {
         flex: 1;
+        background-color: #2c2c2c;
         padding: 2rem;
+        border-radius: 0.75rem;
         display: flex;
         flex-direction: column;
         gap: 2rem;
+        margin-right: 3rem;
     }
 
     .mypage_section_title {
         font-size: 1.5rem;
         color: #f0f0f0;
-        margin: 0 0 1rem 0;
-        padding-bottom: 0.5rem;
+        margin: 0;
+        padding-bottom: 1rem;
         border-bottom: 0.0625rem solid #3a3a3a;
     }
 
@@ -143,7 +171,6 @@ html
         background-color: #1f1f1f;
         border-radius: 0.75rem;
         padding: 1.5rem;
-        margin-bottom: 1.5rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -264,28 +291,16 @@ html
         color: #4CAF50;
     }
 
-    /* 기존 main_content의 flex 스타일을 오버라이드 */
-    .main_container > .main_content {
-        display: flex !important;
-        flex-direction: row !important;
-        background-color: #1a1a1a !important;
-        border-radius: 0.75rem !important;
-        min-height: 37.5rem !important;
-        box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3) !important;
-        align-items: stretch !important;
-    }
-
-    /* 이 페이지에 한해서만 기존 스타일 오버라이드 */
-    .main_container > .main_content > div {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        justify-content: flex-start !important;
-        padding: 0 !important;
-    }
-
     /* 반응형 디자인 */
     @media (max-width: 48rem) { /* 768px */
+        .content_wrapper {
+            flex-direction: column;
+        }
+        
+        .mypage_sidebar {
+            width: 100%;
+        }
+        
         .mypage_point_table {
             font-size: 0.875rem;
         }

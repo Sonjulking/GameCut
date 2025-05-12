@@ -14,8 +14,8 @@ public class FileDAO {
         int attachNo = -1;
 
         String getSeqSql = "SELECT SEQ_ATTACH_NO.NEXTVAL FROM dual";
-        String insertSql = "INSERT INTO file_tb(ATTACH_NO, USER_NO, UUID, FILE_URL, MIME_TYPE, ORIGINAL_FILE_NAME) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO file_tb(ATTACH_NO, USER_NO, UUID, FILE_URL, REAL_PATH, MIME_TYPE, ORIGINAL_FILE_NAME) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (
                 Connection conn = ConnectionProvider.getConnection();
@@ -28,13 +28,16 @@ public class FileDAO {
                 attachNo = rs.getInt(1); // 시퀀스 값
             }
 
+            System.out.println("realPath : " + fileVO.getRealPath());
+            System.out.println("fileUrl : " + fileVO.getFileUrl());
             // INSERT 수행
             pstmt.setInt(1, attachNo);
             pstmt.setInt(2, fileVO.getUserNo());
             pstmt.setString(3, fileVO.getUuid());
             pstmt.setString(4, fileVO.getFileUrl());
-            pstmt.setString(5, fileVO.getMimeType());
-            pstmt.setString(6, fileVO.getOriginalFileName());
+            pstmt.setString(5, fileVO.getRealPath());
+            pstmt.setString(6, fileVO.getMimeType());
+            pstmt.setString(7, fileVO.getOriginalFileName());
 
             pstmt.executeUpdate();
 
@@ -49,7 +52,7 @@ public class FileDAO {
     // 유저의 번호를 이용해 프로필 사진의 파일 정보를 가져오기 위한 메소드
     public FileVO selectProfileFileByUserId(int userNo) {
         FileVO file = new FileVO();
-        String sql = "select attach_no, user_no, uuid, file_url, mime_type, upload_time, original_file_name from file_tb where attach_no = (select attach_no from photo where photo_no = (select photo_no from user_tb where user_no = ?))";
+        String sql = "select attach_no, user_no, uuid, file_url, real_path, mime_type, upload_time, original_file_name from file_tb where attach_no = (select attach_no from photo where photo_no = (select photo_no from user_tb where user_no = ?))";
         try {
             Connection conn = ConnectionProvider.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -60,6 +63,9 @@ public class FileDAO {
                 file.setUserNo(rs.getInt("user_no"));
                 file.setUuid(rs.getString("uuid"));
                 file.setFileUrl(rs.getString("file_url"));
+
+                System.out.println("rs.getString(\"real_path\")" + rs.getString("real_path"));
+                file.setRealPath(rs.getString("real_path"));
                 file.setMimeType(rs.getString("mime_type"));
                 file.setUploadTime(rs.getDate("upload_time"));
                 file.setOriginalFileName(rs.getString("original_file_name"));

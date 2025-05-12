@@ -22,14 +22,14 @@
             >
         </a>
     </div>
-    <div>
+   <!--  <div>
         <a href="#">
             <img
                     src="img/main/icons/video_management_icon.png" alt="video_management_icon"
                     class="sidebar_icons"
             >
         </a>
-    </div>
+    </div> -->
     <div>
         <a href="#">
             <img
