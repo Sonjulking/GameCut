@@ -84,13 +84,15 @@
 			let newPw2 = $("#newUserPassword2").val().trim();
 			let userPW = "${loginUSER.userPwd}";
 			
-			if (formUserId === "" || formUserPw === "") {
+			if (formUserPw === "") {
 				alert("아이디와 기존 비밀번호를 입력해주세요.");
 				return;
 			}
 			
 			if (formUserPw !== userPW){
-				alert("기존의 비밀번호가 다릅니다.");
+
+				alert("기존 비밀번호가 다릅니다.");
+
 				return;
 			}
 

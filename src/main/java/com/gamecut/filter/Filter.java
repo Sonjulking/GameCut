@@ -25,6 +25,9 @@ public class Filter extends HttpFilter implements javax.servlet.Filter {
             "idCheck.do", 
             "loginOK.do",
             "nicknameCheck.do",
+            "resetPassword.do",
+            "resetPasswordOK.do",
+            "userInfoCheck.do"
     };
 
     /**
