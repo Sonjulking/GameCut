@@ -30,6 +30,10 @@
     <div class="main_comment_wrapper comment-box">
         <div class="comment-title">댓글</div>
         <hr>
+        <div>우진님 주말에 너무 열심히하심</div>
+        <div>ㄴ이제 편히 쉬셔도될듯</div>
+        <div>ㄴ ㅇㅇ ㅇㅈ</div>
+        <div>hell</div>
         <div class="comment-list">
             <div class="comment"><span class="nickname">우진(아이디)</span> : 와 대박 미쳤다... <span
                     class="comment_write_date"
@@ -63,6 +67,13 @@
                 alt=""
         >
     </div>
+<<<<<<< HEAD
+    <div class="main_comment_wrapper">
+        <div>우진님 주말에 너무 열심히하심</div>
+        <div>ㄴ이제 편히 쉬셔도될듯</div>
+        <div>ㄴ ㅇㅇ ㅇㅈ</div>
+        <div>hell</div>
+=======
     <div class="main_comment_wrapper comment-box">
         <div class="comment-title">댓글</div>
         <hr>
@@ -76,6 +87,7 @@
             <input type="text" placeholder="댓글쓰기"/>
             <button>↑</button>
         </div>
+>>>>>>> refs/heads/dev
     </div>
 </div>
 <div class="video_container">
