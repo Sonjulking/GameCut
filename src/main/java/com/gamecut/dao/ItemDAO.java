@@ -135,6 +135,26 @@ public class ItemDAO {
 		return false;
 	}
 
+	// 보유 아이템 조회
+	public ArrayList<Integer> getOwnedItemNos(int userNo) {
+	    ArrayList<Integer> list = new ArrayList<>();
+	    try {
+	        String sql = "SELECT ITEM_NO FROM USER_ITEM WHERE USER_NO = ?";
+	        Connection conn = ConnectionProvider.getConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, userNo);
+	        ResultSet rs = pstmt.executeQuery();
+	        while (rs.next()) {
+	            list.add(rs.getInt("ITEM_NO"));
+	        }
+	        ConnectionProvider.close(conn, pstmt, rs);
+	    } catch (Exception e) {
+	    	System.out.println("보유 아이템 조회 실패");
+	        System.out.println("ItemDAO 예외발생 : " + e.getMessage());
+	    }
+	    return list;
+	}
+
 }
 
 
