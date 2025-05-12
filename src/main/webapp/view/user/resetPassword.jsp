@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <style>
+	/* 기존 스타일 유지 */
 	body {
 		background-color: #121212;
 		color: #ffffff;
@@ -10,27 +11,39 @@
 		padding: 20px;
 	}
 
-
-	#title{
+	#title {
 		display: flex;
-		justify-content : center;
+		justify-content: center;
 		margin-top: 15px;
-		margin-bottom: 5px;
+		margin-bottom: 15px;
 		color: #cccccc;
-		font-size: 20px;
+		font-size: 18px;
 	}
 
-	.password-form-container label {
-		display: block;
-		margin-top: 15px;
-		margin-bottom: 5px;
+	.password-form-container {
+		display: flex;
+		justify-content: center;
+	}
+
+	form {
+		width: 400px;
+	}
+
+	.form-row {
+		display: flex;
+		align-items: center;
+		margin-bottom: 15px;
+	}
+
+	.form-row label {
+		width: 120px;
 		color: #cccccc;
 		font-size: 14px;
 	}
 
-	.password-form-container input[type="text"],
-	.password-form-container input[type="password"] {
-		width: 100%;
+	.form-row input[type="text"],
+	.form-row input[type="password"] {
+		flex: 1;
 		padding: 10px;
 		border: none;
 		border-radius: 5px;
@@ -39,7 +52,7 @@
 		box-sizing: border-box;
 	}
 
-	.password-form-container input[type="button"] {
+	input[type="button"] {
 		margin-top: 20px;
 		width: 100%;
 		padding: 10px;
@@ -51,32 +64,43 @@
 		transition: background-color 0.3s ease;
 	}
 
-	.password-form-container input[type="button"]:hover {
+	input[type="button"]:hover {
 		background-color: #0056b3;
 	}
 </style>
 
 <div class="password-form-container">
-	
 	<form action="resetPasswordOK.do" method="post">
 		<label id="title">비밀번호 변경</label>
-		
-		<label for="userId">사용자 아이디</label>
-		<input type="text" id="userId" name="userId">
-		
-		<label for="userName">사용자 이름</label>
-		<input type="text" id="userName" name="userName">
-		
-		<label for="userEmail">사용자 이메일</label>
-		<input type="text" id="userEmail" name="userEmail">
-		
-		<label for="newUserPassword">변경할 비밀번호</label>
-		<input type="password" id="newUserPassword" name="newUserPassword">
 
-		<label for="newUserPassword2">변경할 비밀번호 확인</label>
-		<input type="password" id="newUserPassword2">
-		
-		<input type="button" id="btnOK" value="변경하기">
+		<div class="form-row">
+			<label for="userId">사용자 아이디</label>
+			<input type="text" id="userId" name="userId">
+		</div>
+
+		<div class="form-row">
+			<label for="userName">사용자 이름</label>
+			<input type="text" id="userName" name="userName">
+		</div>
+
+		<div class="form-row">
+			<label for="userEmail">사용자 이메일</label>
+			<input type="text" id="userEmail" name="userEmail">
+		</div>
+
+		<div class="form-row">
+			<label for="newUserPassword">변경할 비밀번호</label>
+			<input type="password" id="newUserPassword" name="newUserPassword">
+		</div>
+
+		<div class="form-row">
+			<label for="newUserPassword2">비밀번호 확인</label>
+			<input type="password" id="newUserPassword2">
+		</div>
+
+		<div>
+			<input type="button" id="btnOK" value="변경하기">
+		</div>
 	</form>
 </div>
 

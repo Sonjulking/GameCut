@@ -7,7 +7,7 @@
 <div class="joinUserWrapper">
     <form action="joinUserOK.do" method="post">
 
-        <div class="input-row">
+        <div class="joinUserTitle">
             <h2 class="joinUserTitle">회원가입</h2>
         </div>
         <div class="input-row">
@@ -63,14 +63,20 @@
     .joinUserTitle {
         font-size: 1.5rem;
         color: #f0f0f0;
+        display: flex;
+		justify-content: center;
     }
 
     .joinUserWrapper {
         padding-bottom: 2.5rem;
+        display: flex;
+		justify-content: center;
     }
 
     form {
         flex-direction: column;
+        display: flex;
+		justify-content: center;
         /* gap: 0.375rem; */
         font-size: 0.875rem;
         box-sizing: content-box;
@@ -83,6 +89,7 @@
         justify-content: flex-start;
         align-items: center;
         gap: 0.25rem;
+        padding: 0.5rem;
     }
     .input-row label {
         width:9rem;
@@ -90,7 +97,7 @@
     }
     .input-row input[type='password'],
     .input-row input[type='text'] {
-        flex: 1;
+        /* flex: 1; */
     }
 
 
@@ -103,9 +110,14 @@
         background-color: #2c2c2c;
         color: white;
         font-size: 0.875rem;
-        width: 100%;
+        /* width: 50%; */
     }
-
+	
+	.btn-group{
+		display: flex;
+		justify-content: center;
+		
+	}
 
 
     button,
@@ -115,6 +127,7 @@
         border: none;
         border-radius: 0.375rem;
         background-color: #3a3a3a;
+        
         color: white;
         cursor: pointer;
         font-weight: bold;

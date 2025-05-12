@@ -48,12 +48,11 @@
     background-color: #555;
   }
 </style>
-<div>
-<h2>LOGIN</h2>
-</div>
+
 <div class="login-container">
   
   <form action="loginOK.do">
+  	<div id="title"><h2>LOGIN</h2></div>
     <input type="text" name="userId" placeholder="ID">
     <input type="password" name="userPwd" placeholder="PW">
     <input type="button" id = "btnLogin" value="확인">
