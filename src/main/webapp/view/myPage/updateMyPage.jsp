@@ -17,7 +17,7 @@
 			<button type = "button" id="checkNickname">중복확인</button><br>
 			핸드폰번호 :  <input type="text" name="phone" id="phone" value="${user.phone }" required><br>
 			이메일 :  <input type="text" name="email" id="email" value="${user.email }" required><br>
-			프로필 : <input type="file" name="originalFileName" id="originalFileName" required><br>
+			프로필 : <input type="file" name="originalFileName" id="originalFileName"><br>
 			<input type="hidden" name="oldFileName" value="${file.originalFileName }" >
 			<input type="hidden" name="isProfileDeleted" id="isProfileDeleted" value="false">
 			<input type="hidden" name="userNo" id="userNo" value="${user.userNo }">
@@ -29,7 +29,7 @@
     </div>
 <script type="text/javascript">
 $(function() {
-	var isProfileDeleted = false;
+	const isProfileDeleted = false;
 	// 프로필사진 삭제 이벤트
 	$("#deleteFile").click(function() {
 		$(".oldFile").attr("src", "img/common/empty.png");
@@ -53,7 +53,7 @@ $(function() {
     // 이미지 미리보기 함수
     function readURL(input) {
         if (input.files && input.files[0]) {
-            var reader = new FileReader();
+            const reader = new FileReader();
             
             reader.onload = function(e) {
                 $("#previewImage").attr("src", e.target.result);

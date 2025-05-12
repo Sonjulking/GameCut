@@ -18,7 +18,7 @@
         
         <div class="mypage_user_section">
             <div class="mypage_profile">
-                <div id="userImg">
+                <div id="userImg" class="mypage_img_container">
                     <img class="mypage_user_image" alt="프로필 이미지" src="${file.fileUrl}">
                 </div>
                 <div class="mypage_user_details">
@@ -31,7 +31,7 @@
             <div class="mypage_actions">
                 <a href="updateMyPage.do" class="mypage_action_btn">내 정보 수정</a>
                 <a href="updatePassword.do" class="mypage_action_btn">비밀번호 변경</a>
-                <a href="deleteUser.do" class="mypage_action_btn mypage_danger">탈퇴하기</a>
+                <a href="javascript:void(0);" onclick="confirmDelete();" class="mypage_action_btn mypage_danger">탈퇴하기</a>
             </div>
         </div>
     </div>
@@ -85,6 +85,9 @@
         justify-content: center;
         align-items: center;
         gap: 3rem;
+        /* 중앙 정렬 문제 해결 */
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .mypage_profile {
@@ -92,20 +95,30 @@
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
+        width: 100%;
+        max-width: 25rem;
+        margin: 0 auto;
     }
 
-    #userImg {
+    /* 프로필 이미지 컨테이너를 추가하여 이미지 비율 문제 해결 */
+    .mypage_img_container {
         width: 7.5rem;
         height: 7.5rem;
-        border-radius: 100%;
         overflow: hidden;
+        border-radius: 50%;
+        background-color: #3a3a3a;
         border: 0.125rem solid #3a3a3a;
+        position: relative;
     }
 
     .mypage_user_image {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 
     .mypage_user_details {
@@ -113,6 +126,7 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+        width: 100%;
     }
 
     .mypage_user_id {
@@ -145,6 +159,7 @@
         gap: 1rem;
         width: 100%;
         max-width: 18.75rem;
+        margin: 0 auto;
     }
 
     .mypage_action_btn {
@@ -184,12 +199,22 @@
         align-items: stretch;
     }
 
-    /* 기존 스타일 오버라이드 방지 */
+    /* 이 페이지에 한해서만 기존 스타일 오버라이드 */
     .main_container > .main_content > div {
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+        padding: 0 !important;
     }
 </style>
+
+<script>
+    function confirmDelete() {
+        if(confirm("정말 탈퇴하시겠습니까?")) {
+            // '네'를 클릭한 경우 탈퇴 페이지로 이동
+            window.location.href = "deleteUser.do";
+        }
+        // '아니오'를 클릭한 경우 아무 일도 일어나지 않음
+    }
+</script>
