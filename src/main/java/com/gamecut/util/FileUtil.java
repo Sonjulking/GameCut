@@ -52,10 +52,18 @@ public class FileUtil {
             userNo = Integer.parseInt(multi.getParameter("userNo"));
         }
 
+
         String originalFileName = multi.getOriginalFileName(fileParam); //원본 파일명
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
 
         if (originalFileName == null || savedFileName == null) {
+            //프사 삭제
+            if (multi.getParameter("isProfileDeleted").equals("true")) {
+                System.out.println("isProfileDeleted");
+                FileDAO fileDao = new FileDAO();
+                FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
+                FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
+            }
             return multi;
         } else {
             //확장자 확인
@@ -144,13 +152,17 @@ public class FileUtil {
     }
 
     //파일삭제
-    public static boolean deleteFile(int attachNo, String realPath) {
+    public static boolean deleteFile(int userNo, int attachNo, String realPath) {
+        FileDAO fileDAO = new FileDAO();
+        FileVO fvo = fileDAO.selectProfileFileByUserId(userNo);
+        System.out.println("deleteFile realPath : " + realPath);
         if (realPath == null || realPath.trim().isEmpty()) {
             return false;
         }
 
         File file = new File(realPath);
         if (file.exists()) {
+            //TODO : DB 처리!!
             return file.delete();
         }
         return false;

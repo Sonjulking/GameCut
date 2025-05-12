@@ -70,10 +70,6 @@ public class MyPageUpdateOKAction implements GameCutAction {
 //			}
 //		}
         FileVO fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
-        if (multi.getParameter("isProfileDeleted").equals("true")) {
-            FileUtil.deleteFile(fvo.getAttachNo(), fvo.getRealPath());
-        }
-
 
         HttpSession session = request.getSession();
         session.setAttribute("profileUrl", fvo.getFileUrl());

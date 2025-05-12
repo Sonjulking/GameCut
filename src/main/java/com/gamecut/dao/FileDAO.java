@@ -63,6 +63,9 @@ public class FileDAO {
                 file.setUserNo(rs.getInt("user_no"));
                 file.setUuid(rs.getString("uuid"));
                 file.setFileUrl(rs.getString("file_url"));
+
+                System.out.println("rs.getString(\"real_path\")" + rs.getString("real_path"));
+                file.setRealPath(rs.getString("real_path"));
                 file.setMimeType(rs.getString("mime_type"));
                 file.setUploadTime(rs.getDate("upload_time"));
                 file.setOriginalFileName(rs.getString("original_file_name"));
