@@ -1,4 +1,3 @@
-html
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -69,6 +68,26 @@ html
         background-color: #1a1a1a;
         border-radius: 0.75rem;
         color: #f0f0f0;
+        max-height: 85vh; /* 뷰포트 높이의 85%로 제한 */
+        overflow-y: auto; /* 내용이 넘칠 경우 자연스럽게 스크롤바 표시 */
+    }
+    
+    /* 스크롤바 스타일링 */
+    .main_content::-webkit-scrollbar {
+        width: 0.5rem;
+    }
+    
+    .main_content::-webkit-scrollbar-track {
+        background: #1a1a1a;
+    }
+    
+    .main_content::-webkit-scrollbar-thumb {
+        background: #3a3a3a;
+        border-radius: 0.25rem;
+    }
+    
+    .main_content::-webkit-scrollbar-thumb:hover {
+        background: #555;
     }
     
     .joinUserTitle {
@@ -86,7 +105,8 @@ html
     .profile-image-container {
         display: flex;
         justify-content: center;
-        margin-bottom: 2rem;
+        margin: 2rem;
+        margin-top : 10rem
     }
     
     .form-group {
@@ -150,6 +170,7 @@ html
         justify-content: center;
         gap: 1rem;
         margin-top: 2rem;
+        padding-bottom: 1rem; /* 하단 여백 추가 */
     }
     
     .button-group input {

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="main_container">
     <div class="main_content">
         <div class="mypage_sidebar">
@@ -22,6 +23,8 @@
                     <img class="mypage_user_image" alt="프로필 이미지" src="${file.fileUrl}">
                 </div>
                 <div class="mypage_user_details">
+                	<c:if test="${user.role == 'role_admin' }"></c:if>
+                	<img alt="관리자이모티콘" src="img/main/icons/admin.png">
                     <p id="userId" class="mypage_user_id">${user.userId}</p>
                     <p id="userNickname" class="mypage_user_nickname">${user.userNickname}</p>
                     <p id="userPoint" class="mypage_user_point">포인트: <span>${user.userPoint}</span>P</p>
