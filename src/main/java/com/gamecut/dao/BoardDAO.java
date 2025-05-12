@@ -163,4 +163,51 @@ public class BoardDAO {
 	    return result;
 	}
 	
+	//게시글 검색 
+	public ArrayList<BoardVO> search(String category, String keyword) {
+	    ArrayList<BoardVO> list = new ArrayList<>();
+	    Connection conn = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+
+	    String sql = "SELECT b.* FROM BOARD b JOIN USER_TB u ON b.USER_NO = u.USER_NO WHERE BOARD_DELETE_DATE IS NULL ";
+
+	    if ("nickname".equals(category)) {
+	        sql += "AND u.USER_NICKNAME LIKE ? ";
+	    } else if ("title".equals(category)) {
+	        sql += "AND b.BOARD_TITLE LIKE ? ";
+	    } else if ("content".equals(category)) {
+	        sql += "AND b.BOARD_CONTENT LIKE ? ";
+	    }
+
+	    sql += "ORDER BY b.BOARD_NO DESC";
+
+	    try {
+	        conn = ConnectionProvider.getConnection();
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setString(1, "%" + keyword + "%");
+	        rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            BoardVO board = new BoardVO();
+	            board.setBoardNo(rs.getInt("BOARD_NO"));
+	            board.setUserNo(rs.getInt("USER_NO"));
+	            board.setBoardTypeNo(rs.getInt("BOARD_TYPE_NO"));
+	            board.setVideoNo(rs.getObject("VIDEO_NO") != null ? rs.getInt("VIDEO_NO") : null);
+	            board.setBoardContent(rs.getString("BOARD_CONTENT"));
+	            board.setBoardTitle(rs.getString("BOARD_TITLE"));
+	            board.setBoardCount(rs.getInt("BOARD_COUNT"));
+	            board.setBoardLike(rs.getInt("BOARD_LIKE"));
+	            board.setBoardCreateDate(rs.getDate("BOARD_CREATE_DATE"));
+	            board.setBoardDeleteDate(rs.getDate("BOARD_DELETE_DATE"));
+	            list.add(board);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    ConnectionProvider.close(conn, pstmt, rs);
+	    return list;
+	}
+	
 }

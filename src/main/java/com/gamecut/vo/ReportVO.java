@@ -10,7 +10,23 @@ public class ReportVO {
     private String reportType;    
     private Date reportDate;     
 
-    public int getReportNo() {
+
+    public ReportVO(int reportNo, int userNo, int boardNo, String reportContent, String reportType, Date reportDate) {
+		super();
+		this.reportNo = reportNo;
+		this.userNo = userNo;
+		this.boardNo = boardNo;
+		this.reportContent = reportContent;
+		this.reportType = reportType;
+		this.reportDate = reportDate;
+	}
+
+	public ReportVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getReportNo() {
         return reportNo;
     }
 

@@ -19,8 +19,8 @@ public class DeleteBoardAction implements GameCutAction {
 		if (result > 0) {
 			return "selectAllBoards.do";
 		}else {
-			request.setAttribute("error", "삭제 실파");
-			return "detailBoard.jsp";
+			request.setAttribute("error", "삭제 실패");
+			return "/view/board/detailBoard.jsp";
 		}
 	}
 

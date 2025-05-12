@@ -21,7 +21,7 @@ public class UpdateBoardAction implements GameCutAction {
         BoardVO board = dao.findById(boardNo);
 
         request.setAttribute("board", board);
-        return "updateBoard.jsp";
+        return "/view/board/updateBoard.jsp";
 	}
 
 }
