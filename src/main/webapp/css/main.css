@@ -71,6 +71,25 @@ header a {
     padding: 0.5rem;
 }
 
+.item-info {
+  display: block !important;
+  writing-mode: horizontal-tb !important;
+  transform: none !important;
+  white-space: normal;
+  word-break: keep-all;
+  text-align: left;
+}
+
+.item-card {
+  width: 180px;
+}
+.item-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 footer {
     color: rgba(255, 255, 255, 0.5);
     padding-top: 0.5rem;

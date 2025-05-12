@@ -97,10 +97,10 @@ public class ItemDAO {
 	}
 
 	// 아이템 등록
-	public boolean insertItem(String name, int price, int attachNo) {
+	public boolean insertItem(int attachNo, String name, int price ) {
 		try {
 			// ITEM 테이블에 아이템 등록
-			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE) VALUES (ITEM_SEQ.NEXTVAL, ?, ?)";
+			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE) VALUES (SEQ_ITEM_NO.NEXTVAL, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
 			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"ITEM_NO"});
@@ -112,7 +112,7 @@ public class ItemDAO {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			int itemNo = -1;
 			if(rs.next()) {
-				itemNo = rs.getInt(attachNo);
+				itemNo = rs.getInt(1);
 			}else {
 				conn.rollback();
 				return false;
@@ -131,15 +131,15 @@ public class ItemDAO {
 		}catch (Exception e) {
 			System.out.println("아이템 등록 실패");
 			System.out.println("ItemDAO 예외발생 :" + e.getMessage());
+			return false;
 		}
-		return false;
 	}
 
 	// 보유 아이템 조회
 	public ArrayList<Integer> getOwnedItemNos(int userNo) {
 	    ArrayList<Integer> list = new ArrayList<>();
 	    try {
-	        String sql = "SELECT ITEM_NO FROM USER_ITEM WHERE USER_NO = ?";
+	        String sql = "select ITEM_NO from USER_ITEM where USER_NO = ?";
 	        Connection conn = ConnectionProvider.getConnection();
 	        PreparedStatement pstmt = conn.prepareStatement(sql);
 	        pstmt.setInt(1, userNo);
@@ -154,6 +154,28 @@ public class ItemDAO {
 	    }
 	    return list;
 	}
+
+	// 아이템 중복 보유 확인
+	public boolean hasUserItem(int userNo, int itemNo) {
+	    boolean hasItem = false;
+	    try {
+	        String sql = "select count(*) from USER_ITEM where USER_NO = ? AND ITEM_NO = ?";
+	        Connection conn = ConnectionProvider.getConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, userNo);
+	        pstmt.setInt(2, itemNo);
+	        ResultSet rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            hasItem = rs.getInt(1) > 0;
+	        }
+	        ConnectionProvider.close(conn, pstmt, rs);
+	    } catch (Exception e) {
+	    	System.out.println("보유 여부 체크 실패");
+	        System.out.println("ItemDAO : " + e.getMessage());
+	    }
+	    return hasItem;
+	}
+
 
 }
 
