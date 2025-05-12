@@ -52,8 +52,11 @@ public class BoardDAO {
 	public ArrayList<BoardVO> findAll(){
 		ArrayList<BoardVO> list = new ArrayList<>();
 
-		String sql = "select * from board where board_delete_date is null order by board_no desc";
-		
+		String sql = "SELECT b.*, u.user_nickname\n"
+				+ "        FROM board b\n"
+				+ "        JOIN user_tb u ON b.user_no = u.user_no\n"
+				+ "        WHERE b.board_delete_date IS NULL\n"
+				+ "        ORDER BY b.board_no DESC";
 		try {
 			conn = ConnectionProvider.getConnection();
 			pstmt = conn.prepareStatement(sql);
@@ -71,7 +74,7 @@ public class BoardDAO {
 				vo.setBoardLike(rs.getInt("board_like"));
 				vo.setBoardCreateDate(rs.getDate("board_create_date"));
 				vo.setBoardDeleteDate(rs.getDate("board_delete_date"));
-				
+				vo.setUserNickname(rs.getString("USER_NICKNAME"));
 				list.add(vo);
 				
 			}
@@ -86,33 +89,43 @@ public class BoardDAO {
 	
 	//게시글 상세보기 
 	public BoardVO findById(int boardNo) {
-		BoardVO vo = new BoardVO();
-		
-		String sql = "select * from board where board_no = ?";
-		
-		try {
-			conn = ConnectionProvider.getConnection();
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, boardNo);
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				vo.setBoardNo(rs.getInt("board_no"));
-				vo.setUserNo(rs.getInt("user_no"));
-				vo.setBoardTypeNo(rs.getInt("board_type_no"));
-				vo.setVideoNo(rs.getObject("video_no") != null ? rs.getInt("video_no") : null);
-				vo.setBoardContent(rs.getString("board_content"));
-				vo.setBoardTitle(rs.getString("board_title"));
-				vo.setBoardCount(rs.getInt("board_like"));
-				vo.setBoardCreateDate(rs.getDate("board_create_date"));
-				vo.setBoardDeleteDate(rs.getDate("board_delete_date"));
-			}
-			
-		} catch (Exception e) {
-			System.out.println("예외발생: " + e.getMessage());
-		}
-		ConnectionProvider.close(conn, pstmt, rs);
-		return vo;
+		BoardVO board = null;
+
+	    String updateSql = "UPDATE BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_NO = ?";
+	    String selectSql = "SELECT * FROM BOARD WHERE BOARD_NO = ?";
+
+	    try (Connection conn = ConnectionProvider.getConnection()) {
+
+	        // 조회수 증가
+	        try (PreparedStatement pstmt = conn.prepareStatement(updateSql)) {
+	            pstmt.setInt(1, boardNo);
+	            pstmt.executeUpdate();
+	        }
+
+	        // 게시글 정보 조회
+	        try (PreparedStatement pstmt = conn.prepareStatement(selectSql)) {
+	            pstmt.setInt(1, boardNo);
+	            ResultSet rs = pstmt.executeQuery();
+	            if (rs.next()) {
+	                board = new BoardVO();
+	                board.setBoardNo(rs.getInt("BOARD_NO"));
+	                board.setUserNo(rs.getInt("USER_NO"));
+	                board.setBoardTitle(rs.getString("BOARD_TITLE"));
+	                board.setBoardContent(rs.getString("BOARD_CONTENT"));
+	                board.setBoardCreateDate(rs.getDate("BOARD_CREATE_DATE"));
+	                board.setBoardCount(rs.getInt("BOARD_COUNT"));
+	                board.setBoardLike(rs.getInt("BOARD_LIKE"));
+	                board.setBoardTypeNo(rs.getInt("BOARD_TYPE_NO"));
+	                board.setVideoNo(rs.getObject("VIDEO_NO") != null ? rs.getInt("VIDEO_NO") : null);
+	                
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return board;
 	}
 	
 	//게시글 수정 
@@ -135,7 +148,7 @@ public class BoardDAO {
 			pstmt.setInt(5, b.getBoardNo());
 			
 			result = pstmt.executeUpdate();
-			
+			System.out.println("boardTypeNo: " + b.getBoardTypeNo());
 			} catch (Exception e) {
 				System.out.println("예외발생: " + e.getMessage());
 			}
@@ -166,11 +179,12 @@ public class BoardDAO {
 	//게시글 검색 
 	public ArrayList<BoardVO> search(String category, String keyword) {
 	    ArrayList<BoardVO> list = new ArrayList<>();
+	    
 	    Connection conn = null;
 	    PreparedStatement pstmt = null;
 	    ResultSet rs = null;
 
-	    String sql = "SELECT b.* FROM BOARD b JOIN USER_TB u ON b.USER_NO = u.USER_NO WHERE BOARD_DELETE_DATE IS NULL ";
+	    String sql = "select b.*, u.user_nickname FROM board b JOIN user_tb u ON b.user_no = u.user_no WHERE b.board_type_no = ? AND b.board_delete_date IS NULL";
 
 	    if ("nickname".equals(category)) {
 	        sql += "AND u.USER_NICKNAME LIKE ? ";
@@ -200,6 +214,7 @@ public class BoardDAO {
 	            board.setBoardLike(rs.getInt("BOARD_LIKE"));
 	            board.setBoardCreateDate(rs.getDate("BOARD_CREATE_DATE"));
 	            board.setBoardDeleteDate(rs.getDate("BOARD_DELETE_DATE"));
+	            board.setUserNickname(rs.getString("USER_NICKNAME"));
 	            list.add(board);
 	        }
 	    } catch (Exception e) {
@@ -210,4 +225,38 @@ public class BoardDAO {
 	    return list;
 	}
 	
+
+
+	public ArrayList<BoardVO> findByType(int type) {
+		ArrayList<BoardVO> list = new ArrayList<>();
+	    String sql = "SELECT b.*, u.user_nickname\n"
+	    		+ "        FROM board b\n"
+	    		+ "        JOIN user_tb u ON b.user_no = u.user_no\n"
+	    		+ "        WHERE b.board_type_no = ? AND b.board_delete_date IS NULL\n"
+	    		+ "        ORDER BY b.board_no DESC";
+
+	    try (Connection conn = ConnectionProvider.getConnection();
+	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setInt(1, type);
+	        ResultSet rs = pstmt.executeQuery();
+
+	        while (rs.next()) {
+	            BoardVO board = new BoardVO();
+	            board.setBoardNo(rs.getInt("BOARD_NO"));
+	            board.setBoardTitle(rs.getString("BOARD_TITLE"));
+	            board.setBoardContent(rs.getString("BOARD_CONTENT"));
+	            board.setBoardCreateDate(rs.getDate("BOARD_CREATE_DATE"));
+	            board.setUserNo(rs.getInt("USER_NO"));
+	            board.setBoardCount(rs.getInt("BOARD_COUNT"));
+	            board.setBoardLike(rs.getInt("BOARD_LIKE"));
+	            board.setUserNickname(rs.getString("USER_NICKNAME"));
+	            list.add(board);
+	        }
+	        System.out.println("type = " + type + ", result size = " + list.size());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return list;
+	}
 }

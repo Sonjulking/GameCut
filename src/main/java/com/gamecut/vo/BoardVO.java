@@ -14,8 +14,18 @@ public class BoardVO {
     private Date boardCreateDate;  
     private Date boardDeleteDate; 
     private boolean likedByCurrentUser;
+    private String userNickname;
 
-    public boolean isLikedByCurrentUser() {
+    
+    public String getUserNickname() {
+		return userNickname;
+	}
+
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
+	}
+
+	public boolean isLikedByCurrentUser() {
         return likedByCurrentUser;
     }
 

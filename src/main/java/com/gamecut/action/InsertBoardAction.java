@@ -35,10 +35,10 @@ public class InsertBoardAction implements GameCutAction {
 		int result = dao.insert(vo);
 		
 		if(result > 0) {
-			return "view/board/selectAllBoards.do";
+			return "selectAllBoards.do";
 		}else {
 			request.setAttribute("error", "등록 실패");
-			return "view/board/insertBoard.jsp";
+			return "view/board/detailBoard.jsp";
 		}
 
 	}
