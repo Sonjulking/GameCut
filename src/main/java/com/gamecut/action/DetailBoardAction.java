@@ -1,3 +1,4 @@
+/*
 package com.gamecut.action;
 
 import java.io.IOException;
@@ -57,3 +58,4 @@ public class DetailBoardAction implements GameCutAction {
     }
 
 }
+*/
