@@ -48,28 +48,33 @@
     background-color: #555;
   }
 </style>
-<div>
-<h2>LOGIN</h2>
-</div>
+
 <div class="login-container">
   
   <form action="loginOK.do">
+  	<div id="title"><h2>LOGIN</h2></div>
     <input type="text" name="userId" placeholder="ID">
     <input type="password" name="userPwd" placeholder="PW">
-    <input type="submit" value="확인">
-    <input type="button" value="비번찾기" id="findPwBtn">
+    <input type="button" id = "btnLogin" value="확인">
+    <input type="button" value="비번변경" id="findPwBtn">
     <input type="button" value="회원가입" id="joinBtn">
   </form>
 </div>
 
 <script type="text/javascript">
 	$(function(){
+		let limitOK = false;
 		$("#joinBtn").click(function(){
 			location.href = "joinUser.do";
 		});
 		$("#findPwBtn").click(function(){
-			alert("비밀번호찾기 구현중..")
+			location.href = "resetPassword.do";
 		});
+		$("#btnLogin").click(function(){
+			if(limitOK == false){
+				$("form").submit();
+				limitOK == true;
+			}
+		})
 	})
-
 </script>

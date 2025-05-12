@@ -47,6 +47,8 @@ public class LoginOKAction implements GameCutAction {
 			FileVO fvo =  fdao.selectProfileFileByUserId(vo.getUserNo());
 			String profileUrl = fvo.getFileUrl();
 			session.setAttribute("profileUrl", profileUrl);
+			System.out.println("프로필 url : " + profileUrl);
+			
 			System.out.println("회원인증완료");
 			break;
 		case 2:
