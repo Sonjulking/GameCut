@@ -27,13 +27,19 @@
                 alt=""
         >
     </div>
-    <div class="main_comment_wrapper">
-        <p>댓글</p>
+    <div class="main_comment_wrapper comment-box">
+        <div class="comment-title">댓글</div>
         <hr>
-        <div>hell</div>
-        <div>hell</div>
-        <div>hell</div>
-        <div>hell</div>
+        <div class="comment-list">
+            <div class="comment"><span class="nickname">우진(아이디)</span> : 와 대박 미쳤다... <span
+                    class="comment_write_date"
+            >2025-05-19</span>
+            </div>
+        </div>
+        <div class="comment-input">
+            <input type="text" placeholder="댓글쓰기"/>
+            <button>↑</button>
+        </div>
     </div>
 </div>
 <div class=" video_container">
@@ -57,11 +63,19 @@
                 alt=""
         >
     </div>
-    <div class="main_comment_wrapper">
-        <div>hell</div>
-        <div>hell</div>
-        <div>hell</div>
-        <div>hell</div>
+    <div class="main_comment_wrapper comment-box">
+        <div class="comment-title">댓글</div>
+        <hr>
+        <div class="comment-list">
+            <div class="comment"><span class="nickname">우진(아이디)</span> : 와 대박 미쳤다... <span
+                    class="comment_write_date"
+            >2025-05-19</span>
+            </div>
+        </div>
+        <div class="comment-input">
+            <input type="text" placeholder="댓글쓰기"/>
+            <button>↑</button>
+        </div>
     </div>
 </div>
 <div class="video_container">
@@ -85,11 +99,42 @@
                 alt=""
         >
     </div>
-    <div class="main_comment_wrapper">
-        <div>hell</div>
-    </div>
+		<div class="main_comment_wrapper comment-box">
+		    <div class="comment-title">댓글</div>
+		    <div class="comment-list">
+		        <div class="comment">
+		            <span class="nickname">우진</span>
+		            와 대박 미쳤다...
+		            <span class="comment_write_date">2025-05-19</span>
+		        </div>
+		        <!-- 필요시 댓글 추가 -->
+		    </div>
+		    <div class="comment-input">
+		        <input type="text" placeholder="댓글을 입력하세요"/>
+		        <button>↑</button>
+		    </div>
+		</div>
 </div>
 <script>
+    const commentLists = document.querySelectorAll('.comment-list');
+
+    commentLists.forEach((list) => {
+        list.addEventListener('wheel', function (e) {
+            const isScrollable = this.scrollHeight > this.clientHeight;
+            const atTop = this.scrollTop === 0;
+            const atBottom = this.scrollTop + this.clientHeight >= this.scrollHeight;
+
+            if (
+                    (e.deltaY < 0 && atTop) || // 위로 스크롤하려는데 이미 맨 위면
+                    (e.deltaY > 0 && atBottom) // 아래로 스크롤하려는데 이미 맨 아래면
+            ) {
+                // 이벤트 전파 허용 → 부모 scroll-snap 작동
+            } else {
+                e.stopPropagation(); // 내부 스크롤만 처리
+            }
+        });
+    });
+
     // 댓글창 토글
     const commentButtons = document.querySelectorAll('.video_side_buttons_wrapper .video_side_buttons:nth-child(2)');
 

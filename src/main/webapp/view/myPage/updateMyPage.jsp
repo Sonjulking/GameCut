@@ -106,7 +106,7 @@
         display: flex;
         justify-content: center;
         margin: 2rem;
-        margin-top : 10rem
+        
     }
     
     .form-group {
