@@ -7,6 +7,7 @@ public class FileVO {
 	private int userNo;
 	private String uuid;
 	private String fileUrl;
+	private String realPath;
 	private String mimeType;
 	private Date uploadTime;
 	private String originalFileName;
@@ -45,6 +46,12 @@ public class FileVO {
 	public void setFileUrl(String fileUrl) {
 		this.fileUrl = fileUrl;
 	}
+    public String getRealPath() {
+        return realPath;
+    }
+    public void setRealPath(String realPath) {
+        this.realPath = realPath;
+    }
 	public String getMimeType() {
 		return mimeType;
 	}
@@ -67,5 +74,5 @@ public class FileVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 }
