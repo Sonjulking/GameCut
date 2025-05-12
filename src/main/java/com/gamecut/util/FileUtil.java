@@ -52,14 +52,20 @@ public class FileUtil {
             userNo = Integer.parseInt(multi.getParameter("userNo"));
         }
 
+
         String originalFileName = multi.getOriginalFileName(fileParam); //원본 파일명
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
 
         if (originalFileName == null || savedFileName == null) {
+            //프사 삭제
+            if (multi.getParameter("isProfileDeleted").equals("true")) {
+                System.out.println("isProfileDeleted");
+                FileDAO fileDao = new FileDAO();
+                FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
+                FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
+            }
             return multi;
-        }
-
-        if (originalFileName != null && savedFileName != null) {
+        } else {
             //확장자 확인
             String ext = "";
             int lastDot = originalFileName.lastIndexOf("."); //.있는 위치를 반환 없으면 -1
@@ -117,9 +123,12 @@ public class FileUtil {
                 fileVO.setUserNo(userNo);
                 fileVO.setUuid(uuid);
 
+
+                System.out.println(" realPath + File.separator + newFileName" + realPath + File.separator + newFileName);
                 String relativePath = uploadDir + File.separator + newFileName;
                 //웹경로에서는 슬래시 사용
                 fileVO.setFileUrl(relativePath.replace(File.separatorChar, '/'));
+                fileVO.setRealPath(realPath + File.separator + newFileName);
                 fileVO.setMimeType(mimeType);
                 fileVO.setOriginalFileName(originalFileName);
                 int attachNo = fileDAO.insertFile(fileVO);
@@ -141,6 +150,24 @@ public class FileUtil {
         }
         return multi;
     }
+
+    //파일삭제
+    public static boolean deleteFile(int userNo, int attachNo, String realPath) {
+        FileDAO fileDAO = new FileDAO();
+        FileVO fvo = fileDAO.selectProfileFileByUserId(userNo);
+        System.out.println("deleteFile realPath : " + realPath);
+        if (realPath == null || realPath.trim().isEmpty()) {
+            return false;
+        }
+
+        File file = new File(realPath);
+        if (file.exists()) {
+            //TODO : DB 처리!!
+            return file.delete();
+        }
+        return false;
+    }
+
 
     private static String getUploadType(String ext) {
         String[] imgExts = {"jpg", "jpeg", "png", "gif", "webp"};
