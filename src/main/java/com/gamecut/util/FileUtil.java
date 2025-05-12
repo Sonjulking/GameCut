@@ -19,7 +19,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public class FileUtil {
-    static int maxSize = 1024 * 1024 * 1000; //1000mb
+    static int mb = 1000;
+    static int maxSize = 1024 * 1024 * mb; //1000mb
 
     public static MultipartRequest uploadFile(
             HttpServletRequest request,
@@ -53,6 +54,11 @@ public class FileUtil {
 
         String originalFileName = multi.getOriginalFileName(fileParam); //원본 파일명
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
+
+        if (originalFileName == null || savedFileName == null) {
+            return multi;
+        }
+
         if (originalFileName != null && savedFileName != null) {
             //확장자 확인
             String ext = "";
@@ -76,14 +82,14 @@ public class FileUtil {
             // 이미지라면 30MB 초과인지 검사
             if (uploadType.equals("img") && fileSize > (1024 * 1024 * 30)) {
                 uploadedFile.delete();  // 삭제
-                request.setAttribute("uploadError", "이미지 최대 용량(30MB)을 초과했습니다.");
+                request.setAttribute("uploadError", "이미지 최대 용량(" + mb + "MB)을 초과했습니다.");
                 return null;
             }
 
             // 비디오라면 1000MB 초과인지 검사
             if (uploadType.equals("videos") && fileSize > (1024 * 1024 * 1000)) {
                 uploadedFile.delete();
-                request.setAttribute("uploadError", "비디오 최대 용량(1000MB)을 초과했습니다.");
+                request.setAttribute("uploadError", "비디오 최대 용량(" + mb + "MB)을 초과했습니다.");
                 return null;
             }
 
