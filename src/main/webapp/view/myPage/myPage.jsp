@@ -28,7 +28,7 @@
                 	</c:choose>
                     <div class="mypage_user_details">
                         <c:if test="${user.role == 'role_admin' }">
-                            <img alt="관리자이모티콘" src="/img/main/admin.jpg" class="admin_icon">
+                            <img alt="관리자이모티콘" src="/img/main/icons/admin.jpg" class="admin_icon">
                         </c:if>
                         <p id="userId" class="mypage_user_id">${user.userId}</p>
                         <p id="userNickname" class="mypage_user_nickname">${user.userNickname}</p>
