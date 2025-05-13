@@ -69,7 +69,7 @@
                     </table>
                     
                     <!-- 페이징 처리 (있을 경우) -->
-                    <c:if test="${!empty pagingInfo}">
+                    <%-- <c:if test="${!empty pagingInfo}">
                         <div class="mypage_pagination">
                             <c:if test="${pagingInfo.currentPage > 1}">
                                 <a href="myComment.do?page=${pagingInfo.currentPage - 1}" class="page_btn prev">&lt;</a>
@@ -83,7 +83,7 @@
                                 <a href="myComment.do?page=${pagingInfo.currentPage + 1}" class="page_btn next">&gt;</a>
                             </c:if>
                         </div>
-                    </c:if>
+                    </c:if> --%>
                 </div>
             </div>
         </div>
