@@ -108,6 +108,16 @@
                 const boardContent = board.boardContent;
                 const userNickname = board.userNickname;
                 const fileUrl = file.fileUrl;
+                const comments = this.commentVOList;
+                let commentHtml = '';
+                comments.forEach(comment => {
+                    commentHtml +=
+                            '<div class="comment">' +
+                            '<span class="nickname">' + comment.commentWriter + '</span> : ' +
+                            comment.commentContent +
+                            '<span class="comment_write_date">' + comment.commentCreateDate + '</span>' +
+                            '</div>';
+                });
 
                 let videoContainer =
                         '<div class="main_content_div video_container">' +
@@ -133,7 +143,7 @@
                         '<div class="comment-title">댓글</div>' +
                         '<hr>' +
                         '<div class="comment-list">' +
-                        '<div class="comment"><span class="nickname">우진</span> : 와 대박 미쳤다. <span class="comment_write_date">2025-05-19</span></div>' +
+                        commentHtml +
                         '</div>' +
                         '<div class="comment-input">' +
                         '<input type="text" placeholder="댓글쓰기"/>' +

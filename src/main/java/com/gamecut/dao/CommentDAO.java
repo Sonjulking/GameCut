@@ -15,7 +15,7 @@ public class CommentDAO {
 	public ArrayList<CommentVO> selectParentComments(int boardNo) {
 	    ArrayList<CommentVO> list = new ArrayList<>();
 		//1차문제
-	    String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no FROM comment_tb WHERE board_no = ? AND parent_comment_no  is null AND comment_delete_date IS NULL ORDER BY comment_create_date ASC";
+	    String sql = "SELECT u.user_nickname AS comment_writer, c.comment_no, c.board_no, c.user_no, c.comment_content, c.comment_create_date, c.parent_comment_no FROM comment_tb c JOIN user_tb u ON c.user_no = u.user_no WHERE c.board_no = ?";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -31,6 +31,7 @@ public class CommentDAO {
 	            vo.setCommentContent(rs.getString("comment_content"));
 	            vo.setCommentCreateDate(rs.getDate("comment_create_date"));
 	            vo.setParentCommentNo(rs.getInt("parent_comment_no"));
+				vo.setCommentWriter(rs.getString("comment_writer"));
 	            list.add(vo);
 	        }
 	    } catch (Exception e) {
@@ -40,7 +41,7 @@ public class CommentDAO {
 
 	    return list;
 	}
-	
+
 	// 대댓글 조회
 	public ArrayList<CommentVO> selectReplies(int parentCommentNo) {
 	    ArrayList<CommentVO> list = new ArrayList<>();
@@ -62,7 +63,7 @@ public class CommentDAO {
 	            vo.setParentCommentNo(rs.getInt("parent_comment_no"));
 	            list.add(vo);
 	        }
-	   
+
 	    } catch (Exception e) {
 	    	System.out.println("예외발생:"+e.getMessage());
 	        e.printStackTrace();
@@ -70,7 +71,7 @@ public class CommentDAO {
 
 	    return list;
 	}
-	
+
 	// 특정 user의 댓글 조회
 	public ArrayList<CommentVO> selectUserComments(int userNo){
 		ArrayList<CommentVO> list = new ArrayList<>();
@@ -80,7 +81,7 @@ public class CommentDAO {
 			PreparedStatement pstmt = conn.prepareStatement(sql)){
 				pstmt.setInt(1, userNo);
 				ResultSet rs = pstmt.executeQuery();
-				
+
 				while(rs.next()) {
 					CommentVO vo = new CommentVO();
 					vo.setCommentNo(rs.getInt("comment_no"));
@@ -98,7 +99,7 @@ public class CommentDAO {
 		}
 		return list;
 	}
-	
+
 
 	// 댓글 작성
 	public int insertComment(CommentVO vo) {
@@ -120,7 +121,7 @@ public class CommentDAO {
         }
         return result;
 	}
-	
+
 	// 댓글 수정
 	public int updateComment(CommentVO vo) {
 	    int result = 0;
@@ -140,8 +141,8 @@ public class CommentDAO {
 
 	    return result;
 	}
-	
-	
+
+
 	// 댓글 삭제
 	public int deleteComment(int commentNo) {
 	    int result = 0;
@@ -160,7 +161,7 @@ public class CommentDAO {
 
 	    return result;
 	}
-	
+
 	// 댓글 번호로 댓글 1개 조회
 	public CommentVO getCommentByNo(int commentNo) {
 	    CommentVO vo = null;
