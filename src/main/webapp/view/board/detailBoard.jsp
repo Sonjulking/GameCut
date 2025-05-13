@@ -6,19 +6,14 @@
         <meta charset="UTF-8">
         <title>${board.boardTitle}</title>
         <style>
-            body {
-                background-color: #121212;
-                color: white;
-                font-family: Arial, sans-serif;
-                padding: 2rem;
-            }
-
             .board-container {
                 background-color: #1e1e1e;
                 padding: 2rem;
                 border-radius: 12px;
                 box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
                 margin-bottom: 2rem;
+                max-height: 500px; /* 원하는 높이로 설정 */
+                overflow-y: auto; /* 세로 스크롤만 표시 */
             }
 
             .board-title {
@@ -148,21 +143,9 @@
                 border-radius: 10px;
                 border: 1px solid #444;
             }
-
-            .board-container {
-                background-color: #1e1e1e;
-                padding: 2rem;
-                border-radius: 12px;
-                box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
-                margin-bottom: 2rem;
-
-                max-height: 500px; /* 원하는 높이로 설정 */
-                overflow-y: auto; /* 세로 스크롤만 표시 */
-            }
         </style>
     </head>
     <body>
-
         <div class="board-container">
             <div class="board-title">${board.boardTitle}</div>
             <div class="board-meta">
@@ -240,7 +223,6 @@
                 <div id="commentPagination" class="pagination"></div>
             </div>
         </div>
-
         <!-- ✅ 스크립트 -->
         <script>
             const boardNo = '${board.boardNo}';
@@ -265,16 +247,17 @@
             loadComments();
         </script>
         <script>
+            // 스크롤 시 보이는 영상만 재생
             const videos = document.querySelectorAll(".video_player");
+
             videos.forEach(video => {
                 video.addEventListener('loadedmetadata', function () {
                     if (video.videoWidth > video.videoHeight) {
-                        //가로영상
+                        // 세로 영상
                         video.classList.add('widthVideo');
                     } else {
                         // 세로 영상
                         video.classList.add('heightVideo');
-
                     }
                 });
             });

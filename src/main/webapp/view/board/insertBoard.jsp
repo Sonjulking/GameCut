@@ -6,12 +6,6 @@
     <meta charset="UTF-8">
     <title>게시글 작성</title>
     <style>
-        body {
-            background-color: #121212;
-            color: #f0f0f0;
-            font-family: 'Arial', sans-serif;
-            padding: 2rem;
-        }
 
         .form-container {
             background-color: #1e1e1e;
