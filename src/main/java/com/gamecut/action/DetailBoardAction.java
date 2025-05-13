@@ -1,3 +1,4 @@
+/*
 package com.gamecut.action;
 
 import java.io.IOException;
@@ -20,11 +21,27 @@ public class DetailBoardAction implements GameCutAction {
 		request.setCharacterEncoding("UTF-8");
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 
-        BoardDAO boardDAO = new BoardDAO();
-        BoardVO board = boardDAO.findById(boardNo); 
-
+		//조회수 
+        BoardDAO dao = new BoardDAO();
+        BoardVO board = dao.findById(boardNo); 
+        
         HttpSession session = request.getSession();
-        UserVO loginUSER = (UserVO) session.getAttribute("loginUSER");
+        UserVO loginUser = (UserVO) session.getAttribute("loginUSER");
+        if (loginUser != null) {
+            LikeBoardVO likeVO = new LikeBoardVO();
+            likeVO.setUserNo(loginUser.getUserNo());
+            likeVO.setBoardNo(boardNo);
+
+            LikeBoardDAO likeDAO = new LikeBoardDAO();
+            boolean liked = likeDAO.isLiked(likeVO);
+
+            board.setLikedByCurrentUser(liked); 
+        } else {
+            board.setLikedByCurrentUser(false); 
+        }
+        
+        request.setAttribute("board", board);
+        return "/view/board/detailBoard.jsp";
 
 //        if (loginUSER != null) {
 //            LikeBoardVO likeVO = new LikeBoardVO();
@@ -38,8 +55,7 @@ public class DetailBoardAction implements GameCutAction {
 //            board.setLikedByCurrentUser(false); 
 //        }
 
-        request.setAttribute("board", board); 
-        return "/view/board/detailBoard.jsp";
     }
 
 }
+*/

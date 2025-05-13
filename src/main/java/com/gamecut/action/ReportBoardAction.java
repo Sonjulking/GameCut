@@ -28,9 +28,13 @@ public class ReportBoardAction implements GameCutAction {
         report.setReportContent(reportContent);
 
         ReportDAO dao = new ReportDAO();
-        int result = dao.insert(report); // 신고자 X
+        int result = dao.insert(report);
 
-        request.setAttribute("reportSuccess", result > 0);
-        return "/view/board/detailBoard.jsp";
+        if (result > 0) {
+            return "view/board/reportSuccess.jsp";
+        } else {
+            request.setAttribute("error", "신고에 실패했습니다.");
+            return "view/board/detailBoard.jsp";
+        }
     }
 }

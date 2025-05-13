@@ -6,10 +6,73 @@
     <meta charset="UTF-8">
     <title>${board.boardTitle}</title>
     <style>
+        body {
+            background-color: #121212;
+            color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            padding: 40px;
+        }
+
+        h2 {
+            color: #ffffff;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        strong {
+            color: #bbbbbb;
+        }
+
+        a {
+            color: #4ea6ff;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
         .like-btn {
             cursor: pointer;
             font-size: 24px;
             user-select: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        form {
+            display: inline;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #f0f0f0;
+            border: 1px solid #555;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #333;
+            margin: 20px 0;
+        }
+
+        .button-group {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -17,48 +80,82 @@
 
     <h2>${board.boardTitle}</h2>
     <p><strong>내용:</strong> ${board.boardContent}</p>
-    <p><strong>작성자:</strong> ${board.userNo}</p>
+    <p><strong>작성자:</strong> ${board.userNickname}</p>
     <p><strong>작성일:</strong> ${board.boardCreateDate}</p>
     <p><strong>조회수:</strong> ${board.boardCount}</p>
 
     <hr>
 
-    <!-- ✅ 좋아요 버튼 (로그인 여부 관계없이 사용 가능) -->
-    <div class="like-btn" data-boardno="${board.boardNo}">
-        <span id="heart-icon">♡</span>
-        <span id="like-count">${board.boardLike}</span>
-    </div>
+    <c:if test="${not empty sessionScope.loginUSER}">
+        <div class="like-btn" data-boardno="${board.boardNo}">
+            <span id="heart-icon">
+                <c:choose>
+                    <c:when test="${board.likedByCurrentUser}">🖤</c:when>
+                    <c:otherwise>♡</c:otherwise>
+                </c:choose>
+            </span>
+            <span id="like-count">${board.boardLike}</span>
+        </div>
+    </c:if>
 
-    <br><br>
+    <c:if test="${empty sessionScope.loginUSER}">
+        <p>로그인한 사용자만 좋아요를 누를 수 있어요.</p>
+    </c:if>
 
-    <!-- 신고 버튼 (원하는 경우에만 로그인 체크) -->
-    <a href="reportBoardForm.do?boardNo=${board.boardNo}&targetUserNo=${board.userNo}">신고하기</a>
+   <div class="button-group">
+    <form action="selectAllBoards.do" method="get" style="display:inline;">
+        <input type="submit" value="목록으로" />
+    </form>
 
-    <!-- 좋아요 AJAX 스크립트 -->
+    <form action="reportBoardForm.do" method="get" style="display:inline;">
+        <input type="hidden" name="boardNo" value="${board.boardNo}" />
+        <input type="hidden" name="targetUserNo" value="${board.userNo}" />
+        <input type="submit" value="신고하기" />
+    </form>
+
+    <c:if test="${sessionScope.loginUSER.userNo == board.userNo}">
+        <form action="updateBoardForm.do" method="get" style="display:inline;">
+            <input type="hidden" name="boardNo" value="${board.boardNo}" />
+            <input type="submit" value="글 수정" />
+        </form>
+
+        <form action="deleteBoard.do" method="post" style="display:inline;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <input type="hidden" name="boardNo" value="${board.boardNo}" />
+            <input type="submit" value="삭제" />
+        </form>
+    </c:if>
+</div>
+
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const likeBtn = document.querySelector(".like-btn");
+            if (!likeBtn) return;
+
             const heart = document.getElementById("heart-icon");
             const count = document.getElementById("like-count");
             const boardNo = likeBtn.dataset.boardno;
 
-            let liked = false; 
             likeBtn.addEventListener("click", function () {
-                liked = !liked;
-                heart.innerText = liked ? "🖤" : "♡";
-
                 fetch("likeBoard.do", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded"
                     },
-                    body: "boardNo=" + boardNo + "&status=" + (liked ? "liked" : "unliked")
+                    body: "boardNo=" + boardNo
                 })
                 .then(res => res.json())
                 .then(data => {
+                    if (data.status === "liked") {
+                        heart.innerText = "🖤";
+                    } else if (data.status === "unliked") {
+                        heart.innerText = "♡";
+                    } else if (data.status === "error") {
+                        alert(data.message);
+                    }
                     count.innerText = data.likeCount;
                 })
-                .catch(err => console.error("좋아요 AJAX 오류", err));
+                .catch(err => console.error("좋아요 오류:", err));
             });
         });
     </script>

@@ -6,130 +6,8 @@
         display: none !important;
     }
 </style>
-<div class="main_content_div video_container">
-    <video class="video_player" controls muted loop playsinline>
-        <source src="<c:url value="/upload/videos/2025/05/test01.mp4"/>" type="video/mp4">
-        브라우저가 비디오 태그를 지원하지 않습니다.
-    </video>
-    <div class="video_side_buttons_wrapper">
-        <img src="<c:url value="/img/main/icons/like_icon.png"/>" class="video_side_buttons" alt="">
-        <img
-                src="<c:url value="/img/main/icons/comment_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-        <img
-                src="<c:url value="/img/main/icons/share_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-        <img src="<c:url value="/img/main/icons/save_icon.png"/>" class="video_side_buttons" alt="">
-        <img
-                src="<c:url value="/img/main/icons/report_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-    </div>
-    <div class="main_comment_wrapper comment-box">
-        <div class="comment-title">댓글</div>
-        <hr>
-        <div class="comment-list">
-            <div class="comment"><span class="nickname">희재</span> :우진님이 내꺼도와줌 <span
-                    class="comment_write_date"
-            >2025-05-19</span>
-            <span class="nickname">강찬</span> :우진님은 이제 누워서 쉬세요^^ <span
-                    class="comment_write_date"
-            >2025-05-19</span>
-            </div>
-        </div>
-        <div class="comment-input">
-            <input type="text" placeholder="댓글쓰기"/>
-            <button>↑</button>
-        </div>
-    </div>
-</div>
-<div class=" video_container">
-    <video class="video_player" controls muted loop playsinline>
-        <source src="<c:url value="/upload/videos/2025/05/test02.mp4"/>" type="video/mp4">
-        브라우저가 비디오 태그를 지원하지 않습니다.
-    </video>
-    <div class="video_side_buttons_wrapper">
-        <img src="<c:url value="/img/main/icons/like_icon.png"/>" class="video_side_buttons" alt="">
-        <img
-                src="<c:url value="/img/main/icons/comment_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-        <img
-                src="<c:url value="/img/main/icons/share_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-        <img src="<c:url value="/img/main/icons/save_icon.png"/>" class="video_side_buttons" alt="">
-        <img
-                src="<c:url value="/img/main/icons/report_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-    </div>
-    <!-- <div class="main_comment_wrapper">
-        <div>우진님 주말에 너무 열심히하심</div>
-        <div>ㄴ이제 편히 쉬셔도될듯</div>
-        <div>ㄴ ㅇㅇ ㅇㅈ</div>
-        <div>hell</div>
-    </div> -->
-    <div class="main_comment_wrapper comment-box">
-        <div class="comment-title">댓글</div>
-        <hr>
-        <div class="comment-list">
-           <!--  <div class="comment"><span class="nickname">희재</span> : 우진님이 내꺼도와줌 ㄷㄷ <span
-                    class="comment_write_date"
-            >2025-05-19</span>
-            <div class="comment"><span class="nickname">강찬</span> : 우진님은 이제 쉬세요. <span
-                    class="comment_write_date"
-            >2025-05-19</span>
-            </div> -->
-        </div>
-        <div class="comment-input">
-            <input type="text" placeholder="댓글쓰기"/>
-            <button>↑</button>
-        </div>
-    </div>
-</div>
-<div class="video_container">
-    <video class="video_player" controls muted loop playsinline>
-        <source src="<c:url value="/upload/videos/2025/05/test03.mp4"/>" type="video/mp4">
-        브라우저가 비디오 태그를 지원하지 않습니다.
-    </video>
-    <div class="video_side_buttons_wrapper">
-        <img src="<c:url value="/img/main/icons/like_icon.png"/>" class="video_side_buttons" alt="">
-        <img
-                src="<c:url value="/img/main/icons/comment_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-        <img
-                src="<c:url value="/img/main/icons/share_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-        <img src="<c:url value="/img/main/icons/save_icon.png"/>" class="video_side_buttons" alt="">
-        <img
-                src="<c:url value="/img/main/icons/report_icon.png"/>" class="video_side_buttons"
-                alt=""
-        >
-    </div>
-		<div class="main_comment_wrapper comment-box">
-		    <div class="comment-title">댓글</div>
-		    <div class="comment-list">
-		        <div class="comment">
-		            <!-- <span class="nickname">희재</span>
-		            우진님이 내꺼도와줌 ㄷㄷ
-		            <span class="comment_write_date">2025-05-19</span>
-		            <span class="nickname">강찬</span>
-		            우진님은 이제 그만하고 쉬셈
-		            <span class="comment_write_date">2025-05-19</span> -->
-		        </div>
-		        <!-- 필요시 댓글 추가 -->
-		    </div>
-		    <div class="comment-input">
-		        <input type="text" placeholder="댓글을 입력하세요"/>
-		        <button>↑</button>
-		    </div>
-		</div>
-</div>
+<div class="video_wrap"></div>
+
 <script>
     const commentLists = document.querySelectorAll('.comment-list');
 
@@ -151,19 +29,26 @@
     });
 
     // 댓글창 토글
-    const commentButtons = document.querySelectorAll('.video_side_buttons_wrapper .video_side_buttons:nth-child(2)');
+    /*    const commentButtons = document.querySelectorAll('.video_side_buttons_wrapper .video_side_buttons:nth-child(2)');
 
-    commentButtons.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
-            const wrappers = document.querySelectorAll('.main_comment_wrapper');
-            const targetWrapper = wrappers[index];
-            if (targetWrapper.style.display === 'none' || targetWrapper.style.display === '') {
-                targetWrapper.style.display = 'block';
-            } else {
-                targetWrapper.style.display = 'none';
-            }
-        });
+        commentButtons.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                const wrappers = document.querySelectorAll('.main_comment_wrapper');
+                const targetWrapper = wrappers[index];
+                if (targetWrapper.style.display === 'none' || targetWrapper.style.display === '') {
+                    targetWrapper.style.display = 'block';
+                } else {
+                    targetWrapper.style.display = 'none';
+                }
+            });
+        });*/
+
+    $(document).on("click", ".video_side_buttons_wrapper .video_side_buttons:nth-child(2)", function () {
+        const index = $(".video_side_buttons_wrapper .video_side_buttons:nth-child(2)").index(this);
+        const wrapper = $(".main_comment_wrapper").eq(index);
+        wrapper.toggle(); // display toggle
     });
+
 
     // 스크롤 시 보이는 영상만 재생
     const videos = document.querySelectorAll(".video_player");
@@ -208,4 +93,60 @@
     videos.forEach(video => {
         observer.observe(video);
     });
+</script>
+<script>
+    function loadBoard() {
+        $.get("mainBoard.do", function (arr) {
+            $(".test_div").empty(); // 기존 내용 비우기
+
+            $.each(arr, function () {
+                const board = this.board;
+                const file = this.file;
+
+                const title = board.boardTitle;
+                const content = board.boardContent;
+                const date = board.boardCreateDate;
+                const fileUrl = file.fileUrl; // 예: "2025/05/test01.mp4"
+                console.log(arr);
+                console.log(title);
+                console.log(content);
+                console.log(fileUrl);
+
+                let videoContainer =
+                        '<div class="main_content_div video_container">' +
+                        '<video class="video_player" controls muted loop playsinline>' +
+                        '<source src="' + fileUrl + '" type="video/mp4">' +
+                        '브라우저가 비디오 태그를 지원하지 않습니다.' +
+                        '</video>' +
+                        '<div class="video_side_buttons_wrapper">' +
+                        '<img src="/img/main/icons/like_icon.png" class="video_side_buttons" alt="">' +
+                        '<img src="/img/main/icons/comment_icon.png" class="video_side_buttons" alt="">' +
+                        '<img src="/img/main/icons/share_icon.png" class="video_side_buttons" alt="">' +
+                        '<img src="/img/main/icons/save_icon.png" class="video_side_buttons" alt="">' +
+                        '<img src="/img/main/icons/report_icon.png" class="video_side_buttons" alt="">' +
+                        '</div>' +
+                        '<div class="main_comment_wrapper comment-box">' +
+                        '<div class="comment-title">댓글</div>' +
+                        '<hr>' +
+                        '<div class="comment-list">' +
+                        '<div class="comment"><span class="nickname">우진(아이디)</span> : 와 대박 미쳤다... <span class="comment_write_date">2025-05-19</span></div>' +
+                        '</div>' +
+                        '<div class="comment-input">' +
+                        '<input type="text" placeholder="댓글쓰기"/>' +
+                        '<button>↑</button>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+
+                $(".video_wrap").append(videoContainer);
+                $(".video_player").each(function () {
+                    observer.observe(this);
+                });
+            });
+        });
+
+    }
+
+    loadBoard();
+
 </script>
