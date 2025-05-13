@@ -51,12 +51,11 @@ header a {
     min-width: 0;
 }
 
-.main_content div {
+.main_content_div {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding: 2rem 10rem 0 0;
 }
 
 
@@ -71,7 +70,23 @@ header a {
     padding: 0.5rem;
 }
 
+.footer_hr {
+    position: fixed;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    height: 1px; /* 두께 */
+    background-color: rgba(255, 255, 255, 0.2); /* 연한 흰색 선 */
+    margin: 2rem 0; /* 위아래 여백 */
+    width: 100%;
+}
+
 footer {
+    position: fixed;
+    top: 96.5%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     color: rgba(255, 255, 255, 0.5);
     padding-top: 0.5rem;
     display: flex;

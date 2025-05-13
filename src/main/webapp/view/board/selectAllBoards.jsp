@@ -1,292 +1,254 @@
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>게시판 메인</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Arial', sans-serif;
+      padding: 30px;
+    }
 
-<div class="main_container">
-    <div class="main_content">
-        <div class="mypage_sidebar">
-            <h2 class="mypage_title">마이페이지</h2>
-            <nav class="mypage_menu">
-                <a href="" class="mypage_menu_item">내 쪽지</a>
-                <a href="myBoard.do" class="mypage_menu_item active">내 게시글</a>
-                <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
-                <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
-                <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
-                <a href="myPointHistory.do" class="mypage_menu_item">내 포인트 내역</a>
-                <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
-                <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
-                <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
-            </nav>
-        </div>
-        
-        <div class="mypage_content_area">
-            <h2 class="mypage_section_title">게시판 전체 글 목록</h2>
-            
-            <!-- 게시글 리스트 테이블 -->
-            <table class="mypage_board_table">
-                <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자(번호)</th>
-                        <th>조회수</th>
-                        <th>좋아요</th>
-                        <th>작성일</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:forEach var="board" items="${list}">
-                        <tr>
-                            <td>${board.boardNo}</td>
-                            <td class="title_cell">
-                                <a href="detailBoard.do?boardNo=${board.boardNo}">
-                                    ${board.boardTitle}
-                                </a>
-                            </td>
-                            <td>${board.userNo}</td>
-                            <td>${board.boardCount}</td>
-                            <td>${board.boardLike}</td>
-                            <td>${board.boardCreateDate}</td>
-                        </tr>
-                    </c:forEach>
-                    
-                    <c:if test="${empty list}">
-                        <tr class="mypage_empty_row">
-                            <td colspan="6">등록된 게시글이 없습니다.</td>
-                        </tr>
-                    </c:if>
-                </tbody>
-            </table>
-            
-            <!-- 페이징 처리 (있을 경우) -->
-            <c:if test="${!empty pagingInfo}">
-                <div class="mypage_pagination">
-                    <c:if test="${pagingInfo.currentPage > 1}">
-                        <a href="myBoard.do?page=${pagingInfo.currentPage - 1}" class="page_btn prev">&lt;</a>
-                    </c:if>
-                    
-                    <c:forEach var="i" begin="${pagingInfo.startPage}" end="${pagingInfo.endPage}">
-                        <a href="myBoard.do?page=${i}" class="page_btn ${pagingInfo.currentPage == i ? 'active' : ''}">${i}</a>
-                    </c:forEach>
-                    
-                    <c:if test="${pagingInfo.currentPage < pagingInfo.totalPages}">
-                        <a href="myBoard.do?page=${pagingInfo.currentPage + 1}" class="page_btn next">&gt;</a>
-                    </c:if>
-                </div>
-            </c:if>
-            
-            <!-- 검색 폼 -->
-            <div class="mypage_search_form">
-                <form action="searchBoard.do" method="get">
-                    <select name="category">
-                        <option value="nickname">닉네임</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                    </select>
-                    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-                    <button type="submit">검색</button>
-                </form>
-            </div>
-        </div>
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .tab-btn {
+      margin-right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #aaa;
+    }
+
+    .tab-btn.active {
+      color: #4ea6ff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #1e1e1e;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #222;
+      color: #ddd;
+    }
+
+    th.sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .arrow {
+      margin-left: 4px;
+      font-size: 12px;
+      color: #bbb;
+    }
+
+    td a {
+      color: #4ea6ff;
+      text-decoration: none;
+    }
+
+    td a:hover {
+      text-decoration: underline;
+    }
+
+    input[type="submit"], button {
+      background-color: #333;
+      color: #f0f0f0;
+      border: 1px solid #555;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover, button:hover {
+      background-color: #555;
+    }
+
+    .search-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    select, input[type="text"] {
+      padding: 6px;
+      border-radius: 4px;
+      border: 1px solid #555;
+      background-color: #1a1a1a;
+      color: #f0f0f0;
+    }
+
+    th:nth-child(1), td:nth-child(1) { width: 45%; }
+    th:nth-child(2), td:nth-child(2) { width: 20%; }
+    th:nth-child(3), td:nth-child(3) { width: 15%; }
+    th:nth-child(4), td:nth-child(4) { width: 10%; }
+    th:nth-child(5), td:nth-child(5) { width: 10%; }
+
+    td:nth-child(1) a {
+      display: inline-block;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <div>
+      <span class="tab-btn ${param.boardTypeNo == '1' ? 'active' : ''}" data-type="1">자유게시판</span>
+      <span class="tab-btn ${param.boardTypeNo == '2' ? 'active' : ''}" data-type="2">팁게시판</span>
+      <span class="tab-btn ${param.boardTypeNo == '3' ? 'active' : ''}" data-type="3">영상게시판</span>
     </div>
-</div>
+    <form id="writeForm" action="insertBoardForm.do" method="get">
+      <input type="hidden" name="boardTypeNo" id="selectedBoardType" value="1" />
+      <input type="submit" value="글쓰기" />
+    </form>
+  </div>
 
-<style>
-    /* 사이드바 스타일 */
-    .mypage_sidebar {
-        width: 15.625rem;
-        background-color: #2c2c2c;
-        padding: 2rem;
-        border-radius: 0.75rem;
-    }
-    
-    .mypage_title {
-        font-size: 1.5rem;
-        color: #f0f0f0;
-        margin-bottom: 2rem;
-        font-weight: bold;
-        border-bottom: 1px solid #3a3a3a;
-        padding-bottom: 1rem;
-    }
-    
-    .mypage_menu {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
-    
-    .mypage_menu_item {
-        color: #ccc;
-        text-decoration: none;
-        font-size: 0.925rem;
-        padding: 0.75rem 1rem;
-        border-radius: 0.375rem;
-        transition: all 0.2s ease;
-        border: 1px solid transparent;
-    }
-    
-    .mypage_menu_item:hover, .mypage_menu_item.active {
-        background-color: #3a3a3a;
-        color: white;
-        border-color: #555;
-    }
-    
-    /* 콘텐츠 영역 */
-    .mypage_content_area {
-        flex: 1;
-        padding: 2rem;
-        background-color: #1f1f1f;
-        border-radius: 0.75rem;
-        margin-left: 1rem;
-    }
-    
-    .mypage_section_title {
-        font-size: 1.5rem;
-        color: #f0f0f0;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #3a3a3a;
-    }
-    
-    /* 게시판 테이블 */
-    .mypage_board_table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 1.5rem;
-    }
-    
-    .mypage_board_table th,
-    .mypage_board_table th,
-    .mypage_board_table td {
-        padding: 0.875rem 1rem;
-        text-align: left;
-        border-bottom: 1px solid #3a3a3a;
-    }
-    
-    .mypage_board_table th {
-        background-color: #2a2a2a;
-        color: #f0f0f0;
-        font-weight: bold;
-    }
-    
-    .mypage_board_table td {
-        color: #ccc;
-    }
-    
-    .mypage_board_table th:first-child,
-    .mypage_board_table td:first-child {
-        width: 4rem;
-        text-align: center;
-    }
-    
-    .mypage_board_table th:nth-child(3),
-    .mypage_board_table td:nth-child(3),
-    .mypage_board_table th:nth-child(4),
-    .mypage_board_table td:nth-child(4),
-    .mypage_board_table th:nth-child(5),
-    .mypage_board_table td:nth-child(5),
-    .mypage_board_table th:last-child,
-    .mypage_board_table td:last-child {
-        text-align: center;
-    }
-    
-    .title_cell a {
-        color: #f0f0f0;
-        text-decoration: none;
-    }
-    
-    .title_cell a:hover {
-        color: #4CAF50;
-        text-decoration: underline;
-    }
-    
-    .mypage_empty_row td {
-        text-align: center;
-        padding: 3rem 0;
-    }
-    
-    /* 페이징 */
-    .mypage_pagination {
-        display: flex;
-        justify-content: center;
-        gap: 0.5rem;
-        margin: 1.5rem 0;
-    }
-    
-    .page_btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.375rem;
-        background-color: #2a2a2a;
-        color: #ccc;
-        text-decoration: none;
-    }
-    
-    .page_btn:hover,
-    .page_btn.active {
-        background-color: #3a3a3a;
-        color: white;
-    }
-    
-    .page_btn.active {
-        color: #4CAF50;
-        font-weight: bold;
-    }
-    
-    /* 검색 폼 */
-    .mypage_search_form {
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #3a3a3a;
-        display: flex;
-        justify-content: center;
-    }
-    
-    .mypage_search_form form {
-        display: flex;
-        gap: 0.5rem;
-    }
-    
-    .mypage_search_form select,
-    .mypage_search_form input {
-        padding: 0.625rem;
-        border: none;
-        border-radius: 0.375rem;
-        background-color: #2a2a2a;
-        color: white;
-    }
-    
-    .mypage_search_form input {
-        width: 15rem;
-    }
-    
-    .mypage_search_form button {
-        padding: 0.625rem 1rem;
-        border: none;
-        border-radius: 0.375rem;
-        background-color: #3a3a3a;
-        color: white;
-        cursor: pointer;
-    }
-    
-    .mypage_search_form button:hover {
-        background-color: #4CAF50;
-    }
-    
-    /* 기존 레이아웃 재정의 */
-    .main_container {
-        padding: 1rem;
-    }
-    
-    .main_content {
-        display: flex !important;
-        flex-direction: row !important;
-        background-color: #1a1a1a !important;
-        border-radius: 0.75rem !important;
-        padding: 1rem !important;
-        align-items: flex-start !important;
-    }
-</style>
+  <div id="boardListArea">
+    <table>
+      <thead>
+        <tr>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성일</th>
+          <th class="sortable" data-sort="view">
+            조회수 <span class="arrow" data-field="view">▼</span>
+          </th>
+          <th class="sortable" data-sort="like">
+            좋아요 <span class="arrow" data-field="like">▼</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody id="boardListBody">
+        <c:forEach var="b" items="${list}">
+          <tr>
+            <td><a href="detailBoard.do?boardNo=${b.boardNo}">${b.boardTitle}</a></td>
+            <td>${b.userNickname}</td>
+            <td>${b.boardCreateDate}</td>
+            <td>${b.boardCount}</td>
+            <td>${b.boardLike}</td>
+          </tr>
+        </c:forEach>
+      </tbody>
+    </table>
+  </div>
+
+  <form action="searchBoard.do" method="get" class="search-bar">
+    <input type="hidden" name="boardTypeNo" id="searchBoardType" value="1" />
+    <select name="category">
+      <option value="title">제목</option>
+      <option value="nickname">작성자</option>
+      <option value="content">내용</option>
+    </select>
+    <input type="text" name="keyword" placeholder="검색어를 입력하세요" required />
+    <input type="submit" value="검색" />
+  </form>
+
+  <script>
+    // 탭 전환
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", function () {
+        const type = btn.dataset.type;
+
+        document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        document.getElementById("selectedBoardType").value = type;
+        document.getElementById("searchBoardType").value = type;
+
+        fetch("getBoardListAjax.do?type=" + type)
+          .then(res => res.text())
+          .then(html => {
+            document.getElementById("boardListBody").innerHTML = html;
+          })
+          .catch(err => console.error("AJAX 오류:", err));
+      });
+    });
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", function () {
+          const type = btn.dataset.type;
+
+          document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          document.getElementById("selectedBoardType").value = type;
+          document.getElementById("searchBoardType").value = type;
+
+          fetch("getBoardListAjax.do?type=" + type)
+            .then(res => res.text())
+            .then(html => {
+              document.getElementById("boardListBody").innerHTML = html;
+            })
+            .catch(err => console.error("AJAX 오류:", err));
+        });
+      });
+
+      // 정렬 토글
+      let currentSort = null;
+      let currentOrder = "desc";
+
+      document.querySelectorAll(".sortable").forEach(th => {
+        th.addEventListener("click", function (e) {
+          // 클릭한 곳이 <th> 또는 내부 <span>일 수 있으므로 sort는 항상 th에서 가져옴
+          const thElement = e.currentTarget;
+          const sort = thElement.dataset.sort;
+          const type = document.getElementById("selectedBoardType").value;
+
+          if (!sort || !type) return;
+
+          // 정렬 방향 토글
+          if (currentSort === sort) {
+            currentOrder = currentOrder === "desc" ? "asc" : "desc";
+          } else {
+            currentSort = sort;
+            currentOrder = "desc";
+          }
+
+          // 모든 화살표 ▼로 초기화
+          document.querySelectorAll(".arrow").forEach(arrow => {
+            arrow.textContent = "▼";
+          });
+
+          // 현재 화살표만 방향 변경
+          const currentArrow = thElement.querySelector(".arrow");
+          if (currentArrow) {
+            currentArrow.textContent = currentOrder === "desc" ? "▼" : "▲";
+          }
+
+          // AJAX로 정렬된 목록 요청
+          fetch(`getBoardListAjax.do?type=${type}&sort=${sort}&order=${currentOrder}`)
+            .then(res => res.text())
+            .then(html => {
+              document.getElementById("boardListBody").innerHTML = html;
+            })
+            .catch(err => console.error("정렬 AJAX 오류:", err));
+        });
+      });
+  </script>
+</body>
+</html>
+

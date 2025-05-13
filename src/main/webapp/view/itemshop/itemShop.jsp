@@ -1,27 +1,46 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page
-        import="com.gamecut.dao.ItemDAO, com.gamecut.vo.ItemVO, java.util.ArrayList, com.gamecut.vo.UserVO"
-%>
+	import="com.gamecut.dao.ItemDAO, com.gamecut.vo.ItemVO, java.util.ArrayList, com.gamecut.vo.UserVO"%>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <link rel="stylesheet" href="main.css">
+<style>
+	.item-card{
+		display: inline-block;
+		margin: 10px;
+	}
+</style>
 
 <%
-    UserVO user = (UserVO) session.getAttribute("loginUSER");
+UserVO user = (UserVO) session.getAttribute("loginUSER");
+if (user != null) {
+	request.setAttribute("userNo", user.getUserNo());
+	request.setAttribute("userPoint", user.getUserPoint());
+	request.setAttribute("userRole", user.getRole());
+}
+ItemDAO dao = new ItemDAO();
+ArrayList<ItemVO> items = dao.selectAllItems();
+request.setAttribute("items", items);
+    /* UserVO user = (UserVO) session.getAttribute("loginUSER");
     boolean isAdmin = user != null && "admin".equals(user.getRole());
     int userNo = user.getUserNo();
     int userPoint = user.getUserPoint();
 
     ItemDAO dao = new ItemDAO();
-    ArrayList<ItemVO> items = dao.selectAllItems();
+    ArrayList<ItemVO> items = dao.selectAllItems(); */
 %>
 
-<div class="shop-container">
-    <div class="shop-header">
-        <span>마이포인트: ${userPoint}P</span>
-        <c:if test="${userRole == 'role_admin'}">
-            <a href="itemRegister.do" class="register-button">상품등록</a>
-        </c:if>
-    </div>
+<div class="shop-header-container">
+	<div class="shop-header">
+		<span class="user-point">마이포인트: ${userPoint}P</span> &nbsp; &nbsp;
+		<c:if test="${userRole eq 'ROLE_ADMIN'}">
+			<button class="register-button" onclick="openItemRegisterPopup()">상품 등록</button>
+		</c:if>
+	</div>
+</div>
 
+<div class="item-grid">
     <div class="item-grid">
         <c:forEach var="item" items="${items}">
             <div class="item-card">
@@ -47,14 +66,18 @@
 </div>
 
 <script>
-    function purchaseItem(itemNo, itemName, userNo, owned) {
-        if (owned) {
-            alert("이미 구매한 아이템입니다.");
-            return;
-        }
-        if (confirm(itemName + "을(를) 구매하시겠습니까?")) {
-            alert(itemName + "을(를) 구매하였습니다.");
-            location.href = "itemShopOK.do?itemNo=" + itemNo + "&userNo=" + userNo;
-        }
+function purchaseItem(itemNo, itemName, userNo) {
+    if (confirm(itemName + "을(를) 구매하시겠습니까?")) {
+        alert(itemName + "을(를) 구매하였습니다.");
+        location.href = "itemShopOK.do?itemNo=" + itemNo + "&userNo=" + userNo;
     }
+}
+
+function openItemRegisterPopup() {
+    window.open(
+        "itemRegister.do",
+        "itemRegister",
+        "width=500,height=500,top=100,left=200,resizable=no,scrollbars=yes"
+    );
+}
 </script>

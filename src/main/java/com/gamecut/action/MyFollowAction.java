@@ -28,11 +28,9 @@ public class MyFollowAction implements GameCutAction {
 		ArrayList<String> followImgUrlList = new ArrayList<String>();
 		ArrayList<String> followerImgUrlList = new ArrayList<String>();
 		for(UserVO u : followList) {
-			System.out.println(u);
 			followImgUrlList.add((fileDao.selectProfileFileByUserId(u.getUserNo())).getFileUrl());
 		}
 		for(UserVO u : followerList) {
-			System.out.println(u);
 			followerImgUrlList.add((fileDao.selectProfileFileByUserId(u.getUserNo())).getFileUrl());
 		}
 		request.setAttribute("followImgUrlList", followImgUrlList);

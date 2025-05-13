@@ -10,6 +10,8 @@ public class CommentVO {
 	private String commentContent;
 	private Date commentCreateDate;
 	private Date commentDeleteDate;
+    //유저 댓글
+	public String commentWriter;
 	public int getCommentNo() {
 		return commentNo;
 	}
@@ -67,7 +69,20 @@ public class CommentVO {
 	public void setCommentDeleteDate(Date commentDeleteDate) {
 		this.commentDeleteDate = commentDeleteDate;
 	}
-	
 
-	
+    public String getCommentWriter() {
+        return commentWriter;
+    }
+
+    public void setCommentWriter(String commentWriter) {
+        this.commentWriter = commentWriter;
+    }
+	@Override
+	public String toString() {
+		return "CommentVO [commentNo=" + commentNo + ", boardNo=" + boardNo + ", userNo=" + userNo
+				+ ", parentCommentNo=" + parentCommentNo + ", commentContent=" + commentContent + ", commentCreateDate="
+				+ commentCreateDate + ", commentDeleteDate=" + commentDeleteDate + ", commentWriter=" + commentWriter
+				+ "]";
+	}
+    
 }
