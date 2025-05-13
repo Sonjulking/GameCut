@@ -1,6 +1,5 @@
 package com.gamecut.dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,39 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.FileVO;
 
 public class FileDAO {
-
+	public int deleteFileByAttachNo(int attachNo) {
+		int re = 0;
+		String sql = "delete file_tb where attach_no = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, attachNo);
+			re = pstmt.executeUpdate();
+        	System.out.println("파일 db 삭제 완료");
+			conn.commit();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
+	public int deleteFileByPhotoNo(int photoNo) {
+		int re = 0;
+		String sql = "delete file_tb where attach_no = (select attach_no from photo where photo_no = ?)";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, photoNo);
+			re = pstmt.executeUpdate();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
+	
     public int insertFile(FileVO fileVO) {
         int attachNo = -1;
 

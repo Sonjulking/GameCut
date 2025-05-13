@@ -10,8 +10,7 @@ public class MyGTRHistoryAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return "view/myPage/myGTRHistory.jsp";
 	}
 
 }

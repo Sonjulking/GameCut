@@ -2,7 +2,9 @@ package com.gamecut.util;
 
 import com.gamecut.dao.FileDAO;
 import com.gamecut.dao.PhotoDAO;
+import com.gamecut.dao.UserDAO;
 import com.gamecut.dao.VideoDAO;
+import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.FileVO;
 import com.gamecut.vo.PhotoVO;
 import com.gamecut.vo.UserVO;
@@ -14,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLConnection;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
@@ -56,16 +60,18 @@ public class FileUtil {
         String originalFileName = multi.getOriginalFileName(fileParam); //원본 파일명
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
 
-        if (originalFileName == null || savedFileName == null) {
+        if (originalFileName == null || savedFileName == null) { 	
             //프사 삭제
-            if (multi.getParameter("isProfileDeleted").equals("true")) {
-                System.out.println("isProfileDeleted");
-                FileDAO fileDao = new FileDAO();
-                FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
-                FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
-            }
+//            if (multi.getParameter("isProfileDeleted").equals("true")) {
+//                System.out.println("isProfileDelete : " + multi.getParameter("isProfileDeleted"));
+//                FileDAO fileDao = new FileDAO();
+//                FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
+//                System.out.println(multi.getParameter("photoNo"));
+//                System.out.println();
+//                FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
+//            }
             return multi;
-        } else {
+        } else { 
             //확장자 확인
             String ext = "";
             int lastDot = originalFileName.lastIndexOf("."); //.있는 위치를 반환 없으면 -1
@@ -154,6 +160,7 @@ public class FileUtil {
     //파일삭제
     public static boolean deleteFile(int userNo, int attachNo, String realPath) {
         FileDAO fileDAO = new FileDAO();
+        PhotoDAO photoDAO = new PhotoDAO();
         FileVO fvo = fileDAO.selectProfileFileByUserId(userNo);
         System.out.println("deleteFile realPath : " + realPath);
         if (realPath == null || realPath.trim().isEmpty()) {
@@ -163,11 +170,13 @@ public class FileUtil {
         File file = new File(realPath);
         if (file.exists()) {
             //TODO : DB 처리!!
+        	System.out.println(attachNo);
+        	photoDAO.deletePhotoByAttachNo(attachNo);
+        	fileDAO.deleteFileByAttachNo(attachNo);
             return file.delete();
         }
         return false;
     }
-
 
     private static String getUploadType(String ext) {
         String[] imgExts = {"jpg", "jpeg", "png", "gif", "webp"};
@@ -185,4 +194,5 @@ public class FileUtil {
         }
         return "Not Supported";
     }
+    
 }
