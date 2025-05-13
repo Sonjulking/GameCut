@@ -109,7 +109,7 @@ public class FileDAO {
         return file;
     }
 
-    // 유저의 번호를 이용해 프로필 사진의 파일 정보를 가져오기 위한 메소드
+    // 비디오 아이디를 통해 가져오기
     public FileVO selectFileByVideoId(int videoId) {
         FileVO file = new FileVO();
         String sql = "select attach_no, user_no, uuid, file_url, real_path, mime_type, upload_time, original_file_name from file_tb where attach_no = (select attach_no from video where video_no = ?)";
