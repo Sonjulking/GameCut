@@ -17,7 +17,7 @@
                 	<c:choose>
                 		<c:when test="${user.photoNo == 0 || user.photoNo == null }">
 		                    <div id="userImg" class="mypage_img_container">
-		                        <img class="mypage_user_image" alt="프로필 이미지" src="/img/common/empty.png">
+		                        <img class="mypage_user_image" alt="프로필 이미지" src="img/main/icons/profile_icon.png">
 		                    </div>
                 		</c:when>
 	                	<c:otherwise>

@@ -53,7 +53,7 @@
                     </table>
                     
                     <!-- 페이징 처리 -->
-                    <c:if test="${!empty pointHistoryList}">
+                    <%-- <c:if test="${!empty pointHistoryList}">
                         <div class="mypage_pagination">
                             <c:if test="${currentPage > 1}">
                                 <a href="myPointHistory.do?page=${currentPage - 1}" class="page_btn prev">&lt;</a>
@@ -67,7 +67,7 @@
                                 <a href="myPointHistory.do?page=${currentPage + 1}" class="page_btn next">&gt;</a>
                             </c:if>
                         </div>
-                    </c:if>
+                    </c:if> --%>
                 </div>
             </div>
         </div>
