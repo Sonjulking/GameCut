@@ -10,11 +10,7 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.ItemVO;
 
 public class ItemDAO {
-	public int selectLastAttachNo() {
-		
-	}
-	
-	
+
 	// 포인트 상점 아이템 전체 조회 메서드
 	public ArrayList<ItemVO> selectAllItems(){
 		ArrayList<ItemVO> list = new ArrayList();

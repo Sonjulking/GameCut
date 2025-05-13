@@ -5,6 +5,12 @@
 	import="com.gamecut.dao.ItemDAO, com.gamecut.vo.ItemVO, java.util.ArrayList, com.gamecut.vo.UserVO"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <link rel="stylesheet" href="main.css">
+<style>
+	.item-card{
+		display: inline-block;
+		margin: 10px;
+	}
+</style>
 
 <%
 UserVO user = (UserVO) session.getAttribute("loginUSER");
