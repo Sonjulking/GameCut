@@ -139,7 +139,7 @@
             <div id="commentPagination" class="pagination"></div>
         </div>
 
-        <!-- ✅ 스크립트 -->
+        <!-- 스크립트 -->
         <script>
             const boardNo = '${board.boardNo}';
             console.log("boardNo  : " + boardNo);
@@ -165,69 +165,7 @@
         </script>
 
         <div id="comment-container"></div>
-
-        <script>
-            function loadBoard() {
-                $.get("mainBoard.do", function (arr) {
-                    $.each(arr, function () {
-                        const board = this.board;
-                        const file = this.file;
-
-                        const boardTitle = board.boardTitle;
-                        const boardContent = board.boardContent;
-                        const userNickname = board.userNickname;
-                        const fileUrl = file.fileUrl;
-
-                        let videoContainer =
-                                '<div class="main_content_div video_container">' +
-                                '<div class="video_wrapper">' +
-                                '<video class="video_player" controls muted loop playsinline>' +
-                                '<source src="' + fileUrl + '" type="video/mp4">' +
-                                '브라우저가 비디오 태그를 지원하지 않습니다.' +
-                                '</video>' +
-                                '<div class="video_texts">' +
-                                '<div class="video_title"> ' + userNickname + '</div>' +
-                                '<div class="video_title"> 제목 : ' + boardTitle + '</div>' +
-                                '<div class="video_content">내용 : ' + boardContent + '</div>' +
-                                '</div>' +
-                                '</div>' +
-                                '<div class="video_side_buttons_wrapper">' +
-                                '<img src="img/main/icons/like_icon.png" class="video_side_buttons" alt="">' +
-                                '<img src="img/main/icons/comment_icon.png" class="video_side_buttons" alt="">' +
-                                '<img src="img/main/icons/share_icon.png" class="video_side_buttons" alt="">' +
-                                '<img src="img/main/icons/save_icon.png" class="video_side_buttons" alt="">' +
-                                '<img src="img/main/icons/report_icon.png" class="video_side_buttons" alt="">' +
-                                '</div>' +
-                                '<div class="main_comment_wrapper comment-box">' +
-                                '<div class="comment-title">댓글</div>' +
-                                '<hr>' +
-                                '<div class="comment-list">' +
-                                '<div class="comment"><span class="nickname">우진</span> : 와 대박 미쳤다. <span class="comment_write_date">2025-05-19</span></div>' +
-                                '</div>' +
-                                '<div class="comment-input">' +
-                                '<input type="text" placeholder="댓글쓰기"/>' +
-                                '<button>↑</button>' +
-                                '</div>' +
-                                '</div>' +
-                                '</div>';
-
-                        $(".video_wrap").append(videoContainer);
-                        videoCount++;
-
-                        // 10개 초과 시 위에서부터 제거
-                        if (videoCount > maxVideos) {
-                            $(".video_wrap .video_container").first().remove();
-                            videoCount--;
-                        }
-                    });
-
-                    // IntersectionObserver 다시 적용
-                    $(".video_player").each(function () {
-                        observer.observe(this);
-                    });
-                });
-            }
-        </script>
+            
 
     </body>
 </html>

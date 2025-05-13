@@ -14,8 +14,7 @@ public class CommentDAO {
 	// 부모 댓글 조회
 	public ArrayList<CommentVO> selectParentComments(int boardNo) {
 	    ArrayList<CommentVO> list = new ArrayList<>();
-		//1차문제
-	    String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no FROM comment_tb WHERE board_no = ? AND parent_comment_no  is null AND comment_delete_date IS NULL ORDER BY comment_create_date ASC";
+	    String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no FROM comment_tb WHERE board_no = ? AND parent_comment_no is null AND comment_delete_date IS NULL ORDER BY comment_create_date ASC";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
