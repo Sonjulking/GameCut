@@ -57,6 +57,7 @@ public class BoardDAO {
                 + "    JOIN user_tb u ON b.user_no = u.user_no\n"
                 + "    WHERE b.board_delete_date IS NULL\n"
                 + "    AND b.video_no IS NOT NULL\n"
+                + "    AND b.board_type_no  = 3\n"
                 + "    ORDER BY DBMS_RANDOM.VALUE\n"
                 + ") WHERE ROWNUM <= 5";
 

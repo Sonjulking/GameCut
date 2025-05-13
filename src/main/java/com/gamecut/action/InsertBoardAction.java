@@ -22,6 +22,7 @@ public class InsertBoardAction implements GameCutAction {
         MultipartRequest multi = FileUtil.uploadFile(request, "video", "board", 1);
         int userNo = Integer.parseInt(multi.getParameter("userNo"));
         int boardTypeNo = Integer.parseInt(multi.getParameter("boardTypeNo"));
+        System.out.println("boardTypeNo : " + boardTypeNo);
         String boardTitle = multi.getParameter("boardTitle");
         String boardContent = multi.getParameter("boardContent");
 
