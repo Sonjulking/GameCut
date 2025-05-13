@@ -156,6 +156,7 @@
     }
     
     .mypage_board_table th,
+    .mypage_board_table th,
     .mypage_board_table td {
         padding: 0.875rem 1rem;
         text-align: left;

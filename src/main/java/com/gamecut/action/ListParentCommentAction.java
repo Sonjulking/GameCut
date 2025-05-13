@@ -19,9 +19,9 @@ public class ListParentCommentAction implements GameCutAction {
             HttpServletRequest request,
             HttpServletResponse response
     ) throws ServletException, IOException {
+        System.out.println("ListParentCommentAction 동작!");
         // TODO Auto-generated method stub
         int boardNo = Integer.parseInt(request.getParameter("boardNo"));
-
         CommentDAO dao = new CommentDAO();
         List<CommentVO> commentList = dao.selectParentComments(boardNo);
         ArrayList<CommentVO> resultList = new ArrayList<>();
@@ -29,9 +29,10 @@ public class ListParentCommentAction implements GameCutAction {
         for (CommentVO comment : commentList) {
             resultList.add(comment);
         }
-
         Gson gson = new Gson();
-        return gson.toJson(resultList); // JSP Ajax에서 받을 수 있는 JSON
+        String jsonResult = gson.toJson(resultList);
+        System.out.println("JSON 결과: " + jsonResult); // 콘솔에 출력
+        return jsonResult; // JSP Ajax에서 받을 수 있는 JSON
 
     }
 
