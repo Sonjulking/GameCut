@@ -138,6 +138,7 @@ public class UserDAO {
 	public int insertUser(UserVO vo) {
 		int re = -1;
 		String sql = "insert into user_tb values(seq_user_no.nextval,?,?,?,?,?,?,sysdate,null,?,?,1000,null,null)";
+		System.out.println(vo);
 		try {
 			Connection conn =  ConnectionProvider.getConnection();
 			PreparedStatement prst = conn.prepareStatement(sql);
