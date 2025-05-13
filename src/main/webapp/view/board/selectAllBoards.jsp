@@ -86,6 +86,20 @@
       background-color: #1a1a1a;
       color: #f0f0f0;
     }
+    
+    th:nth-child(1), td:nth-child(1) { width: 45%; }  /* 제목 */
+th:nth-child(2), td:nth-child(2) { width: 20%; }  /* 작성자 */
+th:nth-child(3), td:nth-child(3) { width: 15%; }  /* 작성일 */
+th:nth-child(4), td:nth-child(4) { width: 10%; }  /* 조회수 */
+th:nth-child(5), td:nth-child(5) { width: 10%; }  /* 좋아요 */
+
+/* 제목 말줄임 처리 (정렬 유지) */
+td:nth-child(1) a {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   </style>
 </head>
 <body>
@@ -163,4 +177,4 @@
   </script>
 
 </body>
-</html>
+</html> 

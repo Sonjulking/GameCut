@@ -142,7 +142,11 @@ public class BoardDAO {
         BoardVO board = null;
 
         String updateSql = "UPDATE BOARD SET BOARD_COUNT = BOARD_COUNT + 1 WHERE BOARD_NO = ?";
-        String selectSql = "SELECT * FROM BOARD WHERE BOARD_NO = ?";
+        String selectSql =
+        	    "SELECT b.*, u.user_nickname " +
+        	    "FROM board b " +
+        	    "JOIN user_tb u ON b.user_no = u.user_no " +
+        	    "WHERE b.board_no = ?";
 
         try (Connection conn = ConnectionProvider.getConnection()) {
 
@@ -167,6 +171,7 @@ public class BoardDAO {
                     board.setBoardLike(rs.getInt("BOARD_LIKE"));
                     board.setBoardTypeNo(rs.getInt("BOARD_TYPE_NO"));
                     board.setVideoNo(rs.getObject("VIDEO_NO") != null ? rs.getInt("VIDEO_NO") : null);
+                    board.setUserNickname(rs.getString("USER_NICKNAME"));
 
                 }
             }
