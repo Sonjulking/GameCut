@@ -20,13 +20,15 @@ public class MainBoardAction implements GameCutAction {
         BoardDAO dao = new BoardDAO();
         FileDAO fileDAO = new FileDAO();
         ArrayList<BoardVO> boardList = dao.findTop5();
-
         ArrayList<BoardWithFileVO> resultList = new ArrayList<>();
+
         for (BoardVO board : boardList) {
             FileVO file = fileDAO.selectFileByVideoId(board.getVideoNo());
-            resultList.add(new BoardWithFileVO(board, file));
+            BoardWithFileVO boardWithFileVO = new BoardWithFileVO();
+            boardWithFileVO.setBoard(board);
+            boardWithFileVO.setFile(file);
+            resultList.add(boardWithFileVO);
         }
-
         Gson gson = new Gson();
         return gson.toJson(resultList); // JSP Ajax에서 받을 수 있는 JSON
     }
