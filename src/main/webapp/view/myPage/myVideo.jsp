@@ -5,20 +5,9 @@
     <div class="main_content">
         <div class="content_wrapper">
             <!-- 왼쪽 사이드바 -->
-            <div class="mypage_sidebar">
-                <h2 class="mypage_title">마이페이지</h2>
-                <nav class="mypage_menu">
-                    <a href="myMessage.do" class="mypage_menu_item">내 쪽지</a>
-                    <a href="myBoard.do" class="mypage_menu_item">내 게시글</a>
-                    <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
-                    <a href="myVideo.do" class="mypage_menu_item active">내 영상</a>
-                    <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
-                    <a href="myPointHistory.do" class="mypage_menu_item">내 포인트 내역</a>
-                    <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
-                    <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
-                    <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
-                </nav>
-            </div>
+            <jsp:include page="sidebar.jsp">
+                <jsp:param name="activeMenu" value="board" />
+            </jsp:include>
             
             <!-- 오른쪽 내 정보 섹션 -->
             <div class="mypage_user_section">
@@ -38,7 +27,6 @@
     /* 전체 레이아웃 */
     .main_container {
         width: 100%;
-        padding: 1rem;
         margin-bottom: 4rem; /* 푸터와의 간격 추가 */
         min-height: calc(100vh - 8rem); /* 뷰포트 높이에서 헤더와 푸터 높이를 뺀 값 */
         position: relative;
@@ -98,7 +86,7 @@
         border: 0.0625rem solid transparent;
     }
 
-    .mypage_menu_item:hover, .mypage_menu_item.active {
+    .mypage_menu_item:hover {
         background-color: #3a3a3a;
         color: white;
         border-color: #555;
