@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>${board.boardTitle}</title>
 <style>
@@ -231,6 +232,7 @@ input[type="submit"]:hover {
             }
             loadComments();
             
+
             
             
          // 댓글 작성 버튼 클릭 시 AJAX로 서버에 전송
@@ -258,6 +260,38 @@ input[type="submit"]:hover {
                     }
                 }).fail(function () {
                     alert("서버 오류 발생");
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const likeBtn = document.querySelector(".like-btn");
+                const heartIcon = document.getElementById("heart-icon");
+                const likeCountSpan = document.getElementById("like-count");
+
+                let liked = false;
+
+                likeBtn.addEventListener("click", function () {
+                    const boardNo = this.dataset.boardno;
+
+                    fetch("likeBoard.do", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: "boardNo=" + boardNo
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === "liked") {
+                            heartIcon.textContent = "❤️";
+                            likeCountSpan.textContent = data.likeCount;
+                            liked = true;
+                        } else if (data.status === "unliked") {
+                            heartIcon.textContent = "🤍";
+                            likeCountSpan.textContent = data.likeCount;
+                            liked = false;
+                        }
+                    })
+                    .catch(err => console.error("좋아요 AJAX 오류:", err));
+
                 });
             });
         </script>
