@@ -39,17 +39,17 @@ public class FileUtil {
                 "utf-8",
                 new DefaultFileRenamePolicy()
         );
+        int userNo = 0;
+        if (multi.getParameter("userNo") != null) {
+            userNo = Integer.parseInt(multi.getParameter("userNo"));
+        }
 
         //세션확인
         UserVO loginUser = (UserVO) request.getSession().getAttribute("loginUSER");
         String userId = null;
         if (loginUser != null) {
             userId = loginUser.getUserId();   // 유저 아이디
-        }
-
-        int userNo = 0;
-        if (multi.getParameter("userNo") != null) {
-            userNo = Integer.parseInt(multi.getParameter("userNo"));
+            userNo = loginUser.getUserNo();
         }
 
 
