@@ -19,11 +19,6 @@ public class UpdateCommentAction implements GameCutAction {
 		HttpSession session = request.getSession();
 	    UserVO loginUser = (UserVO) session.getAttribute("loginUSER");
 
-	    if (loginUser == null) {
-	        response.sendRedirect("login.do");
-	        return null;
-	    }
-
 	    int commentNo = Integer.parseInt(request.getParameter("commentNo"));
 	    String content = request.getParameter("commentContent");
 

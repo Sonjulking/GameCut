@@ -6,25 +6,24 @@ import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.gamecut.dao.CommentDAO;
 import com.gamecut.vo.CommentVO;
-import com.google.gson.Gson;
 
-public class ListReplyAction implements GameCutAction {
+public class ListUserCommentAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		int parentCommentNo = Integer.parseInt(request.getParameter("parentCommentNo"));
+		HttpSession session = request.getSession();
+        int userNo = (int) session.getAttribute("loginUserNo"); // 또는 파라미터
 
         CommentDAO dao = new CommentDAO();
-        List<CommentVO> replyList = dao.selectReplies(parentCommentNo);
+        List<CommentVO> myComments = dao.selectUserComments(userNo);
 
-        response.setContentType("application/json; charset=UTF-8");
-        String json = new Gson().toJson(replyList);
-        response.getWriter().write(json);
-        return null;
+        request.setAttribute("myComments", myComments);
+        return "mypageComment.jsp";
 	}
 
 }

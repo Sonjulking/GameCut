@@ -1,5 +1,3 @@
-
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -128,103 +126,27 @@ input[type="submit"]:hover {
         <div id="commentPagination" class="pagination"></div>
     </div>
 
-    <!-- ✅ 스크립트 -->
-    <script>
-        const boardNo = '${board.boardNo}';
+     <!-- ✅ 스크립트 -->
+        <script>
+            const boardNo = '${board.boardNo}';
+            console.log("boardNo  : " + boardNo);
 
-        // 댓글 불러오기
-        function loadComments(page) {
-            fetch("ajaxCommentList.do?boardNo=" + boardNo + "&page=" + page)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById("commentList").innerHTML = data.commentsHtml;
-                    document.getElementById("commentPagination").innerHTML = data.paginationHtml;
-                });
-        }
-
-        // 댓글 작성
-        document.addEventListener("DOMContentLoaded", function () {
-            loadComments(1);
-
-            const likeBtn = document.querySelector(".like-btn");
-            const heart = document.getElementById("heart-icon");
-            const count = document.getElementById("like-count");
-
-            let liked = false;
-            likeBtn.addEventListener("click", function () {
-                liked = !liked;
-                heart.innerText = liked ? "🖤" : "🤍";
-
-                fetch("likeBoard.do", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: "boardNo=" + boardNo + "&status=" + (liked ? "liked" : "unliked")
-                })
-                .then(res => res.json())
-                .then(data => {
-                    count.innerText = data.likeCount;
-                });
-            });
-
-            const form = document.getElementById("commentForm");
-            if (form) {
-                form.addEventListener("submit", function () {
-                    const content = form.commentContent.value.trim();
-                    if (content === "") {
-                        alert("댓글 내용을 입력하세요.");
-                        return;
-                    }
-
-                    const params = new URLSearchParams();
-                    params.append("boardNo", form.boardNo.value);
-                    params.append("parentCommentNo", form.parentCommentNo.value);
-                    params.append("commentContent", content);
-
-                    fetch("insertComment.do", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: params.toString()
-                    })
-                    .then(res => res.text())
-                    .then(result => {
-                        if (result === "success") {
-                            form.commentContent.value = "";
-                            loadComments(1);
-                        }
+            function loadComments() {
+                $.get("listParentComment.do?boardNo=" + boardNo, function (res) {
+                    $.each(res, function (index, comment) {
+                        const commentContent = comment.commentContent;
+                        const commentCreateDate = comment.commentCreateDate;
+                        const commentNo = comment.commentNo;
+                        const parentCommentNo = comment.parentCommentNo;
+                        const userNo = comment.userNo;
+                        console.log(comment);
+                        console.log(commentContent);
+                        let commentContainer = '<div>' + commentContent + '</div>';
+                        $("#commentList").append(commentContainer);
                     });
                 });
             }
-        });
-
-        // 댓글 수정
-        function updateComment(commentNo) {
-            const content = prompt("댓글을 수정하세요:");
-            if (!content) return;
-
-            fetch("updateComment.do", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "commentNo=" + commentNo + "&commentContent=" + encodeURIComponent(content)
-            })
-            .then(res => res.text())
-            .then(() => loadComments(1));
-        }
-
-        // 댓글 삭제
-        function deleteComment(commentNo) {
-            if (!confirm("정말 삭제하시겠습니까?")) return;
-
-            fetch("deleteComment.do", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "commentNo=" + commentNo
-            })
-            .then(res => res.text())
-            .then(() => loadComments(1));
-        }
-    </script>
-
-</body>
+            loadComments();
+        </script>
+    </body>
 </html>
