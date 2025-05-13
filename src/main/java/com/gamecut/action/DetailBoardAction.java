@@ -9,21 +9,32 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.gamecut.dao.BoardDAO;
+import com.gamecut.dao.FileDAO;
 import com.gamecut.dao.LikeBoardDAO;
 import com.gamecut.vo.BoardVO;
+import com.gamecut.vo.FileVO;
 import com.gamecut.vo.LikeBoardVO;
 import com.gamecut.vo.UserVO;
 
 public class DetailBoardAction implements GameCutAction {
 
-	@Override
-	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
-		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+    @Override
+    public String pro(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 
         // 1. 게시글 조회 (조회수 증가 포함)
         BoardDAO boardDAO = new BoardDAO();
         BoardVO board = boardDAO.findById(boardNo);
+        FileDAO fileDAO = new FileDAO();
+        if (board.getVideoNo() != null) {
+            FileVO fileVO = fileDAO.selectFileByVideoId(board.getVideoNo());
+            request.setAttribute("fileUrl", fileVO.getFileUrl());
+            System.out.println("fileVO.getFileUrl() : " + fileVO.getFileUrl());
+        }
 
         // 2. 로그인한 사용자 가져오기
         HttpSession session = request.getSession();
@@ -43,11 +54,13 @@ public class DetailBoardAction implements GameCutAction {
             board.setLikedByCurrentUser(false); // 비로그인 유저는 기본 false
         }
 
+
         // 4. JSP로 전달
         request.setAttribute("board", board);
+
         return "view/board/detailBoard.jsp";
     }
-   }
+}
 
 
 
