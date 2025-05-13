@@ -1,0 +1,15 @@
+@charset "UTF-8";
+body {
+    background-color: #111;
+    color: white;
+    font-family: sans-serif;
+    padding: 20px;
+}
+input, label, button {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+}
+input, button {
+    padding: 8px;
+}
