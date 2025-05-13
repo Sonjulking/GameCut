@@ -18,12 +18,13 @@ import javax.servlet.http.HttpSession;
 @WebFilter("*.do")
 public class Filter extends HttpFilter implements javax.servlet.Filter {
 
-    String[] arr = {
+
+    String arr[] = {
+			"login.do",
+            "joinUser.do", 
+            "joinUserOK.do", 
+            "idCheck.do", 
             "mainBoard.do",
-            "login.do",
-            "joinUser.do",
-            "joinUserOK.do",
-            "idCheck.do",
             "loginOK.do",
             "nicknameCheck.do",
             "resetPassword.do",

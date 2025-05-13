@@ -53,7 +53,7 @@
             <input type="hidden" name="isProfileDeleted" id="isProfileDeleted" value="false">
             <input type="hidden" name="userNo" id="userNo" value="${user.userNo}">
             <input type="hidden" name="oldfileUrl" value="${file.fileUrl}">
-            
+            <input type="text" name="oldPhotoNo" value="${user.photoNo }">
             <div class="button-group">
                 <input type="submit" value="완료" id="btnOK">
                 <input type="reset" value="다시" id="btnReset">
@@ -244,7 +244,7 @@ $(function() {
         
         // 원래 닉네임과 같다면 중복 확인 없이 통과
         if (userNickname === originalNickname) {
-            alert("현재 사용 중인 닉네임입니다.");
+            alert("사용 가능한 닉네임입니다.");
             checkNickname = true;
             return;
         }

@@ -56,4 +56,22 @@ public class PhotoDAO {
         }
         return re;
     }
+    
+    // 파일 번호를 매개변수로 해당 사진 데이터 삭제
+    public int deletePhotoByAttachNo(int attachNo) {
+    	int re = 0;
+    	String sql = "delete photo where attach_no = ?";
+    	try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, attachNo);
+			re = pstmt.executeUpdate();
+			conn.commit();
+        	System.out.println("사진 db 삭제 완료");
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+    	return re;
+    }
 }

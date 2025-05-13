@@ -56,8 +56,8 @@
 		margin-top: 20px;
 		width: 100%;
 		padding: 10px;
-		background-color: #007bff;
-		color: #ffffff;
+		background-color: #3a3a3a;
+   		color: white;
 		border: none;
 		border-radius: 5px;
 		cursor: pointer;
