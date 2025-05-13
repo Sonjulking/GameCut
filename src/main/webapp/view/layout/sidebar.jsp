@@ -51,7 +51,7 @@
             <img src="img/main/icons/shopping_icon.png" alt="shopping_icon" class="sidebar_icons">
         </a>
     </div>
-</c:if>
+	</c:if>
     <div>
         <a href="#">
             <img
