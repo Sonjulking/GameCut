@@ -25,6 +25,7 @@ public class MyItemListAction implements GameCutAction {
 		for(ItemVO item : itemList) {
 			imgList.add(dao.selectItemImg(item.getItemNo()));
 		}
+		request.setAttribute("user", vo);
 		request.setAttribute("userItem", itemList);
 		request.setAttribute("file", imgList);
 		return "view/myPage/myItem.jsp";

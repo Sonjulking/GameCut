@@ -6,64 +6,81 @@
         <h2 class="joinUserTitle">내 정보 수정</h2>
         <hr>
         <form action="updateMyPageOK.do" method="post" enctype="multipart/form-data">
-            <div class="profile-image-container">
-                <c:if test="${empty file.originalFileName}">
-                    <img class="oldFile" id="previewImage" src="img/common/empty.png" width="200"
-                        height="200" style="border-radius: 100%;">
-                </c:if>
-                <c:if test="${!empty file.originalFileName}">
-                    <img class="oldFile" id="previewImage" src="${file.fileUrl}" width="200"
-                        height="200" style="border-radius: 100%;">
-                </c:if>
-            </div>
-            
-            <div class="form-group">
-                <label for="userName">이름 :</label>
-                <input type="text" name="userName" id="userName" value="${user.userName}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="userId">아이디 :</label>
-                <input type="text" name="userId" id="userId" value="${user.userId}" disabled>
-            </div>
-            
-            <div class="form-group">
-                <label for="userNickname">사용자닉네임 :</label>
-                <input type="text" name="userNickname" id="userNickname" value="${user.userNickname}" required>
-                <button type="button" id="checkNickname">중복확인</button>
-            </div>
-            
-            <div class="form-group">
-                <label for="phone">핸드폰번호 :</label>
-                <input type="text" name="phone" id="phone" value="${user.phone}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email">이메일 :</label>
-                <input type="text" name="email" id="email" value="${user.email}" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="originalFileName">프로필 :</label>
-                <input type="file" name="originalFileName" id="originalFileName">
-                <input type="button" id="deleteFile" value="프로필사진 삭제">
+            <div class="form-container">
+                <div class="left-column">
+                    <div class="profile-image-container">
+                        <c:if test="${empty file.originalFileName}">
+                            <img class="oldFile" id="previewImage" src="img/common/empty.png" width="200"
+                                height="200" style="border-radius: 100%;">
+                        </c:if>
+                        <c:if test="${!empty file.originalFileName}">
+                            <img class="oldFile" id="previewImage" src="${file.fileUrl}" width="200"
+                                height="200" style="border-radius: 100%;">
+                        </c:if>
+                    </div>
+                    
+                    <div class="form-group file-group">
+                        <label for="originalFileName">프로필 이미지:</label>
+                        <div class="file-controls">
+                            <input type="file" name="originalFileName" id="originalFileName">
+                            <input type="button" id="deleteFile" value="사진 삭제">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="right-column">
+                    <div class="form-group">
+                        <label for="userName">이름:</label>
+                        <input type="text" name="userName" id="userName" value="${user.userName}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userId">아이디:</label>
+                        <input type="text" name="userId" id="userId" value="${user.userId}" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userNickname">닉네임:</label>
+                        <div class="input-with-button">
+                            <input type="text" name="userNickname" id="userNickname" value="${user.userNickname}" required>
+                            <button type="button" id="checkNickname">중복확인</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">연락처:</label>
+                        <input type="text" name="phone" id="phone" value="${user.phone}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">이메일:</label>
+                        <input type="text" name="email" id="email" value="${user.email}" required>
+                    </div>
+                </div>
             </div>
             
             <input type="hidden" name="oldFileName" value="${file.originalFileName}">
             <input type="hidden" name="isProfileDeleted" id="isProfileDeleted" value="false">
             <input type="hidden" name="userNo" id="userNo" value="${user.userNo}">
             <input type="hidden" name="oldfileUrl" value="${file.fileUrl}">
-            <input type="text" name="oldPhotoNo" value="${user.photoNo }">
+            <input type="hidden" name="oldPhotoNo" value="${user.photoNo}">
+            
             <div class="button-group">
-                <input type="submit" value="완료" id="btnOK">
-                <input type="reset" value="다시" id="btnReset">
+                <input type="submit" value="수정 완료" id="btnOK">
+                <input type="reset" value="원래대로" id="btnReset">
             </div>
         </form>
     </div>
 </div>
 
 <style>
+    .main_container {
+        width: 100%;
+        padding: 1rem;
+    }
+    
     .main_content {
+        width: 100%;
         padding: 2rem;
         background-color: #1a1a1a;
         border-radius: 0.75rem;
@@ -94,6 +111,7 @@
         font-size: 1.5rem;
         color: #f0f0f0;
         margin-bottom: 1rem;
+        text-align: center;
     }
     
     hr {
@@ -102,27 +120,52 @@
         margin: 1.5rem 0;
     }
     
-    .profile-image-container {
+    form {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .form-container {
         display: flex;
-        justify-content: center;
-        margin: 2rem;
-        
+        flex-direction: row;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .left-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .right-column {
+        flex: 2;
+    }
+    
+    .profile-image-container {
+        margin-bottom: 1.5rem;
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     
     .form-group {
         margin-bottom: 1.5rem;
-        display: flex;
-        align-items: center;
     }
     
     .form-group label {
-        width: 8rem;
+        display: block;
+        margin-bottom: 0.5rem;
         font-weight: 500;
+        color: #ccc;
     }
     
     .form-group input[type="text"],
     .form-group input[type="file"] {
-        flex: 1;
+        width: 100%;
         padding: 0.75rem;
         border: none;
         border-radius: 0.375rem;
@@ -135,18 +178,36 @@
         background-color: transparent;
     }
     
+    .input-with-button {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .input-with-button input {
+        flex: 1;
+    }
+    
+    .file-group {
+        width: 100%;
+    }
+    
+    .file-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
     button,
     input[type="button"],
     input[type="submit"],
     input[type="reset"] {
-        padding: 0.75rem;
+        padding: 0.75rem 1rem;
         border: none;
         border-radius: 0.375rem;
         background-color: #3a3a3a;
         color: white;
         cursor: pointer;
-        font-weight: bold;
-        margin-left: 0.5rem;
+        font-weight: 500;
         transition: background-color 0.2s ease;
     }
     
@@ -159,10 +220,20 @@
     
     #deleteFile {
         background-color: #c62828;
+        margin-top: 0.5rem;
     }
     
     #deleteFile:hover {
         background-color: #ef5350;
+    }
+    
+    #checkNickname {
+        background-color: #4CAF50;
+        white-space: nowrap;
+    }
+    
+    #checkNickname:hover {
+        background-color: #66BB6A;
     }
     
     .button-group {
@@ -170,11 +241,34 @@
         justify-content: center;
         gap: 1rem;
         margin-top: 2rem;
-        padding-bottom: 1rem; /* 하단 여백 추가 */
+        padding-bottom: 1rem;
     }
     
     .button-group input {
         min-width: 8rem;
+    }
+    
+    #btnOK {
+        background-color: #4CAF50;
+    }
+    
+    #btnOK:hover {
+        background-color: #66BB6A;
+    }
+    
+    /* 반응형 디자인 */
+    @media (max-width: 768px) {
+        .form-container {
+            flex-direction: column;
+        }
+        
+        .left-column, .right-column {
+            width: 100%;
+        }
+        
+        .profile-image-container {
+            margin: 0 auto 1.5rem;
+        }
     }
 </style>
 

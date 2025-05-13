@@ -230,7 +230,43 @@ public class BoardDAO {
         ConnectionProvider.close(conn, pstmt);
         return result;
     }
-
+    
+    // 회원 번호를 매개변수로 받아 게시글 조회
+    public ArrayList<BoardVO> searchByUserNo(int userNo) {
+    	ArrayList<BoardVO> list = new ArrayList<>();
+    	Connection conn = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	
+    	String sql = "select board_no, user_no, board_type_no, video_no, board_content, board_title, board_count, board_like, board_create_date, board_delete_date from board where board_delete_date is null and user_no = ?";
+    	
+    	try {
+    		conn = ConnectionProvider.getConnection();
+    		pstmt = conn.prepareStatement(sql.toString());
+    		pstmt.setInt(1, userNo);
+    		rs = pstmt.executeQuery();
+    		while (rs.next()) {
+    			BoardVO board = new BoardVO();
+    			board.setBoardNo(rs.getInt("BOARD_NO"));
+    			board.setUserNo(rs.getInt("USER_NO"));
+    			board.setBoardTypeNo(rs.getInt("BOARD_TYPE_NO"));
+    			board.setVideoNo(rs.getObject("VIDEO_NO") != null ? rs.getInt("VIDEO_NO") : null);
+    			board.setBoardContent(rs.getString("BOARD_CONTENT"));
+    			board.setBoardTitle(rs.getString("BOARD_TITLE"));
+    			board.setBoardCount(rs.getInt("BOARD_COUNT"));
+    			board.setBoardLike(rs.getInt("BOARD_LIKE"));
+    			board.setBoardCreateDate(rs.getDate("BOARD_CREATE_DATE"));
+    			board.setBoardDeleteDate(rs.getDate("BOARD_DELETE_DATE"));
+    			list.add(board);
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally {
+    		ConnectionProvider.close(conn, pstmt, rs);
+    	}
+    	
+    	return list;
+    }
     //게시글 검색
     public ArrayList<BoardVO> search(int boardTypeNo, String category, String keyword) {
     	ArrayList<BoardVO> list = new ArrayList<>();
@@ -287,8 +323,6 @@ public class BoardDAO {
 
         return list;
     }
-
-
     public ArrayList<BoardVO> findByType(int type) {
         ArrayList<BoardVO> list = new ArrayList<>();
         String sql = "SELECT b.*, u.user_nickname\n"

@@ -19,7 +19,7 @@ public class MyBoardListAction implements GameCutAction {
 		BoardDAO dao = new BoardDAO();
 		HttpSession session = request.getSession();
 		UserVO vo = (UserVO) session.getAttribute("loginUSER");
-		ArrayList<BoardVO> boardList = dao.search(1,"nickname", vo.getUserNickname());
+		ArrayList<BoardVO> boardList = dao.searchByUserNo(vo.getUserNo());
 		request.setAttribute("list", boardList);
 		return "/view/myPage/myBoard.jsp";
 	}
