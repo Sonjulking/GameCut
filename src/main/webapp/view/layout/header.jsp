@@ -3,9 +3,9 @@
 
 <style>
 #profile_icon {
-    border-radius: 50%;         /* 원형 모양 */
-    object-fit: cover;          /* 비율 유지하면서 잘 맞게 채움 */
-    width: 40px;                /* 원하는 크기로 조정 */
+    border-radius: 50%;         
+    object-fit: cover;          
+    width: 40px;               
     height: 40px;
 }
 

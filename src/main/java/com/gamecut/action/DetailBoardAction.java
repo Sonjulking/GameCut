@@ -1,3 +1,4 @@
+
 package com.gamecut.action;
 
 import java.io.IOException;
@@ -20,26 +21,33 @@ public class DetailBoardAction implements GameCutAction {
 		request.setCharacterEncoding("UTF-8");
 		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 
+        // 1. 게시글 조회 (조회수 증가 포함)
         BoardDAO boardDAO = new BoardDAO();
-        BoardVO board = boardDAO.findById(boardNo); 
+        BoardVO board = boardDAO.findById(boardNo);
 
+        // 2. 로그인한 사용자 가져오기
         HttpSession session = request.getSession();
-        UserVO loginUSER = (UserVO) session.getAttribute("loginUSER");
+        UserVO loginUser = (UserVO) session.getAttribute("loginUSER");
 
-//        if (loginUSER != null) {
-//            LikeBoardVO likeVO = new LikeBoardVO();
-//            likeVO.setUserNo(loginUSER.getUserNo());
-//            likeVO.setBoardNo(boardNo);
-//
-//            LikeBoardDAO likeDAO = new LikeBoardDAO();
-//            boolean liked = likeDAO.isLiked(likeVO);
-//            board.setLikedByCurrentUser(liked);  
-//        } else {
-//            board.setLikedByCurrentUser(false); 
-//        }
+        // 3. 로그인한 사용자가 이 게시글에 좋아요 눌렀는지 확인
+        if (loginUser != null) {
+            LikeBoardVO likeVO = new LikeBoardVO();
+            likeVO.setUserNo(loginUser.getUserNo());
+            likeVO.setBoardNo(boardNo);
 
-        request.setAttribute("board", board); 
-        return "/view/board/detailBoard.jsp";
+            LikeBoardDAO likeDAO = new LikeBoardDAO();
+            boolean liked = likeDAO.isLiked(likeVO);
+
+            board.setLikedByCurrentUser(liked); // 💡 BoardVO에 이 필드 꼭 있어야 함
+        } else {
+            board.setLikedByCurrentUser(false); // 비로그인 유저는 기본 false
+        }
+
+        // 4. JSP로 전달
+        request.setAttribute("board", board);
+        return "view/board/detailBoard.jsp";
     }
+   }
 
-}
+
+
