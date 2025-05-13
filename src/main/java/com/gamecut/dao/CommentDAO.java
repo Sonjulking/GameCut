@@ -14,7 +14,7 @@ public class CommentDAO {
 	// 부모 댓글 조회
 	public ArrayList<CommentVO> selectParentComments(int boardNo) {
 	    ArrayList<CommentVO> list = new ArrayList<>();
-	    String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no FROM comment WHERE board_no = ? AND parent_comment_no = 0 AND comment_delete_date IS NULL ORDER BY comment_create_date ASC";
+	    String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no FROM comment_tb WHERE board_no = ? AND parent_comment_no = 0 AND comment_delete_date IS NULL ORDER BY comment_create_date ASC";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -43,7 +43,7 @@ public class CommentDAO {
 	// 대댓글 조회
 	public ArrayList<CommentVO> selectReplies(int parentCommentNo) {
 	    ArrayList<CommentVO> list = new ArrayList<>();
-	    String sql = "select commet_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no from comment WHERE parent_comment_no = ? and comment_delete_date is null order by comment_create_date";
+	    String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no from comment_tb WHERE parent_comment_no = ? and comment_delete_date is null order by comment_create_date";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -74,7 +74,7 @@ public class CommentDAO {
 	public ArrayList<CommentVO> selectUserComments(int userNo){
 		ArrayList<CommentVO> list = new ArrayList<>();
 		String sql = "select comment_no, board_no, user_no, comment_content, comment_create_date, parent_comment_no "
-				+ "from comment where user_no = ? and comment_delete_date is null order by comment_create_date desc";
+				+ "from comment_tb where user_no = ? and comment_delete_date is null order by comment_create_date desc";
 		try (Connection conn = ConnectionProvider.getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql)){
 				pstmt.setInt(1, userNo);
@@ -102,7 +102,7 @@ public class CommentDAO {
 	// 댓글 작성
 	public int insertComment(CommentVO vo) {
         int result = 0;
-        String sql = "insert into comment(comment_no, board_no, user_no, parent_comment_no, comment_content, comment_create_date) values (SEQ_COMMENT_NO.NEXTVAL, ?, ?, ?, ?, SYSDATE)";
+        String sql = "insert into comment_tb(comment_no, board_no, user_no, parent_comment_no, comment_content, comment_create_date) values (SEQ_COMMENT_NO.NEXTVAL, ?, ?, ?, ?, SYSDATE)";
 
         try (Connection conn = ConnectionProvider.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -123,7 +123,7 @@ public class CommentDAO {
 	// 댓글 수정
 	public int updateComment(CommentVO vo) {
 	    int result = 0;
-	    String sql = "update comment set comment_content = ? where comment_no = ? and comment_delete_date is null";
+	    String sql = "update comment_tb set comment_content = ? where comment_no = ? and comment_delete_date is null";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -144,7 +144,7 @@ public class CommentDAO {
 	// 댓글 삭제
 	public int deleteComment(int commentNo) {
 	    int result = 0;
-	    String sql = "update comment set comment_delete_date = SYSDATE where comment_no = ? and comment_delete_date is null";
+	    String sql = "update comment_tb set comment_delete_date = SYSDATE where comment_no = ? and comment_delete_date is null";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -163,7 +163,7 @@ public class CommentDAO {
 	// 댓글 번호로 댓글 1개 조회
 	public CommentVO getCommentByNo(int commentNo) {
 	    CommentVO vo = null;
-	    String sql = "select comment_no, board_no, user_no, comment_content, parent_comment_no, comment_create_date, comment_delete_date from comment where comment_no = ?";
+	    String sql = "select comment_no, board_no, user_no, comment_content, parent_comment_no, comment_create_date, comment_delete_date from comment_tb where comment_no = ?";
 
 	    try (Connection conn = ConnectionProvider.getConnection();
 	         PreparedStatement pstmt = conn.prepareStatement(sql)) {

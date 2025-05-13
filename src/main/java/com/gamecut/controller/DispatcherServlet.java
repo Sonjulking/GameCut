@@ -67,6 +67,7 @@ public class DispatcherServlet extends HttpServlet {
         GameCutAction action = map.get(cmd);
         String viewPage = action.pro(request, response);
 
+        if (viewPage == null) return; 
         if (viewPage.endsWith(".do")) {
             response.sendRedirect(viewPage);
         } else if (viewPage.endsWith(".jsp")) {
