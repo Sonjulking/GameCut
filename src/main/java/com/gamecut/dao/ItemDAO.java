@@ -75,7 +75,7 @@ public class ItemDAO {
 	        }
 
 	        // 포인트 차감
-	        String updateSql = "update user_tb set USER_POINT = USER_POINT - ?, ITEM_NO = ? WHERE USER_NO = ?";
+	        String updateSql = "UPDATE USER_TB SET USER_POINT = USER_POINT - ? WHERE USER_NO = ?";
 	        pstmt = conn.prepareStatement(updateSql);
 	        pstmt.setInt(1, itemPrice);
 	        pstmt.setInt(2, itemNo);
@@ -97,13 +97,13 @@ public class ItemDAO {
 	}
 
 	// 아이템 등록
-	public boolean insertItem(String name, int price, int attachNo) {
+	public boolean insertItem(int attachNo, String name, int price ) {
 		try {
 			// ITEM 테이블에 아이템 등록
-			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE) VALUES (ITEM_SEQ.NEXTVAL, ?, ?)";
+			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE) VALUES (SEQ_ITEM_NO.NEXTVAL, ?, ?)";
 			Connection conn = ConnectionProvider.getConnection();
 			conn.setAutoCommit(false);
-			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"ITEM_NO"});
+			PreparedStatement pstmt = conn.prepareStatement(sql, new String[] {"ITEM_NO"}); // 자동 생성 키
 			pstmt.setString(1, name);
 			pstmt.setInt(2, price);
 			pstmt.executeUpdate();
@@ -112,9 +112,10 @@ public class ItemDAO {
 			ResultSet rs = pstmt.getGeneratedKeys();
 			int itemNo = -1;
 			if(rs.next()) {
-				itemNo = rs.getInt(attachNo);
+				itemNo = rs.getInt(1);
 			}else {
 				conn.rollback();
+				System.out.println("ITEM_NO 생성 실패");
 				return false;
 			}
 
@@ -154,6 +155,70 @@ public class ItemDAO {
 	    }
 	    return list;
 	}
+
+	// 아이템 중복 보유 확인
+		public boolean hasUserItem(int userNo, int itemNo) {
+		    boolean hasItem = false;
+		    try {
+		        String sql = "select count(*) from USER_ITEM where USER_NO = ? AND ITEM_NO = ?";
+		        Connection conn = ConnectionProvider.getConnection();
+		        PreparedStatement pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, userNo);
+		        pstmt.setInt(2, itemNo);
+		        ResultSet rs = pstmt.executeQuery();
+		        if (rs.next()) {
+		            hasItem = rs.getInt(1) > 0;
+		        }
+		        ConnectionProvider.close(conn, pstmt, rs);
+		    } catch (Exception e) {
+		    	System.out.println("보유 여부 체크 실패");
+		    	System.out.println("ItemDAO 예외발생 : " + e.getMessage());
+		    }
+		    return hasItem;
+		}
+
+		// 잔여포인트 조회
+		public int getUserPoint(int userNo) {
+		    int point = 0;
+		    Connection conn = null;
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    try {
+		        conn = ConnectionProvider.getConnection();
+		        String sql = "SELECT USER_POINT FROM USER_TB WHERE USER_NO = ?";
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, userNo);
+		        rs = pstmt.executeQuery();
+		        if (rs.next()) {
+		            point = rs.getInt("USER_POINT");
+		        }
+		    } catch (Exception e) {
+		    	System.out.println("잔여포인트 조회 실패");
+		    	System.out.println("ItemDAO 예외발생 : " + e.getMessage());
+		    } finally {
+		        ConnectionProvider.close(conn, pstmt, rs);
+		    }
+		    return point;
+		}
+
+		// 아이템 가격 조회
+		public int getItemPrice(int itemNo) {
+			int price = 0;
+			try {
+				String priceSql = "select ITEM_PRICE from ITEM where ITEM_NO =?";
+				Connection conn = ConnectionProvider.getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(priceSql);
+				ResultSet rs = pstmt.executeQuery();
+				pstmt.setInt(1, itemNo);
+				if(rs.next()) {
+					price = rs.getInt("ITEM_PRICE");
+				}
+				ConnectionProvider.close(conn, pstmt, rs);
+			}catch (Exception e) {
+				System.out.println("ItemDAO 예외발생 : " + e.getMessage());
+			}
+			return price;
+		}
 
 }
 
