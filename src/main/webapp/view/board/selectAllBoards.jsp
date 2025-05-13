@@ -6,12 +6,6 @@
   <meta charset="UTF-8">
   <title>게시판 메인</title>
   <style>
-    body {
-      background-color: #121212;
-      color: #f0f0f0;
-      font-family: 'Arial', sans-serif;
-      padding: 30px;
-    }
 
     .top-bar {
       display: flex;

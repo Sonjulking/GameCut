@@ -6,12 +6,7 @@
     <meta charset="UTF-8">
     <title>${board.boardTitle}</title>
     <style>
-        body {
-            background-color: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 2rem;
-        }
+
         
         .board-container {
     background-color: #1e1e1e;
@@ -220,6 +215,39 @@ input[type="submit"]:hover {
                 });
             }
             loadComments();
+            
+            document.addEventListener("DOMContentLoaded", function () {
+                const likeBtn = document.querySelector(".like-btn");
+                const heartIcon = document.getElementById("heart-icon");
+                const likeCountSpan = document.getElementById("like-count");
+
+                let liked = false;
+
+                likeBtn.addEventListener("click", function () {
+                    const boardNo = this.dataset.boardno;
+
+                    fetch("likeBoard.do", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: "boardNo=" + boardNo
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.status === "liked") {
+                            heartIcon.textContent = "❤️";
+                            likeCountSpan.textContent = data.likeCount;
+                            liked = true;
+                        } else if (data.status === "unliked") {
+                            heartIcon.textContent = "🤍";
+                            likeCountSpan.textContent = data.likeCount;
+                            liked = false;
+                        }
+                    })
+                    .catch(err => console.error("좋아요 AJAX 오류:", err));
+                });
+            });
         </script>
     </body>
 </html>
