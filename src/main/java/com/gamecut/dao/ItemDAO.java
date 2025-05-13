@@ -123,8 +123,7 @@ public class ItemDAO {
 	        String updateSql = "UPDATE USER_TB SET USER_POINT = USER_POINT - ? WHERE USER_NO = ?";
 	        pstmt = conn.prepareStatement(updateSql);
 	        pstmt.setInt(1, itemPrice);
-	        pstmt.setInt(2, itemNo);
-	        pstmt.setInt(3, userNo);
+	        pstmt.setInt(2, userNo);
 	        int result = pstmt.executeUpdate();
 
 	        if(result > 0) {
@@ -253,8 +252,8 @@ public class ItemDAO {
 				String priceSql = "select ITEM_PRICE from ITEM where ITEM_NO =?";
 				Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(priceSql);
-				ResultSet rs = pstmt.executeQuery();
 				pstmt.setInt(1, itemNo);
+				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					price = rs.getInt("ITEM_PRICE");
 				}
