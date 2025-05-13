@@ -9,18 +9,22 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.gamecut.dao.ItemDAO;
+import com.gamecut.vo.FileVO;
 import com.gamecut.vo.ItemVO;
 import com.gamecut.vo.UserVO;
 
 public class ItemShopAction implements GameCutAction {
 
-	@Override
-	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("itemShopAction 접근완료");
-		HttpSession session = request.getSession();
-		UserVO user = (UserVO) session.getAttribute("loginUSER");
+    @Override
+    public String pro(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws ServletException, IOException {
+        System.out.println("itemShopAction 접근완료");
+        HttpSession session = request.getSession();
+        UserVO user = (UserVO) session.getAttribute("loginUSER");
 
-		if (user == null) {
+        if (user == null) {
             response.sendRedirect("login.do");
             return null;
         }
@@ -32,8 +36,14 @@ public class ItemShopAction implements GameCutAction {
         ItemDAO dao = new ItemDAO();
         ArrayList<ItemVO> items = dao.selectAllItems();
         ArrayList<Integer> ownedItemNos = dao.getOwnedItemNos(userNo);
+        ArrayList<FileVO> files = new ArrayList<>();
+        for (ItemVO item : items) {
+            FileVO fvo = dao.selectItemImg(item.getItemNo());
+            files.add(fvo);
+        }
 
         request.setAttribute("items", items);
+        request.setAttribute("files", files);
         request.setAttribute("ownedItemNos", ownedItemNos);
         request.setAttribute("userNo", userNo);
         request.setAttribute("userPoint", user.getUserPoint());
@@ -42,8 +52,7 @@ public class ItemShopAction implements GameCutAction {
         int refreshedPoint = dao.getUserPoint(user.getUserNo());
         request.setAttribute("userPoint", refreshedPoint);
 
-
         return "view/itemshop/itemShop.jsp";
-	}
+    }
 
 }

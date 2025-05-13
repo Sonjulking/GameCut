@@ -37,10 +37,10 @@ request.setAttribute("items", items);
 
 <div class="item-grid">
     <div class="item-grid">
-        <c:forEach var="item" items="${items}">
+        <c:forEach var="item" items="${items}" varStatus="status">
             <div class="item-card">
                 <img
-                        src="/upload/items/${item.itemNo}.png"
+                        src="${files[status.index].fileUrl}"
                         class="item-image"
                         onclick="purchaseItem(${item.itemNo}, '${item.itemName}', ${userNo}, ${ownedItemNos.contains(item.itemNo)})"
                 >

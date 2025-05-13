@@ -23,19 +23,8 @@ public class ItemRegisterOKAction implements GameCutAction {
 		    return "view/itemshop/itemRegisterResult.jsp";
 		}
 
-		int attachNo = -1;
-		System.out.println(multi.getParameter("attachNo"));
-		if (multi.getParameter("attachNo") != null) {
-		    attachNo = Integer.parseInt(multi.getParameter("attachNo"));
-		}
 
-		String name = multi.getParameter("itemName");
-		int price = Integer.parseInt(multi.getParameter("itemPrice"));
-
-		ItemDAO dao = new ItemDAO();
-		boolean result = dao.insertItem(attachNo, name, price);
-
-		request.setAttribute("success", result);
+		request.setAttribute("success", true);
 		return "view/itemshop/itemRegisterResult.jsp";
 	}
 

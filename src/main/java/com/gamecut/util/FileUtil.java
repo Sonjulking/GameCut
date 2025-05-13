@@ -1,9 +1,6 @@
 package com.gamecut.util;
 
-import com.gamecut.dao.FileDAO;
-import com.gamecut.dao.PhotoDAO;
-import com.gamecut.dao.UserDAO;
-import com.gamecut.dao.VideoDAO;
+import com.gamecut.dao.*;
 import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.FileVO;
 import com.gamecut.vo.PhotoVO;
@@ -59,9 +56,9 @@ public class FileUtil {
         String originalFileName = multi.getOriginalFileName(fileParam); //원본 파일명
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
 
-        if (originalFileName == null || savedFileName == null) { 	
+        if (originalFileName == null || savedFileName == null) {
             return multi;
-        } else { 
+        } else {
             //확장자 확인
             String ext = "";
             int lastDot = originalFileName.lastIndexOf("."); //.있는 위치를 반환 없으면 -1
@@ -128,6 +125,13 @@ public class FileUtil {
                 fileVO.setOriginalFileName(originalFileName);
                 int attachNo = fileDAO.insertFile(fileVO);
 
+                //아이템일때
+                if (type.equals("item")) {
+                    ItemDAO itemDAO = new ItemDAO();
+                    itemDAO.insertItem(attachNo, multi.getParameter("itemName"), Integer.parseInt(multi.getParameter("itemPrice")));
+                    return multi;
+                }
+
                 if (uploadType.equals("videos")) { //비디오 일떄
                     VideoDAO videoDAO = new VideoDAO();
                     VideoVO videoVO = new VideoVO();
@@ -159,8 +163,8 @@ public class FileUtil {
         File file = new File(realPath);
         if (file.exists()) {
             //TODO : DB 처리!!
-        	photoDAO.deletePhotoByAttachNo(attachNo);
-        	fileDAO.deleteFileByAttachNo(attachNo);
+            photoDAO.deletePhotoByAttachNo(attachNo);
+            fileDAO.deleteFileByAttachNo(attachNo);
             return file.delete();
         }
         return false;
@@ -182,5 +186,5 @@ public class FileUtil {
         }
         return "Not Supported";
     }
-    
+
 }
