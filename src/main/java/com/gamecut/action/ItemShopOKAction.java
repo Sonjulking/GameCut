@@ -17,25 +17,33 @@ public class ItemShopOKAction implements GameCutAction{
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 
 		ItemDAO dao = new ItemDAO();
+		System.out.println(itemNo);
+		System.out.println(userNo);
 
+	    // 중복 구매 체크
+        if (dao.hasUserItem(userNo, itemNo)) {
+            response.setContentType("text/plain; charset=UTF-8");
+            response.getWriter().write("ALREADY_OWNED");
+            return null;
+        }
 
-		// 보유중인 아이템 중복 구매 방지
-		if(dao.hasUserItem(userNo, itemNo)) {
-			System.out.println("이미 구매한 아이템입니다.");
-			return "itemShop.do";
-		}
+        // 가격 조회
+        int price = dao.getItemPrice(itemNo);
+        // 포인트 보유량 체크
+        int userPoint = dao.getUserPoint(userNo);
+        if (userPoint < price) {
+            response.setContentType("text/plain; charset=UTF-8");
+            response.getWriter().write("NOT_ENOUGH_POINT");
+            return null;
+        }
 
-		int price = dao.getItemPrice(itemNo);
-	    int userPoint = new ItemDAO().getUserPoint(userNo);
+        // 실제 구매 처리
+        dao.purchaseItem(userNo, itemNo);
 
-		if (userPoint < price) {
-	        System.out.println("관리자님의 포인트가 부족합니다.");
-	        response.getWriter().write("NOT_ENOUGH_POINT");
-	        return null;
-	    }
-
-		dao.purchaseItem(userNo, itemNo);
-		return "itemShop.do";
-	}
+        // 성공 리턴
+        response.setContentType("text/plain; charset=UTF-8");
+        response.getWriter().write("SUCCESS");
+        return null;
+    }
 
 }

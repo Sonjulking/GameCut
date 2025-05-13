@@ -50,7 +50,7 @@ request.setAttribute("items", items);
                 </p>
                 <p class="item-price">
                     <c:choose>
-                        <c:when test="${ownedItemNos.contains(item.itemNo)}">보유중</c:when>
+                        <c:when test="${hasUserItem.contains(item.userNo, item.itemNo)}">보유중</c:when>
                         <c:otherwise>${item.itemPrice}P</c:otherwise>
                     </c:choose>
                 </p>
@@ -76,7 +76,7 @@ function purchaseItem(itemNo, itemName, userNo, owned) {
         return;
     }
 
-    fetch(`itemShopOK.do?itemNo=${itemNo}&userNo=${userNo}`)
+    fetch(`itemShopOK.do?itemNo=\${itemNo}&userNo=\${userNo}`, {method:'POST'})
         .then(response => response.text())
         .then(result => {
             result = result.trim();
@@ -92,8 +92,9 @@ function purchaseItem(itemNo, itemName, userNo, owned) {
             }
         })
         .catch(err => {
+			console.log("구매 에러 발생")
             console.error(err);
-            alert("시스템 오류로 구매가 실패하였습니다.");
+            alert("이게 뭔 에러인지 저도 모르겠습니다.");
         });
 }
 
