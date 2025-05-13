@@ -61,7 +61,7 @@ public class MyPageUpdateOKAction implements GameCutAction {
         	u.setPhotoNo(0);
         }
         userDao.updateUser(u);
-
+        fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
         HttpSession session = request.getSession();
         session.setAttribute("profileUrl", fvo.getFileUrl());
         return "myPage.do";
