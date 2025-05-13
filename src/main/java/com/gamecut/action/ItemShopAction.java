@@ -16,7 +16,7 @@ public class ItemShopAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("itemShopAction접근완료");
+		System.out.println("itemShopAction 접근완료");
 		HttpSession session = request.getSession();
 		UserVO user = (UserVO) session.getAttribute("loginUSER");
 
@@ -38,6 +38,9 @@ public class ItemShopAction implements GameCutAction {
         request.setAttribute("userNo", userNo);
         request.setAttribute("userPoint", user.getUserPoint());
         request.setAttribute("userRole", userRole);
+
+        int refreshedPoint = dao.getUserPoint(user.getUserNo());
+        request.setAttribute("userPoint", refreshedPoint);
 
 
         return "view/itemshop/itemShop.jsp";

@@ -18,7 +18,7 @@ public class ItemRegisterOKAction implements GameCutAction {
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		MultipartRequest multi = FileUtil.uploadFile(request, "itemImage", "item", 1);
-		if (multi == null) {
+		if (multi == null ) {
 		    request.setAttribute("success", false);
 		    return "view/itemshop/itemRegisterResult.jsp";
 		}
