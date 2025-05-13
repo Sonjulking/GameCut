@@ -62,6 +62,7 @@ public class FileDAO {
             System.out.println("realPath : " + fileVO.getRealPath());
             System.out.println("fileUrl : " + fileVO.getFileUrl());
             // INSERT 수행
+            System.out.println("fileVo : " + fileVO.getUserNo());
             pstmt.setInt(1, attachNo);
             pstmt.setInt(2, fileVO.getUserNo());
             pstmt.setString(3, fileVO.getUuid());

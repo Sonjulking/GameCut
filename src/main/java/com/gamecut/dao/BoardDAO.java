@@ -16,36 +16,43 @@ public class BoardDAO {
 
     //게시글 작성
     public int insert(BoardVO b) {
-        int result = -1;
+    	 int boardNo = -1;
+    	    String sql = "INSERT INTO board(board_no, user_no, board_type_no, video_no, board_content, board_title, board_count, board_like, board_create_date) "
+    	               + "VALUES (SEQ_BOARD_NO.nextval, ?, ?, ?, ?, ?, DEFAULT, DEFAULT, DEFAULT)";
+    	    
+    	    String[] returnCols = { "board_no" };
 
-        String sql = "insert into board(board_no, user_no, board_type_no, video_no, board_content, board_title"
-                + ", board_count, board_like, board_create_date) "
-                + "values (SEQ_BOARD_NO.nextval, ?, ?, ?, ?, ?, default, default, default)";
+    	    try {
+    	        conn = ConnectionProvider.getConnection();
+    	        pstmt = conn.prepareStatement(sql, returnCols);
 
-        try {
-            conn = ConnectionProvider.getConnection();
-            pstmt = conn.prepareStatement(sql);
+    	        pstmt.setInt(1, b.getUserNo());
+    	        pstmt.setInt(2, b.getBoardTypeNo());
+    	        if (b.getVideoNo() != null) {
+    	            pstmt.setInt(3, b.getVideoNo());
+    	        } else {
+    	            pstmt.setNull(3, java.sql.Types.INTEGER);
+    	        }
+    	        pstmt.setString(4, b.getBoardContent());
+    	        pstmt.setString(5, b.getBoardTitle());
 
-            pstmt.setInt(1, b.getUserNo());
-            pstmt.setInt(2, b.getBoardTypeNo());
+    	        int result = pstmt.executeUpdate();
 
-            if (b.getVideoNo() != null) {
-                pstmt.setInt(3, b.getVideoNo());
-            } else {
-                pstmt.setNull(3, java.sql.Types.INTEGER);
-            }
+    	        if (result > 0) {
+    	            ResultSet rs = pstmt.getGeneratedKeys();
+    	            if (rs.next()) {
+    	                boardNo = rs.getInt(1);
+    	            }
+    	            rs.close();
+    	        }
 
-            pstmt.setString(4, b.getBoardContent());
-            pstmt.setString(5, b.getBoardTitle());
+    	    } catch (Exception e) {
+    	        System.out.println("예외 발생: " + e.getMessage());
+    	    } finally {
+    	        ConnectionProvider.close(conn, pstmt);
+    	    }
 
-            result = pstmt.executeUpdate();
-
-        } catch (Exception e) {
-            System.out.println("예외발생: " + e.getMessage());
-        }
-
-        ConnectionProvider.close(conn, pstmt);
-        return result;
+    	    return boardNo;
     }
 
     public ArrayList<BoardVO> findTop5() {
@@ -57,6 +64,7 @@ public class BoardDAO {
                 + "    JOIN user_tb u ON b.user_no = u.user_no\n"
                 + "    WHERE b.board_delete_date IS NULL\n"
                 + "    AND b.video_no IS NOT NULL\n"
+                + "    AND b.board_type_no  = 3\n"
                 + "    ORDER BY DBMS_RANDOM.VALUE\n"
                 + ") WHERE ROWNUM <= 5";
 

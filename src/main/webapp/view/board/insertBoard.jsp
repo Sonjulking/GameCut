@@ -30,7 +30,6 @@
 
         <form action="insertBoard.do" method="post" enctype="multipart/form-data">
 
-            <input type="hidden" name="userNo" value="${sessionScope.loginUSER.userNo}"/>
 
             <label>게시판 선택</label>
             <select name="boardTypeNo" required>

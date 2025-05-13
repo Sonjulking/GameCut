@@ -3,42 +3,48 @@
         pageEncoding="UTF-8"
 %>
 
-<h2 class="joinUserTitle">회원가입</h2>
+
 <div class="joinUserWrapper">
-    <div class="joinUserView">
-        <form action="joinUserOK.do" method="post">
+    <form action="joinUserOK.do" method="post">
+
+        <div class="joinUserTitle">
+            <h2 class="joinUserTitle">회원가입</h2>
+        </div>
+        <div class="input-row">
             <label for="userId">아이디</label>
-            <div class="input-row">
-                <input type="text" name="userId" id="userId"/>
-                <button type="button" id="checkID">중복확인</button>
-            </div>
+            <input type="text" name="userId" id="userId"/>
+            <button type="button" id="checkID">중복확인</button>
+        </div>
+        <div class="input-row">
             <label for="userPwd">비밀번호</label>
             <input type="password" name="userPwd" id="userPwd"/>
-
+        </div>
+        <div class="input-row">
             <label for="userPwd2">비밀번호 확인</label>
             <input type="password" name="userPwd2" id="userPwd2"/>
-
+        </div>
+        <div class="input-row">
             <label for="userName">사용자 이름</label>
             <input type="text" name="userName" id="userName"/>
-
+        </div>
+        <div class="input-row">
             <label for="userNickname">사용자 닉네임</label>
-            <div class="input-row">
-                <input type="text" name="userNickname" id="userNickname"/>
-                <button type="button" id="checkNickname">중복확인</button>
-            </div>
+            <input type="text" name="userNickname" id="userNickname"/>
+            <button type="button" id="checkNickname">중복확인</button>
+        </div>
 
+        <div class="input-row">
             <label for="phone">핸드폰 번호</label>
             <input type="text" name="phone" id="phone"/>
-
+        </div>
+        <div class="input-row">
             <label for="email">이메일</label>
             <input type="text" name="email" id="email"/>
-
-            <div class="btn-group">
-                <input type="submit" value="등록" id="btnOK"/>
-                <input type="reset" value="다시" id="btnReset"/>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="btn-group">
+            <input type="Button" value="가입하기" id="btnOK"/>
+        </div>
+    </form>
 </div>
 
 <style>
@@ -55,73 +61,73 @@
     }
 
     .joinUserTitle {
-        text-align: center;
         font-size: 1.5rem;
-        margin: 1.5rem 0 0.625rem;
         color: #f0f0f0;
+        display: flex;
+		justify-content: center;
     }
 
     .joinUserWrapper {
-        display: flex;
-        justify-content: center;
         padding-bottom: 2.5rem;
-    }
-
-    .joinUserView {
-        background-color: #1e1e1e;
-        padding: 1.875rem;
-        border-radius: 0.75rem;
-        box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
-        width: 23.75rem;
+        display: flex;
+		justify-content: center;
     }
 
     form {
-        display: flex;
         flex-direction: column;
-        gap: 0.875rem;
+        display: flex;
+		justify-content: center;
+        /* gap: 0.375rem; */
         font-size: 0.875rem;
-        box-sizing: border-box;
-        padding: 0 0.5rem;
+        box-sizing: content-box;
+        /* padding: 0 1rem; */
     }
 
-    form * {
-        box-sizing: border-box;
+    .input-row {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.5rem;
     }
-
-    label {
+    .input-row label {
+        width:9rem;
         font-weight: 500;
-        margin-bottom: 0.25rem;
-        padding-left: 0.125rem;
     }
+    .input-row input[type='password'],
+    .input-row input[type='text'] {
+        /* flex: 1; */
+    }
+
+
 
     input[type='text'],
     input[type='password'] {
-        padding: 0.625rem 0.75rem;
+        padding: 0.75rem;
         border: none;
         border-radius: 0.375rem;
         background-color: #2c2c2c;
         color: white;
         font-size: 0.875rem;
-        width: 100%;
+        /* width: 50%; */
     }
+	
+	.btn-group{
+		display: flex;
+		justify-content: center;
+		
+	}
 
-    .input-row {
-        display: flex;
-        align-items: center;
-    }
-
-    .input-row input[type='text'] {
-        flex: 1;
-    }
 
     button,
-    input[type='submit'],
-    input[type='reset'] {
-        padding: 0.625rem 0.75rem;
+    input[type='button'] {
+        padding: 0.75rem;
         height: 2.375rem;
         border: none;
         border-radius: 0.375rem;
         background-color: #3a3a3a;
+        
         color: white;
         cursor: pointer;
         font-weight: bold;
@@ -133,17 +139,12 @@
     }
 
     button:hover,
-    input[type='submit']:hover,
-    input[type='reset']:hover {
+    input[type='button']:hover
+    {
         background-color: #555;
     }
 
-    .btn-group {
-        display: flex;
-        justify-content: space-between;
-        gap: 0.75rem;
-        margin-top: 0.625rem;
-    }
+
 </style>
 
 
@@ -152,6 +153,7 @@
 
         let checkIdOK = false;
         let checkNickname = false;
+        let limitOK = false;
 
         $("#checkID").click(function () {
             let id = $("#userId").val().trim();
@@ -183,10 +185,12 @@
                 console.log(userNickname);
                 if (data.result == 1) {
                     alert("이미 사용 중인 닉네임 입니다.");
+                    return;
 
                 } else {
                     alert("사용 가능한 닉네임 입니다.");
                     checkNickname = true;
+                    
                 }
             });
 
@@ -194,20 +198,38 @@
 
 
         $("#btnOK").click(function () {
-
+        	let userId = $("#userID").val();
             let pw1 = $("#userPwd").val();
             let pw2 = $("#userPwd2").val();
+            let userName = $("#userName").val();
+            let userNickname = $("#userNickname").val();
+            let userPhone = $("#phone").val();
+            let userEmail = $("#email").val();
+			
+            
+            
+            
+            
             if (checkIdOK == true && checkNickname == true) {
+            	if(userId === "" || userName === "" || userNickname === "" || userPhone === "" || userEmail === ""){
+            		alert("모든 정보를 입력해주세요.");
+                    return;
+            	}
                 if (!(pw1 === pw2) || pw1 === "") {
                     //비밀번호가 다름
                     alert("비밀번호를 다시 확인해주세요.");
+                    return;
                 } else {
-                    //회원가입성공
-                    $("form").submit();
+                	if(limitOK == false){
+                		//회원가입성공
+                		limitOK == true;
+                        $("form").submit();
+                	}
                 }
             } else {
                 //아이디 중복을 확인해주세요.
                 alert("아이디와 닉네임 중복 확인해주세요.");
+                return;
             }
         });
     });
