@@ -1,6 +1,7 @@
 package com.gamecut.action;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,20 +14,25 @@ import com.google.gson.Gson;
 
 public class ListParentCommentAction implements GameCutAction {
 
-	@Override
-	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+    @Override
+    public String pro(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        int boardNo = Integer.parseInt(request.getParameter("boardNo"));
 
         CommentDAO dao = new CommentDAO();
         List<CommentVO> commentList = dao.selectParentComments(boardNo);
+        ArrayList<CommentVO> resultList = new ArrayList<>();
 
-        response.setContentType("application/json; charset=UTF-8");
+        for (CommentVO comment : commentList) {
+            resultList.add(comment);
+        }
+
         Gson gson = new Gson();
-        String json = gson.toJson(commentList);
-        response.getWriter().write(json);
+        return gson.toJson(resultList); // JSP Ajax에서 받을 수 있는 JSON
 
-        return null;
-	}
+    }
 
 }
