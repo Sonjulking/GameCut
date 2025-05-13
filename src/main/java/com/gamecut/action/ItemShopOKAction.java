@@ -17,8 +17,14 @@ public class ItemShopOKAction implements GameCutAction{
 		int userNo = Integer.parseInt(request.getParameter("userNo"));
 
 		ItemDAO dao = new ItemDAO();
-		dao.purchaseItem(userNo, itemNo);
 
+		// 보유중인 아이템 중복 구매 방지
+		if(dao.hasUserItem(userNo, itemNo)) {
+			System.out.println("이미 구매한 아이템입니다.");
+			return "itemShop.do";
+		}
+
+		dao.purchaseItem(userNo, itemNo);
 		return "itemShop.do";
 	}
 

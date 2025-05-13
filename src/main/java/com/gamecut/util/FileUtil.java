@@ -61,15 +61,6 @@ public class FileUtil {
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
 
         if (originalFileName == null || savedFileName == null) { 	
-            //프사 삭제
-//            if (multi.getParameter("isProfileDeleted").equals("true")) {
-//                System.out.println("isProfileDelete : " + multi.getParameter("isProfileDeleted"));
-//                FileDAO fileDao = new FileDAO();
-//                FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
-//                System.out.println(multi.getParameter("photoNo"));
-//                System.out.println();
-//                FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
-//            }
             return multi;
         } else { 
             //확장자 확인
@@ -130,7 +121,6 @@ public class FileUtil {
                 fileVO.setUuid(uuid);
 
 
-                System.out.println(" realPath + File.separator + newFileName" + realPath + File.separator + newFileName);
                 String relativePath = uploadDir + File.separator + newFileName;
                 //웹경로에서는 슬래시 사용
                 fileVO.setFileUrl(relativePath.replace(File.separatorChar, '/'));
@@ -143,7 +133,8 @@ public class FileUtil {
                     VideoDAO videoDAO = new VideoDAO();
                     VideoVO videoVO = new VideoVO();
                     videoVO.setAttachNo(attachNo);
-                    videoDAO.insertVideo(videoVO);
+                    int videoNo = videoDAO.insertVideo(videoVO);
+                    request.setAttribute("videoNo", videoNo);
                 } else { //사진일때
                     PhotoDAO photoDAO = new PhotoDAO();
                     PhotoVO photoVO = new PhotoVO();
@@ -162,7 +153,6 @@ public class FileUtil {
         FileDAO fileDAO = new FileDAO();
         PhotoDAO photoDAO = new PhotoDAO();
         FileVO fvo = fileDAO.selectProfileFileByUserId(userNo);
-        System.out.println("deleteFile realPath : " + realPath);
         if (realPath == null || realPath.trim().isEmpty()) {
             return false;
         }
@@ -170,7 +160,6 @@ public class FileUtil {
         File file = new File(realPath);
         if (file.exists()) {
             //TODO : DB 처리!!
-        	System.out.println(attachNo);
         	photoDAO.deletePhotoByAttachNo(attachNo);
         	fileDAO.deleteFileByAttachNo(attachNo);
             return file.delete();

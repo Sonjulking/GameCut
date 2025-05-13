@@ -9,7 +9,7 @@
             <div class="mypage_sidebar">
                 <h2 class="mypage_title">마이페이지</h2>
                 <nav class="mypage_menu">
-                    <a href="" class="mypage_menu_item">내 쪽지</a>
+                    <a href="myMessage.do" class="mypage_menu_item">내 쪽지</a>
                     <a href="myBoard.do" class="mypage_menu_item active">내 게시글</a>
                     <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
                     <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
