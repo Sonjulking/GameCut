@@ -35,7 +35,6 @@ public class FileUtil {
         String tempDir = "upload";
         String tempRealPath = request.getServletContext().getRealPath(tempDir);
 
-
         MultipartRequest multi = new MultipartRequest(
                 request,
                 tempRealPath,

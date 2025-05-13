@@ -30,7 +30,11 @@ public class DetailBoardAction implements GameCutAction {
         BoardDAO boardDAO = new BoardDAO();
         BoardVO board = boardDAO.findById(boardNo);
         FileDAO fileDAO = new FileDAO();
-        FileVO fileVO = fileDAO.selectFileByVideoId(board.getVideoNo());
+        if (board.getVideoNo() != null) {
+            FileVO fileVO = fileDAO.selectFileByVideoId(board.getVideoNo());
+            request.setAttribute("fileUrl", fileVO.getFileUrl());
+            System.out.println("fileVO.getFileUrl() : " + fileVO.getFileUrl());
+        }
 
         // 2. 로그인한 사용자 가져오기
         HttpSession session = request.getSession();
@@ -50,10 +54,10 @@ public class DetailBoardAction implements GameCutAction {
             board.setLikedByCurrentUser(false); // 비로그인 유저는 기본 false
         }
 
-        System.out.println("fileVO.getFileUrl() : " + fileVO.getFileUrl());
+
         // 4. JSP로 전달
         request.setAttribute("board", board);
-        request.setAttribute("fileUrl", fileVO.getFileUrl());
+
         return "view/board/detailBoard.jsp";
     }
 }
