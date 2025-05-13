@@ -91,11 +91,11 @@
 <body>
 
   <div class="top-bar">
-    <div>
-      <span class="tab-btn active" data-type="1">자유게시판</span>
-      <span class="tab-btn" data-type="2">팁게시판</span>
-      <span class="tab-btn" data-type="3">영상게시판</span>
-    </div>
+<div>
+  <span class="tab-btn ${param.boardTypeNo == '1' ? 'active' : ''}" data-type="1">자유게시판</span>
+  <span class="tab-btn ${param.boardTypeNo == '2' ? 'active' : ''}" data-type="2">팁게시판</span>
+  <span class="tab-btn ${param.boardTypeNo == '3' ? 'active' : ''}" data-type="3">영상게시판</span>
+</div>
     <form id="writeForm" action="insertBoardForm.do" method="get">
       <input type="hidden" name="boardTypeNo" id="selectedBoardType" value="1" />
       <input type="submit" value="글쓰기" />
