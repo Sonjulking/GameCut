@@ -16,25 +16,27 @@ public class ItemShopAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("itemShopAction접근완료");
 		HttpSession session = request.getSession();
+		UserVO user = (UserVO) session.getAttribute("loginUSER");
 
-		UserVO loginUser = (UserVO) session.getAttribute("loginUSER");
-        if (loginUser == null) {
+		if (user == null) {
             response.sendRedirect("login.do");
             return null;
         }
 
-        int userNo = loginUser.getUserNo();
-        String userRole = loginUser.getRole();
+        int userNo = user.getUserNo();
+        System.out.println("userNO : " + userNo);
+        String userRole = user.getRole();
 
         ItemDAO dao = new ItemDAO();
         ArrayList<ItemVO> items = dao.selectAllItems();
-
         ArrayList<Integer> ownedItemNos = dao.getOwnedItemNos(userNo);
 
         request.setAttribute("items", items);
         request.setAttribute("ownedItemNos", ownedItemNos);
-        request.setAttribute("userPoint", loginUser.getUserPoint());
+        request.setAttribute("userNo", userNo);
+        request.setAttribute("userPoint", user.getUserPoint());
         request.setAttribute("userRole", userRole);
 
 
