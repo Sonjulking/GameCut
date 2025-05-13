@@ -24,7 +24,7 @@ public class InsertBoardFormAction implements GameCutAction {
         // 파라미터로 전달된 게시판 타입 번호 가져오기 (자유:1, 팁:2, 영상:3)
         String boardTypeNo = request.getParameter("boardTypeNo");
 
-        request.setAttribute("boardTypeNo", boardTypeNo);
+        request.setAttribute("boardTypeNo", "1"); // 기본값 자유게시판
         return "view/board/insertBoard.jsp"; 
 	}
 
