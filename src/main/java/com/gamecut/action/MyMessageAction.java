@@ -10,6 +10,7 @@ public class MyMessageAction implements GameCutAction {
 
 	@Override
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		return "view/myPage/myMessage.jsp";
 	}
 

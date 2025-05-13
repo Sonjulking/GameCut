@@ -2,12 +2,27 @@ package com.gamecut.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.UserVO;
 
 public class UserDAO {
+	public int updateUserPhotoNull(int userNo, Connection conn) throws SQLException {
+	    int re = 0;
+	    String sql = "UPDATE USER_TB SET PHOTO_NO = NULL WHERE USER_NO = ?";
+	    PreparedStatement pstmt = null;
+	    try {
+	        pstmt = conn.prepareStatement(sql);
+	        pstmt.setInt(1, userNo);
+	        re = pstmt.executeUpdate();
+	    } finally {
+	        if (pstmt != null) pstmt.close();
+	    }
+	    return re;
+	}
+	
 	public int userFollow(int followerNo, int followNo) {
 		int re = 0;
 		String sql = "insert into follow values(?, ?)";
