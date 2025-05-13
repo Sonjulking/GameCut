@@ -127,7 +127,6 @@
         border: none;
         border-radius: 0.375rem;
         background-color: #3a3a3a;
-        
         color: white;
         cursor: pointer;
         font-weight: bold;
