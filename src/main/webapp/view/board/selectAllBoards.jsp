@@ -128,7 +128,7 @@
   </div>
 
 <form action="searchBoard.do" method="get" class="search-bar">
-  <input type="hidden" name="type" id="searchBoardType" value="1" />
+  <input type="hidden" name="boardTypeNo" id="searchBoardType" value="1" />
   <select name="category">
     <option value="title">제목</option>
     <option value="nickname">작성자</option>
@@ -148,6 +148,7 @@
         btn.classList.add("active");
 
         document.getElementById("selectedBoardType").value = type;
+        document.getElementById("searchBoardType").value = type;
 
         fetch("getBoardListAjax.do?type=" + type)
           .then(res => res.text())

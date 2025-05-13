@@ -16,9 +16,10 @@ public class SearchBoardAction implements GameCutAction {
 	public String pro(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String category = request.getParameter("category");
         String keyword = request.getParameter("keyword");
+        int boardTypeNo = Integer.parseInt(request.getParameter("boardTypeNo"));
 
         BoardDAO dao = new BoardDAO();
-        ArrayList<BoardVO> list = dao.search(category, keyword);
+        ArrayList<BoardVO> list = dao.search(boardTypeNo, category, keyword);
 
         request.setAttribute("list", list);
         return "/view/board/selectAllBoards.jsp";

@@ -226,31 +226,37 @@ public class BoardDAO {
     }
 
     //게시글 검색
-    public ArrayList<BoardVO> search(String category, String keyword) {
-        ArrayList<BoardVO> list = new ArrayList<>();
-
+    public ArrayList<BoardVO> search(int boardTypeNo, String category, String keyword) {
+    	ArrayList<BoardVO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        String sql = "select b.*, u.user_nickname FROM board b JOIN user_tb u ON b.user_no = u.user_no WHERE b.board_type_no = ? AND b.board_delete_date IS NULL";
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT b.*, u.user_nickname ");
+        sql.append("FROM board b ");
+        sql.append("JOIN user_tb u ON b.user_no = u.user_no ");
+        sql.append("WHERE b.board_type_no = ? ");
+        sql.append("AND b.board_delete_date IS NULL ");
 
         if ("nickname".equals(category)) {
-            sql += "AND u.USER_NICKNAME LIKE ? ";
+            sql.append("AND u.USER_NICKNAME LIKE ? ");
         } else if ("title".equals(category)) {
-            sql += "AND b.BOARD_TITLE LIKE ? ";
+            sql.append("AND b.BOARD_TITLE LIKE ? ");
         } else if ("content".equals(category)) {
-            sql += "AND b.BOARD_CONTENT LIKE ? ";
+            sql.append("AND b.BOARD_CONTENT LIKE ? ");
         }
 
-        sql += "ORDER BY b.BOARD_NO DESC";
+        sql.append("ORDER BY b.BOARD_NO DESC");
 
         try {
             conn = ConnectionProvider.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + keyword + "%");
-            rs = pstmt.executeQuery();
+            pstmt = conn.prepareStatement(sql.toString());
 
+            pstmt.setInt(1, boardTypeNo);
+            pstmt.setString(2, "%" + keyword + "%");
+
+            rs = pstmt.executeQuery();
             while (rs.next()) {
                 BoardVO board = new BoardVO();
                 board.setBoardNo(rs.getInt("BOARD_NO"));
@@ -266,11 +272,13 @@ public class BoardDAO {
                 board.setUserNickname(rs.getString("USER_NICKNAME"));
                 list.add(board);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            ConnectionProvider.close(conn, pstmt, rs);
         }
 
-        ConnectionProvider.close(conn, pstmt, rs);
         return list;
     }
 
