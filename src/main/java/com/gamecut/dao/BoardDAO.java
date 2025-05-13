@@ -225,33 +225,75 @@ public class BoardDAO {
         ConnectionProvider.close(conn, pstmt);
         return result;
     }
-
+    
+    // 회원 번호를 매개변수로 받아 게시글 조회
+    public ArrayList<BoardVO> searchByUserNo(int userNo) {
+    	ArrayList<BoardVO> list = new ArrayList<>();
+    	Connection conn = null;
+    	PreparedStatement pstmt = null;
+    	ResultSet rs = null;
+    	
+    	String sql = "select board_no, user_no, board_type_no, video_no, board_content, board_title, board_count, board_like, board_create_date, board_delete_date from board where board_delete_date is null and user_no = ?";
+    	
+    	try {
+    		conn = ConnectionProvider.getConnection();
+    		pstmt = conn.prepareStatement(sql.toString());
+    		pstmt.setInt(1, userNo);
+    		rs = pstmt.executeQuery();
+    		while (rs.next()) {
+    			BoardVO board = new BoardVO();
+    			board.setBoardNo(rs.getInt("BOARD_NO"));
+    			board.setUserNo(rs.getInt("USER_NO"));
+    			board.setBoardTypeNo(rs.getInt("BOARD_TYPE_NO"));
+    			board.setVideoNo(rs.getObject("VIDEO_NO") != null ? rs.getInt("VIDEO_NO") : null);
+    			board.setBoardContent(rs.getString("BOARD_CONTENT"));
+    			board.setBoardTitle(rs.getString("BOARD_TITLE"));
+    			board.setBoardCount(rs.getInt("BOARD_COUNT"));
+    			board.setBoardLike(rs.getInt("BOARD_LIKE"));
+    			board.setBoardCreateDate(rs.getDate("BOARD_CREATE_DATE"));
+    			board.setBoardDeleteDate(rs.getDate("BOARD_DELETE_DATE"));
+    			list.add(board);
+    		}
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	} finally {
+    		ConnectionProvider.close(conn, pstmt, rs);
+    	}
+    	
+    	return list;
+    }
     //게시글 검색
-    public ArrayList<BoardVO> search(String category, String keyword) {
-        ArrayList<BoardVO> list = new ArrayList<>();
-
+    public ArrayList<BoardVO> search(int boardTypeNo, String category, String keyword) {
+       ArrayList<BoardVO> list = new ArrayList<>();
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
 
-        String sql = "select b.*, u.user_nickname FROM board b JOIN user_tb u ON b.user_no = u.user_no WHERE b.board_type_no = ? AND b.board_delete_date IS NULL";
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT b.*, u.user_nickname ");
+        sql.append("FROM board b ");
+        sql.append("JOIN user_tb u ON b.user_no = u.user_no ");
+        sql.append("WHERE b.board_type_no = ? ");
+        sql.append("AND b.board_delete_date IS NULL ");
 
         if ("nickname".equals(category)) {
-            sql += "AND u.USER_NICKNAME LIKE ? ";
+            sql.append("AND u.USER_NICKNAME LIKE ? ");
         } else if ("title".equals(category)) {
-            sql += "AND b.BOARD_TITLE LIKE ? ";
+            sql.append("AND b.BOARD_TITLE LIKE ? ");
         } else if ("content".equals(category)) {
-            sql += "AND b.BOARD_CONTENT LIKE ? ";
+            sql.append("AND b.BOARD_CONTENT LIKE ? ");
         }
 
-        sql += "ORDER BY b.BOARD_NO DESC";
+        sql.append("ORDER BY b.BOARD_NO DESC");
 
         try {
             conn = ConnectionProvider.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, "%" + keyword + "%");
-            rs = pstmt.executeQuery();
+            pstmt = conn.prepareStatement(sql.toString());
 
+            pstmt.setInt(1, boardTypeNo);
+            pstmt.setString(2, "%" + keyword + "%");
+
+            rs = pstmt.executeQuery();
             while (rs.next()) {
                 BoardVO board = new BoardVO();
                 board.setBoardNo(rs.getInt("BOARD_NO"));
@@ -267,15 +309,15 @@ public class BoardDAO {
                 board.setUserNickname(rs.getString("USER_NICKNAME"));
                 list.add(board);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            ConnectionProvider.close(conn, pstmt, rs);
         }
 
-        ConnectionProvider.close(conn, pstmt, rs);
         return list;
     }
-
-
     public ArrayList<BoardVO> findByType(int type) {
         ArrayList<BoardVO> list = new ArrayList<>();
         String sql = "SELECT b.*, u.user_nickname\n"

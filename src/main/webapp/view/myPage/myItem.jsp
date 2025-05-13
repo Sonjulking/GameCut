@@ -16,7 +16,7 @@
                 <h2 class="mypage_section_title">내 아이템 목록</h2>
                 
                 <div class="mypage_item_header">
-                    <span class="user_point">보유 포인트: ${userPoint}P</span>
+                    <span class="user_point">보유 포인트: ${user.userPoint}P</span>
                     <a href="itemShop.do" class="shop_button">아이템 상점 가기</a>
                 </div>
                 
