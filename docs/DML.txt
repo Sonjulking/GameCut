@@ -1,9 +1,8 @@
 -- 1. BOARD_TYPE 테이블 데이터 (독립 테이블)
 INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '자유게시판');
+INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '팁게시판');
 INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '영상게시판');
-INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '공략게시판');
-INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '질문게시판');
-INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '강의게시판');
+
 
 -- 2. TAG 테이블 데이터 (독립 테이블)
 -- TAG 테이블은 PK가 문자열이므로 시퀀스 적용 없음
@@ -19,47 +18,46 @@ INSERT INTO TAG VALUES ('던전앤파이터', 'dnf.png');
 -- 3. ITEM 테이블 데이터 (독립 테이블)
 INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 골드', 500, NULL);
 INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 다이아몬드', 1000, NULL);
-INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 마스터', 2000, NULL);
-INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 배경 - 바다', 800, NULL);
-INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 배경 - 산', 800, NULL);
-INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 배경 - 우주', 1200, NULL);
-INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '댓글 이모티콘 세트', 500, NULL);
 INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '닉네임 색상 변경권', 1500, NULL);
 
 -- 4. USER_TB 테이블 데이터 (ITEM_NO 참조, PHOTO_NO는 나중에 업데이트)
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) 
-VALUES (SEQ_USER_NO.NEXTVAL, 'admin', 'admin123', '관리자', '게임컷관리자', '010-1234-5678', 'admin@gamecut.com', SYSDATE, NULL, 'basic', 'role_admin', 10000, NULL, NULL);
+VALUES (SEQ_USER_NO.NEXTVAL, 'admin', 'admin123', '관리자', '게임컷관리자', '010-1234-5678', 'admin@gamecut.com', SYSDATE, NULL, 'basic', 'ROLE_ADMIN', 10000, NULL, NULL);
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) 
-VALUES (SEQ_USER_NO.NEXTVAL, 'user1', 'user123', '홍길동', '롤체고수', '010-1111-2222', 'user1@example.com', SYSDATE, NULL, 'basic', 'role_user', 1500, 1, NULL);
+VALUES (SEQ_USER_NO.NEXTVAL, 'user1', 'user123', '홍길동', '롤체고수', '010-1111-2222', 'user1@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 1500, 1, NULL);
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) 
-VALUES (SEQ_USER_NO.NEXTVAL, 'user2', 'user123', '김철수', '발로란트신', '010-2222-3333', 'user2@example.com', SYSDATE, NULL, 'basic', 'role_user', 2500, 2, NULL);
+VALUES (SEQ_USER_NO.NEXTVAL, 'user2', 'user123', '김철수', '발로란트신', '010-2222-3333', 'user2@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 2500, 2, NULL);
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) 
-VALUES (SEQ_USER_NO.NEXTVAL, 'user3', 'user123', '이영희', '스타장인', '010-3333-4444', 'user3@example.com', SYSDATE, NULL, 'basic', 'role_user', 3500, 3, NULL);
+VALUES (SEQ_USER_NO.NEXTVAL, 'user3', 'user123', '이영희', '스타장인', '010-3333-4444', 'user3@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 3500, 3, NULL);
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) 
-VALUES (SEQ_USER_NO.NEXTVAL, 'user4', 'user123', '박민수', '배그킹', '010-4444-5555', 'user4@example.com', SYSDATE, NULL, 'basic', 'role_user', 800, 4, NULL);
+VALUES (SEQ_USER_NO.NEXTVAL, 'user4', 'user123', '박민수', '배그킹', '010-4444-5555', 'user4@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 800, NULL, NULL);
 
 INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) 
-VALUES (SEQ_USER_NO.NEXTVAL, 'user5', 'user123', '최지수', '피파왕', '010-5555-6666', 'user5@example.com', SYSDATE, NULL, 'basic', 'role_user', 1200, 5, NULL);
+VALUES (SEQ_USER_NO.NEXTVAL, 'user5', 'user123', '최지수', '피파왕', '010-5555-6666', 'user5@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 1200, NULL, NULL);
 
 -- 5. FILE_TB 테이블 데이터 (USER_NO 참조)
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 1, 'uuid-admin-1', '/upload/admin/profile.jpg', '/var/www/html/upload/admin/profile.jpg', 'image/jpeg', SYSDATE, 'profile.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-user1-1', '/upload/user1/profile.jpg', '/var/www/html/upload/user1/profile.jpg', 'image/jpeg', SYSDATE, 'profile.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-user2-1', '/upload/user2/profile.jpg', '/var/www/html/upload/user2/profile.jpg', 'image/jpeg', SYSDATE, 'profile.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-user3-1', '/upload/user3/profile.jpg', '/var/www/html/upload/user3/profile.jpg', 'image/jpeg', SYSDATE, 'profile.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-user4-1', '/upload/user4/profile.jpg', '/var/www/html/upload/user4/profile.jpg', 'image/jpeg', SYSDATE, 'profile.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-user5-1', '/upload/user5/profile.jpg', '/var/www/html/upload/user5/profile.jpg', 'image/jpeg', SYSDATE, 'profile.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-post-img1', '/upload/posts/image1.jpg', '/var/www/html/upload/posts/image1.jpg', 'image/jpeg', SYSDATE, 'image1.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-post-img2', '/upload/posts/image2.jpg', '/var/www/html/upload/posts/image2.jpg', 'image/jpeg', SYSDATE, 'image2.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-post-img3', '/upload/posts/image3.jpg', '/var/www/html/upload/posts/image3.jpg', 'image/jpeg', SYSDATE, 'image3.jpg');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-video1', '/upload/videos/video1.mp4', '/var/www/html/upload/videos/video1.mp4', 'video/mp4', SYSDATE, 'lol_play.mp4');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-video2', '/upload/videos/video2.mp4', '/var/www/html/upload/videos/video2.mp4', 'video/mp4', SYSDATE, 'valorant_play.mp4');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-video3', '/upload/videos/video3.mp4', '/var/www/html/upload/videos/video3.mp4', 'video/mp4', SYSDATE, 'starcraft_play.mp4');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-video4', '/upload/videos/video4.mp4', '/var/www/html/upload/videos/video4.mp4', 'video/mp4', SYSDATE, 'pubg_play.mp4');
-INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-video5', '/upload/videos/video5.mp4', '/var/www/html/upload/videos/video5.mp4', 'video/mp4', SYSDATE, 'fifa_play.mp4');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 1, 'uuid-admin-1', 'upload/img/2025/05/admin.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\admin.webp', 'image/jpeg',  SYSDATE, 'admin.jpg');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-user1-1', 'upload/img/2025/05/profile1.png', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\profile1.png', 'image/jpeg',  SYSDATE, 'profile1.png');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-user2-1', 'upload/img/2025/05/profile2.jpg', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\profile2.jpg', 'image/jpeg',  SYSDATE, 'profile2.jpg');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-user3-1', 'upload/img/2025/05/profile3.jpg', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\profile3.jpg', 'image/jpeg', SYSDATE, 'profile3.jpg');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-user4-1', 'upload/img/2025/05/profile4.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\profile4.webp', 'image/jpeg', SYSDATE, 'profile4.webp');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-user5-1', 'upload/img/2025/05/profile5.jpg', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\profile5.jpg', 'image/jpeg', SYSDATE, 'profile5.jpg');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-post-img3', 'upload/img/2025/05/gold.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\gold.webp', 'image/jpeg', SYSDATE, 'gold.webp');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-post-img2', 'upload/img/2025/05/diamond.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\diamond.webp', 'image/jpeg', SYSDATE, 'diamond.webp');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-post-img1', 'upload/img/2025/05/nicknamecolor.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\img\2025\05\nicknamecolor.webp', 'image/jpeg', SYSDATE, 'nicknamecolor.webp');
+
+
+
+
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-video1', 'upload/videos/2025/05/test01.mp4', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\videos\2025\05\test01.mp4', 'video/mp4', SYSDATE, 'test01.mp4');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-video2', 'upload/videos/2025/05/test02.mp4', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\videos\2025\05\test02.mp4', 'video/mp4', SYSDATE, 'test02.mp4');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-video3', 'upload/videos/2025/05/test03.mp4', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\videos\2025\05\test03.mp4', 'video/mp4', SYSDATE, 'test03.mp4');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-video4', 'upload/videos/2025/05/image2.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\videos\2025\05', 'video/mp4', SYSDATE, 'pubg_play.mp4');
+INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-video5', 'upload/videos/2025/05/image2.webp', 'C:\dev\project\GameCut\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\GameCut\upload\videos\2025\05', 'video/mp4', SYSDATE, 'fifa_play.mp4');
 
 -- 6. VIDEO 테이블 데이터 (FILE_TB 참조)
 INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 10);
@@ -131,17 +129,12 @@ INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 6, SYSDATE, -800
 INSERT INTO ITEM_IMG VALUES (1, 7);
 INSERT INTO ITEM_IMG VALUES (2, 8);
 INSERT INTO ITEM_IMG VALUES (3, 9);
-INSERT INTO ITEM_IMG VALUES (4, 7);
-INSERT INTO ITEM_IMG VALUES (5, 8);
 
 -- 14. USER_ITEM 테이블 데이터 (USER_TB, ITEM 참조, 복합 키 테이블이라 시퀀스 사용 안함)
 INSERT INTO USER_ITEM VALUES (2, 1);
 INSERT INTO USER_ITEM VALUES (3, 2);
 INSERT INTO USER_ITEM VALUES (4, 3);
-INSERT INTO USER_ITEM VALUES (5, 4);
-INSERT INTO USER_ITEM VALUES (6, 5);
-INSERT INTO USER_ITEM VALUES (2, 7);
-INSERT INTO USER_ITEM VALUES (3, 8);
+
 
 -- 15. MESSAGE 테이블 데이터 (USER_TB 참조)
 INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 2, 3, '안녕하세요! 같이 게임하실래요?', SYSDATE, NULL);

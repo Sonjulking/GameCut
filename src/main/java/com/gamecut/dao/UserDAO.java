@@ -149,7 +149,7 @@ public class UserDAO {
 			prst.setString(5, vo.getPhone());
 			prst.setString(6, vo.getEmail());
 			prst.setString(7, "basic");
-			prst.setString(8, "role_user");
+			prst.setString(8, "ROLE_USER");
 			//prst.setInt(9, vo.getPhotoNo());
 			re = prst.executeUpdate();
 			ConnectionProvider.close(conn, prst);

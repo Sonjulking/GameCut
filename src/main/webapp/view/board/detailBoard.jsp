@@ -154,7 +154,9 @@
                 <span><strong>조회수:</strong> ${board.boardCount}</span>
             </div>
             <div class="board-content">
-                <video class="video_player" src="${fileUrl}" controls></video>
+                <c:if test="${not empty fileUrl}">
+                    <video class="video_player" src="${fileUrl}" controls></video>
+                </c:if>
                 ${board.boardContent}
             </div>
 

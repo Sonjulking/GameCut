@@ -20,6 +20,12 @@
 		font-size: 20px;
 	}
 
+	.password-form-container{
+		
+		display: flex;
+		justify-content : center;
+		
+	}
 	.password-form-container label {
 		display: block;
 		margin-top: 15px;
@@ -39,12 +45,12 @@
 		box-sizing: border-box;
 	}
 
-	.password-form-container input[type="submit"] {
+	.password-form-container input[type="button"] {
 		margin-top: 20px;
 		width: 100%;
 		padding: 10px;
-		background-color: #007bff;
-		color: #ffffff;
+		background-color: #3a3a3a;
+        color: white;
 		border: none;
 		border-radius: 5px;
 		cursor: pointer;
@@ -72,7 +78,7 @@
 
 		<input type="hidden" id="userID" name="userID" value="${loginUSER.userId}">
 
-		<input type="submit" id="btnOK" value="변경하기">
+		<input type="button" id="btnOK" value="변경하기">
 	</form>
 </div>
 

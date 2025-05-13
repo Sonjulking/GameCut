@@ -25,9 +25,18 @@
                             
                             <c:forEach var="follow" items="${followList}" varStatus="status">
                                 <div class="mypage_user_item">
-                                    <div class="mypage_user_item_img">
-                                        <img src="${followImgUrlList[status.index]}" alt="프로필 이미지">
-                                    </div>
+									<c:choose>
+				                		<c:when test="${followImgUrlList[status.index] == '' || followImgUrlList[status.index] == null }">
+						                    <div class="mypage_user_item_img">
+						                        <img class="mypage_user_image" alt="프로필 이미지" src="img/main/icons/profile_icon.png">
+						                    </div>
+				                		</c:when>
+					                	<c:otherwise>
+						                    <div class="mypage_user_item_img">
+		                                        <img src="${followImgUrlList[status.index]}" alt="프로필 이미지">
+		                                    </div>
+					                	</c:otherwise>
+				                	</c:choose>
                                     <div class="mypage_user_item_info">
                                         <p class="mypage_user_item_nickname">${follow.userNickname}</p>
                                         <p class="mypage_user_item_id">${follow.userId}</p>
@@ -51,9 +60,18 @@
                             
                             <c:forEach var="follower" items="${followerList}" varStatus="status">
                                 <div class="mypage_user_item">
-                                    <div class="mypage_user_item_img">
-                                        <img src="${followerImgUrlList[status.index]}" alt="프로필 이미지">
-                                    </div>
+                                	<c:choose>
+				                		<c:when test="${followerImgUrlList[status.index] == '' || followerImgUrlList[status.index] == null }">
+						                    <div class="mypage_user_item_img">
+						                        <img class="mypage_user_image" alt="프로필 이미지" src="img/main/icons/profile_icon.png">
+						                    </div>
+				                		</c:when>
+					                	<c:otherwise>
+		                                    <div class="mypage_user_item_img">
+		                                        <img src="${followerImgUrlList[status.index]}" alt="프로필 이미지">
+		                                    </div>
+					                	</c:otherwise>
+				                	</c:choose>
                                     <div class="mypage_user_item_info">
                                         <p class="mypage_user_item_nickname">${follower.userNickname}</p>
                                         <p class="mypage_user_item_id">${follower.userId}</p>
