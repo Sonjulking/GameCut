@@ -77,4 +77,12 @@ public class CommentVO {
     public void setCommentWriter(String commentWriter) {
         this.commentWriter = commentWriter;
     }
+	@Override
+	public String toString() {
+		return "CommentVO [commentNo=" + commentNo + ", boardNo=" + boardNo + ", userNo=" + userNo
+				+ ", parentCommentNo=" + parentCommentNo + ", commentContent=" + commentContent + ", commentCreateDate="
+				+ commentCreateDate + ", commentDeleteDate=" + commentDeleteDate + ", commentWriter=" + commentWriter
+				+ "]";
+	}
+    
 }

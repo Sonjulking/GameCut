@@ -22,6 +22,7 @@ public class ListParentCommentAction implements GameCutAction {
         System.out.println("ListParentCommentAction 동작!");
         // TODO Auto-generated method stub
         int boardNo = Integer.parseInt(request.getParameter("boardNo"));
+        System.out.println("boardNo : " +  boardNo);
         CommentDAO dao = new CommentDAO();
         List<CommentVO> commentList = dao.selectParentComments(boardNo);
         ArrayList<CommentVO> resultList = new ArrayList<>();
@@ -29,6 +30,7 @@ public class ListParentCommentAction implements GameCutAction {
         for (CommentVO comment : commentList) {
             resultList.add(comment);
         }
+        System.out.println(commentList);
         Gson gson = new Gson();
         String jsonResult = gson.toJson(resultList);
         System.out.println("JSON 결과: " + jsonResult); // 콘솔에 출력
