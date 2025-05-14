@@ -2,16 +2,16 @@
 
 ## 프로젝트 개요
 **인생겜컷**은 ‘인생네컷’과 ‘게임’을 결합한 이름으로, 짧고 임팩트 있는 게임 명장면(킬캠, 클러치, 재치 있는 장면 등)을 쉽고 빠르게 공유하고, 댓글·커뮤니티로 소통할 수 있는 웹 플랫폼입니다.  
-기존 텍스트 중심 커뮤니티의 불편함을 해소하고, 릴스·숏츠처럼 영상 소비가 폭발적으로 증가한 트렌드를 반영해 기획되었습니다. :contentReference[oaicite:0]{index=0}:contentReference[oaicite:1]{index=1}
+기존 텍스트 중심 커뮤니티의 불편함을 해소하고, 릴스·숏츠처럼 영상 소비가 폭발적으로 증가한 트렌드를 반영해 기획되었습니다. 
 
 ## 팀 구성
-- **팀명**: 개코  
-- **팀원**:  
-  - 조세창: AJAX & Fetch API 비동기 통신 구현  
+- **팀명**: 개코
+- **팀장 : 조세창: AJAX & Fetch API 비동기 통신 구현  
+- **팀원**  
   - 고강찬: FileUtil 클래스 설계 (static)  
   - 공우진, 전희재: 자동 로그아웃, UI/UX  
   - 성준우: 오류 보고·디버깅  
-  - 양소영: 테마·설정 관리, 테스트 및 문서화 :contentReference[oaicite:2]{index=2}:contentReference[oaicite:3]{index=3}
+  - 양소영: 테마·설정 관리, 테스트 및 문서화 
 
 ## 주요 기능
 1. **영상 업로드 & 랜덤 재생**  
@@ -22,14 +22,14 @@
 6. **포인트 및 계급 랭킹 조회**  
 7. **설정 관리** (UI 크기 · 폰트 · 테마)  
 8. **마이페이지, 받은 쪽지, 팔로우 관리**  
-9. **좋아요 · 공유 · 다운로드 · 신고 기능** :contentReference[oaicite:4]{index=4}:contentReference[oaicite:5]{index=5}
+9. **좋아요 · 공유 · 다운로드 · 신고 기능** 
 
 ## 기술 스택
 - **백엔드**: Java, JSP/Servlet (MVC 패턴), JSTL  
 - **프론트엔드**: HTML5, CSS3, JavaScript (AJAX, Fetch API)  
 - **DB**: Oracle DB (ERD 설계 및 SQL 명세서 제공)  
 - **서버**: Apache Tomcat  
-- **협업 도구**: GitHub, PPT, 팀 위키 :contentReference[oaicite:6]{index=6}:contentReference[oaicite:7]{index=7}
+- **협업 도구**: GitHub, PPT, 팀 위키 
 
 ## 설치 및 실행
 1. 저장소 클론  
