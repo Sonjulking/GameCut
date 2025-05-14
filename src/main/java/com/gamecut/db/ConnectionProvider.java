@@ -6,6 +6,20 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class ConnectionProvider {
+	public static Connection getConnection(String username, String password) {
+		Connection conn = null;
+		
+		try {
+			String driver = "oracle.jdbc.driver.OracleDriver";
+			String url = "jdbc:oracle:thin:@localhost:1521:XE";
+			
+			Class.forName(driver);
+			conn = DriverManager.getConnection(url, username, password);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return conn;
+	}
     public static Connection getConnection() {
         Connection conn = null;
 

@@ -19,21 +19,16 @@ public class DeleteCommentAction implements GameCutAction {
 		HttpSession session = request.getSession();
 	    UserVO loginUser = (UserVO) session.getAttribute("loginUSER");
 
-	    if (loginUser == null) {
-	        response.sendRedirect("login.do");
-	        return null;
-	    }
 
 	    int commentNo = Integer.parseInt(request.getParameter("commentNo"));
-
+	    System.out.println("삭제버튼을 눌렀을때의 댓글번호 : " + commentNo);
 	    // 댓글 작성자 확인
 	    CommentVO original = new CommentDAO().getCommentByNo(commentNo);
 	    if (original == null || original.getUserNo() != loginUser.getUserNo()) {
-	        response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 권한 없음
-	        return null;
+	        response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
+	        return "\"fail\"";
 	    }
-
 	    new CommentDAO().deleteComment(commentNo);
-	    return "commentResult.jsp";
+	    return "\"success\"";
 	}
 }
