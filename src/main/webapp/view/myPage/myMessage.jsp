@@ -68,7 +68,7 @@
                         </table>
                         
                         <!-- 페이징 처리 (있을 경우) -->
-                        <c:if test="${!empty receivedPagingInfo}">
+                        <%-- <c:if test="${!empty receivedPagingInfo}">
                             <div class="mypage_pagination">
                                 <c:if test="${receivedPagingInfo.currentPage > 1}">
                                     <a href="myMessage.do?rPage=${receivedPagingInfo.currentPage - 1}" class="page_btn prev">&lt;</a>
@@ -82,7 +82,7 @@
                                     <a href="myMessage.do?rPage=${receivedPagingInfo.currentPage + 1}" class="page_btn next">&gt;</a>
                                 </c:if>
                             </div>
-                        </c:if>
+                        </c:if> --%>
                     </div>
                 </div>
                 
