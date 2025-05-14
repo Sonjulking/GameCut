@@ -143,7 +143,84 @@
                 border-radius: 10px;
                 border: 1px solid #444;
             }
+            /* 댓글 입력 영역 컴팩트하게 */
+.comment-box textarea {
+    width: 100%;
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: #eee;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    height: 130px;
+    max-height: 180px;
+    box-sizing: border-box;
+    line-height: 1.5;
+}
+
+/* 댓글 작성 버튼 */
+.comment-box button[type="submit"] {
+    background-color: #333;
+    color: #f0f0f0;
+    font-size: 13px;
+    border: 1px solid #555;
+    border-radius: 6px;
+    padding: 6px 14px;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.comment-box button[type="submit"]:hover {
+    background-color: #555;
+}
+
+/* 댓글 header */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12.5px;
+    color: #bbb;
+    margin-bottom: 0.25rem;
+}
+
+.comment-writer {
+    font-weight: 600;
+    color: #ccc;
+    font-size: 12.5px;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #888;
+}
+
+/* 댓글 본문 */
+.comment-body {
+    font-size: 14px;
+    color: #e0e0e0;
+    line-height: 1.5;
+}
+
+/* 전체 댓글 영역 */
+.comment-box {
+    background-color: #1e1e1e;
+    color: white;
+    padding: 1.2rem;
+    margin: 2rem 0;
+    border-radius: 1rem;
+    width: 80%;
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+}
+
+/* 댓글 한 개 */
+.comment-item {
+    border-bottom: 1px solid #333;
+    padding: 1rem 0;
+}
         </style>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
     <body>
         <div class="board-container">
@@ -195,7 +272,7 @@
             </div>
 
             <div id="commentSection" class="comment-box">
-                <h3>💬 댓글</h3>
+                <h3>댓글</h3>
 
                 <!-- 로그인 시 댓글 작성 -->
                 <c:if test="${not empty sessionScope.loginUSER}">
@@ -209,6 +286,7 @@
                     </form>
                     <hr>
                 </c:if>
+                
 
                 <!-- 비로그인 시 안내 -->
                 <c:if test="${empty sessionScope.loginUSER}">
@@ -228,28 +306,84 @@
         <!-- ✅ 스크립트 -->
         <script>
             const boardNo = '${board.boardNo}';
+            const loginUserNo = "${sessionScope.loginUSER.userNo}";
             console.log("boardNo  : " + boardNo);
 
+            /*
             function loadComments() {
-                $.get("listParentComment.do?boardNo=" + boardNo, function (res) {
-                    $.each(res, function (index, comment) {
-                        const commentContent = comment.commentContent;
-                        const commentCreateDate = comment.commentCreateDate;
-                        const commentNo = comment.commentNo;
-                        const parentCommentNo = comment.parentCommentNo;
-                        const userNo = comment.userNo;
-                        console.log(comment);
-                        console.log(commentContent);
-                        let commentContainer = '<div>' + commentContent + '</div>';
-                        $("#commentList").append(commentContainer);
+                $("#commentList").empty();  // 기존 댓글들 제거
+
+                $.get("listParentComment.do?boardNo=" + boardNo, function(res) {
+                    $.each(res, function(index, comment) {
+                        // 서버에서 넘어오는 JSON 속성
+                        const writer  = comment.commentWriter;      // 닉네임
+                        const date    = comment.commentCreateDate;  // 작성일
+                        const content = comment.commentContent;     // 본문
+                        const no = comment.commentNo;
+                        
+						console.log(no);
+						console.log(loginUserNo);
+						
+                        // 원하는 HTML 템플릿
+                        let commentHtml = `
+                            <div class="comment-item">
+                                <div class="comment-header">
+                                    <span class="comment-writer">`+writer+`</span>
+                                    <span class="comment-date">`+ date +`</span>
+                                </div>
+                                <div class="comment-body">`+ content +`</div>
+                                <div style="text-align:right;">
+	                                <button class="deleteCommentBtn" no="${comment.commentNo}" style="background:#333; border:1px solid #666; color:#ccc; border-radius:5px; padding:4px 10px; cursor:pointer;">삭제</button>
+	                            </div>
+                            </div>
+                        `;
+                        $("#commentList").append(commentHtml);
+                    });
+                });
+            }
+            */
+            
+            function loadComments() {
+                $("#commentList").empty();
+
+                $.get("listParentComment.do?boardNo=" + boardNo, function(res) {
+                    $.each(res, function(index, comment) {
+                        const writer  = comment.commentWriter;
+                        const date    = comment.commentCreateDate;
+                        const content = comment.commentContent;
+                        const no      = comment.commentNo;
+                        const userNo  = comment.userNo; // 댓글 작성자 번호
+                        
+                        let commentHtml = `
+                            <div class="comment-item">
+                                <div class="comment-header" style="display:flex; justify-content:space-between;">
+                                    <span class="comment-writer">` + writer + `</span>
+                                    <span class="comment-date">` + date + `</span>
+                                </div>
+                                <div class="comment-body">` + content + `</div>
+                        `;
+
+                        // ✅ 댓글 작성자와 로그인 유저가 같을 때만 삭제 버튼 표시
+                        if (loginUserNo && loginUserNo == userNo) {
+                            commentHtml += `
+                                <div style="text-align:right;">
+                                    <button class="deleteCommentBtn" data-comment-no="` + no + `"
+                                        style="background:#333; border:1px solid #666; color:#ccc; border-radius:5px; padding:4px 10px; cursor:pointer;">
+                                        삭제
+                                    </button>
+                                </div>
+                            `;
+                        }
+
+                        commentHtml += '</div>';
+                        $("#commentList").append(commentHtml);
                     });
                 });
             }
 
+			
             loadComments();
-        </script>
 
-        <script>
             // 댓글 작성 버튼 클릭 시 AJAX로 서버에 전송
             $("#commentForm button[type='submit']").on("click", function () {
                 const boardNo = $("input[name='boardNo']").val();
@@ -277,6 +411,40 @@
                     alert("서버 오류 발생");
                 });
             });
+            
+            /*
+            $(document).on("click", ".deleteCommentBtn", function () {
+                const commentNo = $(this).data("comment-no");
+				console.log(commentNo);
+                 if (!confirm("정말 삭제하시겠습니까?")) return;
+
+                $.post("deleteComment.do", { commentNo: commentNo }, function (result) {
+                    if (result.trim() === "success") {
+                        loadComments(); // 댓글 목록 갱신
+                    } else {
+                        alert("댓글 삭제 실패");
+                    }
+                }).fail(function () {
+                    alert("서버 오류 발생");
+                }); 
+            });
+            */
+            
+            $(document).on("click", ".deleteCommentBtn", function () {
+                const commentNo = $(this).data("comment-no");
+                if (!confirm("정말 삭제하시겠습니까?")) return;
+
+                $.post("deleteComment.do", { commentNo: commentNo }, function (result) {
+                    if (result.trim() === "success") {
+                        loadComments(); // 목록 갱신
+                    } else {
+                        alert("댓글 삭제 실패");
+                    }
+                }).fail(function () {
+                    alert("서버 오류 발생");
+                });
+            });
+
         </script>
 
         <script>

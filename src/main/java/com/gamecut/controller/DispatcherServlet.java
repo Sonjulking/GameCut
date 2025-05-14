@@ -67,6 +67,10 @@ public class DispatcherServlet extends HttpServlet {
         GameCutAction action = map.get(cmd);
         String viewPage = action.pro(request, response);
 
+        if (viewPage == null) {
+            return;
+        }
+
         if (viewPage.endsWith(".do")) {
             response.sendRedirect(viewPage);
         } else if (viewPage.endsWith(".jsp")) {
@@ -76,7 +80,7 @@ public class DispatcherServlet extends HttpServlet {
         } else {
             response.setContentType("application/json;charset=utf-8");
             PrintWriter out = response.getWriter();
-            out.print(viewPage); //json 데이터 응답
+            out.print(viewPage);
             out.close();
         }
     }
