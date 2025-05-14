@@ -4,32 +4,31 @@
     <div class="main_content">
         <div class="content_wrapper">
             <!-- 왼쪽 사이드바 -->
-            <div class="mypage_sidebar">
-                <h2 class="mypage_title">마이페이지</h2>
-                <nav class="mypage_menu">
-                    <a href="myMessage.do" class="mypage_menu_item">내 쪽지</a>
-                    <a href="myBoard.do" class="mypage_menu_item">내 게시글</a>
-                    <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
-                    <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
-                    <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
-                    <a href="myPointHistory.do" class="mypage_menu_item">내 포인트 내역</a>
-                    <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
-                    <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
-                    <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
-                </nav>
-            </div>
+            <!-- 사이드바 include -->
+            <jsp:include page="sidebar.jsp">
+                <jsp:param name="activeMenu" value="board" />
+            </jsp:include>
             
             <!-- 오른쪽 내 정보 섹션 -->
             <div class="mypage_user_section">
                 <h2 class="mypage_section_title">내 정보</h2>
                 
                 <div class="mypage_profile">
-                    <div id="userImg" class="mypage_img_container">
-                        <img class="mypage_user_image" alt="프로필 이미지" src="${file.fileUrl}">
-                    </div>
+                	<c:choose>
+                		<c:when test="${user.photoNo == 0 || user.photoNo == null }">
+		                    <div id="userImg" class="mypage_img_container">
+		                        <img class="mypage_user_image" alt="프로필 이미지" src="img/main/icons/profile_icon.png">
+		                    </div>
+                		</c:when>
+	                	<c:otherwise>
+		                    <div id="userImg" class="mypage_img_container">
+		                        <img class="mypage_user_image" alt="프로필 이미지" src="${file.fileUrl}">
+		                    </div>
+	                	</c:otherwise>
+                	</c:choose>
                     <div class="mypage_user_details">
                         <c:if test="${user.role == 'role_admin' }">
-                            <img alt="관리자이모티콘" src="/img/main/admin.jpg" class="admin_icon">
+                            <img alt="관리자이모티콘" src="/img/main/icons/admin.jpg" class="admin_icon">
                         </c:if>
                         <p id="userId" class="mypage_user_id">${user.userId}</p>
                         <p id="userNickname" class="mypage_user_nickname">${user.userNickname}</p>
@@ -51,7 +50,9 @@
     /* 전체 레이아웃 */
     .main_container {
         width: 100%;
-        padding: 1rem;
+        margin-bottom: 4rem; /* 푸터와의 간격 추가 */
+        min-height: calc(100vh - 8rem); /* 뷰포트 높이에서 헤더와 푸터 높이를 뺀 값 */
+        position: relative;
     }
 
     .main_content {
@@ -59,6 +60,8 @@
         border-radius: 0.75rem;
         box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
         padding: 1rem;
+        max-height: calc(100vh - 10rem); /* 뷰포트 높이에서 헤더, 푸터, 마진 등을 뺀 값 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
     
     /* 컨텐츠 래퍼 - 사이드바와 내 정보 섹션을 감싸는 컨테이너 */
@@ -75,6 +78,10 @@
         padding: 2rem;
         border-radius: 0.75rem;
         flex-shrink: 0;
+        position: sticky;
+        top: 1rem; /* 스크롤 시 상단에 고정 */
+        max-height: calc(100vh - 12rem); /* 사이드바 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
 
     .mypage_title {
@@ -117,7 +124,9 @@
         display: flex;
         flex-direction: column;
         gap: 2rem;
-        margin-right : 3rem;
+        margin-right: 3rem;
+        max-height: calc(100vh - 12rem); /* 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
     
     .mypage_section_title {
@@ -208,6 +217,7 @@
         width: 100%;
         max-width: 18.75rem;
         margin: 0 auto;
+        margin-bottom: 1rem; /* 하단 여백 추가 */
     }
 
     .mypage_action_btn {
@@ -244,11 +254,23 @@
         
         .mypage_sidebar {
             width: 100%;
+            position: static; /* 모바일에서는 고정 위치 해제 */
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+        }
+        
+        .mypage_user_section {
+            margin-right: 0;
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
         }
         
         .mypage_img_container {
             width: 8rem;
             height: 8rem;
+        }
+        
+        .main_content {
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+            overflow-y: visible; /* 모바일에서는 스크롤 자동으로 처리 */
         }
     }
 </style>

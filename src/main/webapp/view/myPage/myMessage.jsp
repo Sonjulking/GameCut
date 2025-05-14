@@ -6,20 +6,9 @@
     <div class="main_content">
         <div class="content_wrapper">
             <!-- 왼쪽 사이드바 -->
-            <div class="mypage_sidebar">
-                <h2 class="mypage_title">마이페이지</h2>
-                <nav class="mypage_menu">
-                    <a href="myMessage.do" class="mypage_menu_item active">내 쪽지</a>
-                    <a href="myBoard.do" class="mypage_menu_item">내 게시글</a>
-                    <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
-                    <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
-                    <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
-                    <a href="myPointHistory.do" class="mypage_menu_item">내 포인트 내역</a>
-                    <a href="myFollow.do" class="mypage_menu_item">팔로우</a>
-                    <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
-                    <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
-                </nav>
-            </div>
+            <jsp:include page="sidebar.jsp">
+                <jsp:param name="activeMenu" value="board" />
+            </jsp:include>
             
             <!-- 오른쪽 내 정보 섹션 -->
             <div class="mypage_user_section">
@@ -79,7 +68,7 @@
                         </table>
                         
                         <!-- 페이징 처리 (있을 경우) -->
-                        <c:if test="${!empty receivedPagingInfo}">
+                        <%-- <c:if test="${!empty receivedPagingInfo}">
                             <div class="mypage_pagination">
                                 <c:if test="${receivedPagingInfo.currentPage > 1}">
                                     <a href="myMessage.do?rPage=${receivedPagingInfo.currentPage - 1}" class="page_btn prev">&lt;</a>
@@ -93,7 +82,7 @@
                                     <a href="myMessage.do?rPage=${receivedPagingInfo.currentPage + 1}" class="page_btn next">&gt;</a>
                                 </c:if>
                             </div>
-                        </c:if>
+                        </c:if> --%>
                     </div>
                 </div>
                 
@@ -164,9 +153,10 @@
 <style>
     /* 전체 레이아웃 */
     .main_container {
-        width: 100%;
-        padding: 1rem;
-        margin-bottom: 5rem; /* 푸터를 위한 여백 추가 */
+        width: 95%;
+        margin-bottom: 4rem; /* 푸터와의 간격 추가 */
+        min-height: calc(100vh - 8rem); /* 뷰포트 높이에서 헤더와 푸터 높이를 뺀 값 */
+        position: relative;
     }
 
     .main_content {
@@ -174,7 +164,8 @@
         border-radius: 0.75rem;
         box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
         padding: 1rem;
-        margin-bottom: 2rem; /* 푸터와의 간격 */
+        max-height: calc(100vh - 10rem); /* 뷰포트 높이에서 헤더, 푸터, 마진 등을 뺀 값 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
     
     /* 컨텐츠 래퍼 - 사이드바와 내 정보 섹션을 감싸는 컨테이너 */
@@ -182,7 +173,6 @@
         display: flex;
         gap: 2rem;
         align-items: flex-start;
-        min-height: calc(100vh - 15rem); /* 푸터 공간 고려 */
     }
 
     /* 사이드바 */
@@ -192,6 +182,10 @@
         padding: 2rem;
         border-radius: 0.75rem;
         flex-shrink: 0;
+        position: sticky;
+        top: 1rem; /* 스크롤 시 상단에 고정 */
+        max-height: calc(100vh - 12rem); /* 사이드바 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
 
     .mypage_title {
@@ -219,7 +213,7 @@
         border: 0.0625rem solid transparent;
     }
 
-    .mypage_menu_item:hover, .mypage_menu_item.active {
+    .mypage_menu_item:hover {
         background-color: #3a3a3a;
         color: white;
         border-color: #555;
@@ -235,7 +229,8 @@
         flex-direction: column;
         gap: 2rem;
         margin-right: 3rem;
-        margin-bottom: 2rem; /* 푸터를 위한 추가 여백 */
+        max-height: calc(100vh - 12rem); /* 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
 
     .mypage_section_title {
@@ -295,8 +290,7 @@
         border-radius: 0.375rem 0.375rem 0 0;
         transition: all 0.2s ease;
     }
-
-    .mypage_tab_btn:hover {
+.mypage_tab_btn:hover {
         color: white;
         background-color: #3a3a3a;
     }
@@ -310,6 +304,8 @@
     /* 탭 내용 */
     .mypage_tab_content {
         display: none;
+        height: 100%;
+        overflow-y: auto;
     }
 
     .mypage_tab_content.active {
@@ -325,6 +321,7 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+        height: 100%;
     }
 
     /* 쪽지 테이블 */
@@ -465,6 +462,18 @@
         
         .mypage_sidebar {
             width: 100%;
+            position: static; /* 모바일에서는 고정 위치 해제 */
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+        }
+        
+        .mypage_user_section {
+            margin-right: 0;
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+        }
+        
+        .main_content {
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+            overflow-y: visible; /* 모바일에서는 스크롤 자동으로 처리 */
         }
         
         .mypage_message_table th:nth-child(4),
@@ -534,7 +543,7 @@
                 }
                 
                 if(confirm('선택한 쪽지를 삭제하시겠습니까?')) {
-                    // 삭제 처리 로직
+                    // 삭제 처리
                     const messageIds = Array.from(selectedMessages).map(el => el.value).join(',');
                     const messageType = activeTab.id === 'received_tab' ? 'received' : 'sent';
                     

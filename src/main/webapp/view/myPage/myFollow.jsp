@@ -5,20 +5,9 @@
     <div class="main_content">
         <div class="content_wrapper">
             <!-- 왼쪽 사이드바 -->
-            <div class="mypage_sidebar">
-                <h2 class="mypage_title">마이페이지</h2>
-                <nav class="mypage_menu">
-                    <a href="" class="mypage_menu_item">내 쪽지</a>
-                    <a href="myBoard.do" class="mypage_menu_item">내 게시글</a>
-                    <a href="myComment.do" class="mypage_menu_item">내 댓글</a>
-                    <a href="myVideo.do" class="mypage_menu_item">내 영상</a>
-                    <a href="myItem.do" class="mypage_menu_item">내 아이템</a>
-                    <a href="myPointHistory.do" class="mypage_menu_item">내 포인트 내역</a>
-                    <a href="myFollow.do" class="mypage_menu_item active">팔로우</a>
-                    <a href="myGTRHistory.do" class="mypage_menu_item">게스더랭크 기록</a>
-                    <a href="myReport.do" class="mypage_menu_item">신고 기록</a>
-                </nav>
-            </div>
+            <jsp:include page="sidebar.jsp">
+                <jsp:param name="activeMenu" value="board" />
+            </jsp:include>
             
             <!-- 오른쪽 내 정보 섹션 -->
             <div class="mypage_user_section">
@@ -36,9 +25,18 @@
                             
                             <c:forEach var="follow" items="${followList}" varStatus="status">
                                 <div class="mypage_user_item">
-                                    <div class="mypage_user_item_img">
-                                        <img src="${followImgUrlList[status.index]}" alt="프로필 이미지">
-                                    </div>
+									<c:choose>
+				                		<c:when test="${followImgUrlList[status.index] == '' || followImgUrlList[status.index] == null }">
+						                    <div class="mypage_user_item_img">
+						                        <img class="mypage_user_image" alt="프로필 이미지" src="img/main/icons/profile_icon.png">
+						                    </div>
+				                		</c:when>
+					                	<c:otherwise>
+						                    <div class="mypage_user_item_img">
+		                                        <img src="${followImgUrlList[status.index]}" alt="프로필 이미지">
+		                                    </div>
+					                	</c:otherwise>
+				                	</c:choose>
                                     <div class="mypage_user_item_info">
                                         <p class="mypage_user_item_nickname">${follow.userNickname}</p>
                                         <p class="mypage_user_item_id">${follow.userId}</p>
@@ -62,9 +60,18 @@
                             
                             <c:forEach var="follower" items="${followerList}" varStatus="status">
                                 <div class="mypage_user_item">
-                                    <div class="mypage_user_item_img">
-                                        <img src="${followerImgUrlList[status.index]}" alt="프로필 이미지">
-                                    </div>
+                                	<c:choose>
+				                		<c:when test="${followerImgUrlList[status.index] == '' || followerImgUrlList[status.index] == null }">
+						                    <div class="mypage_user_item_img">
+						                        <img class="mypage_user_image" alt="프로필 이미지" src="img/main/icons/profile_icon.png">
+						                    </div>
+				                		</c:when>
+					                	<c:otherwise>
+		                                    <div class="mypage_user_item_img">
+		                                        <img src="${followerImgUrlList[status.index]}" alt="프로필 이미지">
+		                                    </div>
+					                	</c:otherwise>
+				                	</c:choose>
                                     <div class="mypage_user_item_info">
                                         <p class="mypage_user_item_nickname">${follower.userNickname}</p>
                                         <p class="mypage_user_item_id">${follower.userId}</p>
@@ -107,8 +114,10 @@
 <style>
     /* 전체 레이아웃 */
     .main_container {
-        width: 100%;
-        padding: 1rem;
+        width: 95%;
+        margin-bottom: 4rem; /* 푸터와의 간격 추가 */
+        min-height: calc(100vh - 8rem); /* 뷰포트 높이에서 헤더와 푸터 높이를 뺀 값 */
+        position: relative;
     }
 
     .main_content {
@@ -116,6 +125,8 @@
         border-radius: 0.75rem;
         box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.3);
         padding: 1rem;
+        max-height: calc(100vh - 10rem); /* 뷰포트 높이에서 헤더, 푸터, 마진 등을 뺀 값 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
     
     /* 컨텐츠 래퍼 - 사이드바와 내 정보 섹션을 감싸는 컨테이너 */
@@ -132,6 +143,10 @@
         padding: 2rem;
         border-radius: 0.75rem;
         flex-shrink: 0;
+        position: sticky;
+        top: 1rem; /* 스크롤 시 상단에 고정 */
+        max-height: calc(100vh - 12rem); /* 사이드바 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
 
     .mypage_title {
@@ -159,7 +174,7 @@
         border: 0.0625rem solid transparent;
     }
 
-    .mypage_menu_item:hover, .mypage_menu_item.active {
+    .mypage_menu_item:hover {
         background-color: #3a3a3a;
         color: white;
         border-color: #555;
@@ -175,6 +190,8 @@
         flex-direction: column;
         gap: 2rem;
         margin-right: 3rem;
+        max-height: calc(100vh - 12rem); /* 최대 높이 설정 */
+        overflow-y: auto; /* 내용이 넘치면 스크롤 가능하게 */
     }
 
     .mypage_section_title {
@@ -190,6 +207,7 @@
         display: flex;
         gap: 1.5rem;
         width: 100%;
+        height: 100%;
     }
 
     .mypage_follow_section {
@@ -324,6 +342,18 @@
         
         .mypage_sidebar {
             width: 100%;
+            position: static; /* 모바일에서는 고정 위치 해제 */
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+        }
+        
+        .mypage_user_section {
+            margin-right: 0;
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+        }
+        
+        .main_content {
+            max-height: none; /* 모바일에서는 최대 높이 제한 해제 */
+            overflow-y: visible; /* 모바일에서는 스크롤 자동으로 처리 */
         }
         
         .mypage_follow_container {

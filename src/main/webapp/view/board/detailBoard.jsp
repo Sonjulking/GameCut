@@ -1,266 +1,299 @@
- <%-- <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>${board.boardTitle}</title>
-    <style>
-        .like-btn {
-            cursor: pointer;
-            font-size: 24px;
-            user-select: none;
-        }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>${board.boardTitle}</title>
+        <style>
+            .board-container {
+                background-color: #1e1e1e;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+                margin-bottom: 2rem;
+                max-height: 500px; /* 원하는 높이로 설정 */
+                overflow-y: auto; /* 세로 스크롤만 표시 */
+            }
 
-    <h2>${board.boardTitle}</h2>
-    <p><strong>내용:</strong> ${board.boardContent}</p>
-    <p><strong>작성자:</strong> ${board.userNo}</p>
-    <p><strong>작성일:</strong> ${board.boardCreateDate}</p>
-    <p><strong>조회수:</strong> ${board.boardCount}</p>
+            .board-title {
+                font-size: 28px;
+                font-weight: bold;
+                color: #f39c12;
+                margin-bottom: 1rem;
+            }
 
-    <hr>
+            .board-meta {
+                font-size: 14px;
+                color: #aaa;
+                display: flex;
+                gap: 1.5rem;
+                margin-bottom: 1rem;
+            }
 
-    <!-- ✅ 좋아요 버튼 (로그인 여부 관계없이 사용 가능) -->
-    <div class="like-btn" data-boardno="${board.boardNo}">
-        <span id="heart-icon">♡</span>
-        <span id="like-count">${board.boardLike}</span>
-    </div>
+            .board-content {
+                font-size: 16px;
+                line-height: 1.7;
+                color: #e0e0e0;
+                white-space: pre-wrap;
+                margin-top: 1.5rem;
+                border-top: 1px solid #333;
+                padding-top: 1rem;
+            }
 
-    <br><br>
+            .button-group {
+                margin-top: 1rem;
+            }
 
-    <!-- 신고 버튼 (원하는 경우에만 로그인 체크) -->
-    <a href="reportBoardForm.do?boardNo=${board.boardNo}&targetUserNo=${board.userNo}">신고하기</a>
+            .button-group form {
+                display: inline-block;
+                margin-right: 10px;
+            }
 
-    <!-- 좋아요 AJAX 스크립트 -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const likeBtn = document.querySelector(".like-btn");
-            const heart = document.getElementById("heart-icon");
-            const count = document.getElementById("like-count");
-            const boardNo = likeBtn.dataset.boardno;
+            .like-btn {
+                cursor: pointer;
+                font-size: 24px;
+                user-select: none;
+            }
 
-            let liked = false; 
-            likeBtn.addEventListener("click", function () {
-                liked = !liked;
-                heart.innerText = liked ? "🖤" : "♡";
+            .comment-box {
+                background-color: #1e1e1e;
+                color: white;
+                padding: 1rem;
+                margin: 2rem 0;
+                border-radius: 1rem;
+                width: 80%;
+            }
 
-                fetch("likeBoard.do", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: "boardNo=" + boardNo + "&status=" + (liked ? "liked" : "unliked")
-                })
-                .then(res => res.json())
-                .then(data => {
-                    count.innerText = data.likeCount;
-                })
-                .catch(err => console.error("좋아요 AJAX 오류", err));
-            });
-        });
-    </script>
+            .comment-item {
+                border-bottom: 1px solid #444;
+                padding: 1rem 0;
+            }
 
-</body>
-</html>
---%>
+            .pagination a {
+                margin: 0 5px;
+                color: #aaa;
+                text-decoration: none;
+            }
 
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>${board.boardTitle}</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: white;
-            font-family: Arial, sans-serif;
-            padding: 2rem;
-        }
-        .like-btn {
-            cursor: pointer;
-            font-size: 24px;
-            user-select: none;
-        }
-        .comment-box {
-            background-color: #1e1e1e;
-            color: white;
-            padding: 1rem;
-            margin: 2rem 0;
-            border-radius: 1rem;
-            width: 80%;
-        }
-        .comment-item {
-            border-bottom: 1px solid #444;
-            padding: 1rem 0;
-        }
-        .pagination a {
-            margin: 0 5px;
-            color: #aaa;
-            text-decoration: none;
-        }
-        .pagination a.active {
-            color: #f39c12;
-            font-weight: bold;
-        }
-        textarea {
-            width: 100%;
-            resize: vertical;
-        }
-    </style>
-</head>
-<body>
+            .pagination a.active {
+                color: #f39c12;
+                font-weight: bold;
+            }
 
-    <h2>${board.boardTitle}</h2>
-    <p><strong>내용:</strong> ${board.boardContent}</p>
-    <p><strong>작성자:</strong> ${board.userNo}</p>
-    <p><strong>작성일:</strong> ${board.boardCreateDate}</p>
-    <p><strong>조회수:</strong> ${board.boardCount}</p>
+            textarea {
+                width: 100%;
+                resize: vertical;
+            }
 
-    <hr>
+            input[type="submit"] {
+                background-color: #333;
+                color: #f0f0f0;
+                border: 1px solid #555;
+                padding: 5px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                margin-left: 5px;
+            }
 
-    <!-- ✅ 좋아요 버튼 -->
-    <div class="like-btn" data-boardno="${board.boardNo}">
-        <span id="heart-icon">♡</span>
-        <span id="like-count">${board.boardLike}</span>
-    </div>
+            .like-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 1rem 0 0 0;
+            }
 
-    <br>
+            .like-btn {
+                cursor: pointer;
+                font-size: 26px;
+                user-select: none;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
 
-    <!-- ✅ 신고 버튼 -->
-    <a href="reportBoardForm.do?boardNo=${board.boardNo}&targetUserNo=${board.userNo}">신고하기</a>
+            .button-group {
+                display: flex;
+                justify-content: flex-end; /* ✅ 오른쪽 정렬 */
+                gap: 10px;
+                margin-top: 1rem;
+                flex-wrap: wrap;
+            }
 
-    <hr>
+            .button-group form {
+                display: inline-block;
+            }
 
-    <!-- ✅ 댓글 영역 -->
-    <div id="commentSection" class="comment-box">
-        <h3>💬 댓글</h3>
 
-        <!-- 로그인 시 댓글 작성 -->
-        <c:if test="${not empty sessionScope.loginUSER}">
-            <form id="commentForm" onsubmit="return false;">
-                <input type="hidden" name="boardNo" value="${board.boardNo}">
-                <input type="hidden" name="parentCommentNo" value="0">
-                <textarea name="commentContent" rows="3" placeholder="댓글을 입력하세요..."></textarea><br>
-                <button type="submit">댓글 작성</button>
-            </form>
-            <hr>
-        </c:if>
+            input[type="submit"]:hover {
+                background-color: #555;
+            }
 
-        <!-- 비로그인 시 안내 -->
-        <c:if test="${empty sessionScope.loginUSER}">
-            <p style="color: #ccc;">댓글을 작성하려면 <a href="login.do" style="color: #f39c12;">로그인</a>하세요.</p>
-            <hr>
-        </c:if>
+            .heightVideo {
+                height: 30rem;
+            }
 
-        <!-- 댓글 리스트 -->
-        <div id="commentList"></div>
+            .widthVideo {
+                height: 30rem;
+            }
 
-        <!-- 페이징 영역 -->
-        <div id="commentPagination" class="pagination"></div>
-    </div>
+            .video_player {
+                display: block;
+                margin: 1rem auto;
+                border-radius: 10px;
+                border: 1px solid #444;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="board-container">
+            <div class="board-title">${board.boardTitle}</div>
+            <div class="board-meta">
+                <span><strong>작성자:</strong> ${board.userNickname}</span>
+                <span><strong>작성일:</strong> ${board.boardCreateDate}</span>
+                <span><strong>조회수:</strong> ${board.boardCount}</span>
+            </div>
+            <div class="board-content">
+                <c:if test="${not empty fileUrl}">
+                    <video class="video_player" src="${fileUrl}" controls></video>
+                </c:if>
+                ${board.boardContent}
+            </div>
 
-    <!-- ✅ 스크립트 -->
-    <script>
-        const boardNo = '${board.boardNo}';
+            <div class="like-wrapper">
+                <div class="like-btn" data-boardno="${board.boardNo}">
+                    <span id="heart-icon">🤍</span>
+                    <span id="like-count">${board.boardLike}</span>
+                </div>
+            </div>
+            <br>
+            <div class="button-group">
+                <form action="selectAllBoards.do" method="get" style="display:inline;">
+                    <input type="submit" value="목록으로"/>
+                </form>
 
-        // 댓글 불러오기
-        function loadComments(page) {
-            fetch("ajaxCommentList.do?boardNo=" + boardNo + "&page=" + page)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById("commentList").innerHTML = data.commentsHtml;
-                    document.getElementById("commentPagination").innerHTML = data.paginationHtml;
-                });
-        }
+                <form action="reportBoardForm.do" method="get" style="display:inline;">
+                    <input type="hidden" name="boardNo" value="${board.boardNo}"/>
+                    <input type="hidden" name="targetUserNo" value="${board.userNo}"/>
+                    <input type="submit" value="신고하기"/>
+                </form>
 
-        // 댓글 작성
-        document.addEventListener("DOMContentLoaded", function () {
-            loadComments(1);
+                <c:if test="${sessionScope.loginUSER.userNo == board.userNo}">
+                    <form action="updateBoardForm.do" method="get" style="display:inline;">
+                        <input type="hidden" name="boardNo" value="${board.boardNo}"/>
+                        <input type="submit" value="글 수정"/>
+                    </form>
 
-            const likeBtn = document.querySelector(".like-btn");
-            const heart = document.getElementById("heart-icon");
-            const count = document.getElementById("like-count");
+                    <form
+                            action="deleteBoard.do" method="post" style="display:inline;"
+                            onsubmit="return confirm('정말 삭제하시겠습니까?');"
+                    >
+                        <input type="hidden" name="boardNo" value="${board.boardNo}"/>
+                        <input type="submit" value="삭제"/>
+                    </form>
+                </c:if>
+            </div>
 
-            let liked = false;
-            likeBtn.addEventListener("click", function () {
-                liked = !liked;
-                heart.innerText = liked ? "🖤" : "♡";
+            <div id="commentSection" class="comment-box">
+                <h3>💬 댓글</h3>
 
-                fetch("likeBoard.do", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    },
-                    body: "boardNo=" + boardNo + "&status=" + (liked ? "liked" : "unliked")
-                })
-                .then(res => res.json())
-                .then(data => {
-                    count.innerText = data.likeCount;
-                });
-            });
+                <!-- 로그인 시 댓글 작성 -->
+                <c:if test="${not empty sessionScope.loginUSER}">
+                    <form id="commentForm" onsubmit="return false;">
+                        <input type="hidden" name="boardNo" value="${board.boardNo}">
+                        <input type="hidden" name="parentCommentNo" value="0">
+                        <textarea
+                                name="commentContent" rows="3" placeholder="댓글을 입력하세요..."
+                        ></textarea><br>
+                        <button type="submit">댓글 작성</button>
+                    </form>
+                    <hr>
+                </c:if>
 
-            const form = document.getElementById("commentForm");
-            if (form) {
-                form.addEventListener("submit", function () {
-                    const content = form.commentContent.value.trim();
-                    if (content === "") {
-                        alert("댓글 내용을 입력하세요.");
-                        return;
-                    }
+                <!-- 비로그인 시 안내 -->
+                <c:if test="${empty sessionScope.loginUSER}">
+                    <p style="color: #ccc;">댓글을 작성하려면 <a
+                            href="login.do" style="color: #f39c12;"
+                    >로그인</a>하세요.</p>
+                    <hr>
+                </c:if>
 
-                    const params = new URLSearchParams();
-                    params.append("boardNo", form.boardNo.value);
-                    params.append("parentCommentNo", form.parentCommentNo.value);
-                    params.append("commentContent", content);
+                <!-- 댓글 리스트 -->
+                <div id="commentList"></div>
 
-                    fetch("insertComment.do", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                        body: params.toString()
-                    })
-                    .then(res => res.text())
-                    .then(result => {
-                        if (result === "success") {
-                            form.commentContent.value = "";
-                            loadComments(1);
-                        }
+                <!-- 페이징 영역 -->
+                <div id="commentPagination" class="pagination"></div>
+            </div>
+        </div>
+        <!-- ✅ 스크립트 -->
+        <script>
+            const boardNo = '${board.boardNo}';
+            console.log("boardNo  : " + boardNo);
+
+            function loadComments() {
+                $.get("listParentComment.do?boardNo=" + boardNo, function (res) {
+                    $.each(res, function (index, comment) {
+                        const commentContent = comment.commentContent;
+                        const commentCreateDate = comment.commentCreateDate;
+                        const commentNo = comment.commentNo;
+                        const parentCommentNo = comment.parentCommentNo;
+                        const userNo = comment.userNo;
+                        console.log(comment);
+                        console.log(commentContent);
+                        let commentContainer = '<div>' + commentContent + '</div>';
+                        $("#commentList").append(commentContainer);
                     });
                 });
             }
-        });
 
-        // 댓글 수정
-        function updateComment(commentNo) {
-            const content = prompt("댓글을 수정하세요:");
-            if (!content) return;
+            loadComments();
+        </script>
 
-            fetch("updateComment.do", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "commentNo=" + commentNo + "&commentContent=" + encodeURIComponent(content)
-            })
-            .then(res => res.text())
-            .then(() => loadComments(1));
-        }
+        <script>
+            // 댓글 작성 버튼 클릭 시 AJAX로 서버에 전송
+            $("#commentForm button[type='submit']").on("click", function () {
+                const boardNo = $("input[name='boardNo']").val();
+                const parentCommentNo = $("input[name='parentCommentNo']").val();
+                const commentContent = $("textarea[name='commentContent']").val();
 
-        // 댓글 삭제
-        function deleteComment(commentNo) {
-            if (!confirm("정말 삭제하시겠습니까?")) return;
+                if (commentContent.trim() === "") {
+                    alert("댓글 내용을 입력해주세요.");
+                    return;
+                }
 
-            fetch("deleteComment.do", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "commentNo=" + commentNo
-            })
-            .then(res => res.text())
-            .then(() => loadComments(1));
-        }
-    </script>
+                $.post("insertComment.do", {
+                    boardNo: boardNo,
+                    parentCommentNo: parentCommentNo,
+                    commentContent: commentContent
+                }, function (result) {
+                    if (result.trim() === "success") {
+                        $("textarea[name='commentContent']").val(""); // 입력창 비움
+                        $("#commentList").empty(); // 기존 댓글 비우고
+                        loadComments(); // 다시 댓글 목록 불러오기
+                    } else {
+                        alert("댓글 작성 실패");
+                    }
+                }).fail(function () {
+                    alert("서버 오류 발생");
+                });
+            });
+        </script>
 
-</body>
+        <script>
+            // 스크롤 시 보이는 영상만 재생
+            const videos = document.querySelectorAll(".video_player");
+
+            videos.forEach(video => {
+                video.addEventListener('loadedmetadata', function () {
+                    if (video.videoWidth > video.videoHeight) {
+                        // 세로 영상
+                        video.classList.add('widthVideo');
+                    } else {
+                        // 세로 영상
+                        video.classList.add('heightVideo');
+                    }
+                });
+            });
+        </script>
+    </body>
 </html>

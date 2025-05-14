@@ -1,6 +1,5 @@
 package com.gamecut.dao;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +8,39 @@ import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.FileVO;
 
 public class FileDAO {
-
+	public int deleteFileByAttachNo(int attachNo) {
+		int re = 0;
+		String sql = "delete file_tb where attach_no = ?";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, attachNo);
+			re = pstmt.executeUpdate();
+        	System.out.println("파일 db 삭제 완료");
+			conn.commit();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
+	public int deleteFileByPhotoNo(int photoNo) {
+		int re = 0;
+		String sql = "delete file_tb where attach_no = (select attach_no from photo where photo_no = ?)";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, photoNo);
+			re = pstmt.executeUpdate();
+			ConnectionProvider.close(conn, pstmt);
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return re;
+	}
+	
+	
     public int insertFile(FileVO fileVO) {
         int attachNo = -1;
 
@@ -31,6 +62,7 @@ public class FileDAO {
             System.out.println("realPath : " + fileVO.getRealPath());
             System.out.println("fileUrl : " + fileVO.getFileUrl());
             // INSERT 수행
+            System.out.println("fileVo : " + fileVO.getUserNo());
             pstmt.setInt(1, attachNo);
             pstmt.setInt(2, fileVO.getUserNo());
             pstmt.setString(3, fileVO.getUuid());
@@ -77,6 +109,33 @@ public class FileDAO {
         return file;
     }
 
-    // 프로필 사진을 수정하는 구문
+    // 비디오 아이디를 통해 가져오기
+    public FileVO selectFileByVideoId(int videoId) {
+        FileVO file = new FileVO();
+        String sql = "select attach_no, user_no, uuid, file_url, real_path, mime_type, upload_time, original_file_name from file_tb where attach_no = (select attach_no from video where video_no = ?)";
+        try {
+            Connection conn = ConnectionProvider.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, videoId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                file.setAttachNo(rs.getInt("attach_no"));
+                file.setUserNo(rs.getInt("user_no"));
+                file.setUuid(rs.getString("uuid"));
+                file.setFileUrl(rs.getString("file_url"));
+                System.out.println("rs.getString(\"real_path\")" + rs.getString("real_path"));
+                file.setRealPath(rs.getString("real_path"));
+                file.setMimeType(rs.getString("mime_type"));
+                file.setUploadTime(rs.getDate("upload_time"));
+                file.setOriginalFileName(rs.getString("original_file_name"));
+            }
+            ConnectionProvider.close(conn, pstmt, rs);
+        } catch (Exception e) {
+            System.out.println("FileDAO 예외발생 : " + e.getMessage());
+        }
+        return file;
+    }
+
+    
 
 }

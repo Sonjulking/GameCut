@@ -7,10 +7,55 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import com.gamecut.db.ConnectionProvider;
+import com.gamecut.vo.FileVO;
 import com.gamecut.vo.ItemVO;
 
 public class ItemDAO {
+	// 아이템 번호로 해당 아이템 사진 조회 메소드
+	public FileVO selectItemImg(int itemNo) {
+		FileVO vo = new FileVO();
+		String sql = "select attach_no, user_no, uuid, file_url, real_path, mime_type, upload_time from file_tb where attach_no = (select attach_no from item_img where item_no = ?)";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, itemNo);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo.setAttachNo(rs.getInt("attach_no"));
+				vo.setUserNo(rs.getInt("user_no"));
+				vo.setUuid(rs.getString("uuid"));
+				vo.setFileUrl(rs.getString("file_url"));
+				vo.setRealPath(rs.getString("real_path"));
+				vo.setUploadTime(rs.getDate("upload_time"));
+				vo.setMimeType(rs.getString("mime_type"));
+			}
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return vo;
+	}
 
+	// 보유아이템 전체 정보 조회
+	public ArrayList<ItemVO> selectItemByUserNo(int userNo) {
+		ArrayList<ItemVO> list = new ArrayList<ItemVO>();
+		String sql = "select item_no, item_name, item_price from item where item_no in (select item_no from user_item where user_no = ?)";
+		try {
+			Connection conn = ConnectionProvider.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, userNo);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				ItemVO item = new ItemVO();
+				item.setItemNo(rs.getInt("item_no"));
+				item.setItemName(rs.getString("item_name"));
+				item.setItemPrice(rs.getInt("item_price"));
+				list.add(item);
+			}
+		} catch (Exception e) {
+			System.out.println("예외발생 : " + e.getMessage());
+		}
+		return list;
+	}
 	// 포인트 상점 아이템 전체 조회 메서드
 	public ArrayList<ItemVO> selectAllItems(){
 		ArrayList<ItemVO> list = new ArrayList();
@@ -73,13 +118,17 @@ public class ItemDAO {
 	        	System.out.println(userName +"님의 포인트가 부족합니다.");
 	        	return;
 	        }
+			// 구매목록 등록
+			String  insertUserItemSql= "INSERT INTO USER_ITEM (USER_NO, ITEM_NO) VALUES (?, ?)";
+			pstmt = conn.prepareStatement(insertUserItemSql);
+			pstmt.setInt(1, userNo);
+			pstmt.executeUpdate();
 
 	        // 포인트 차감
 	        String updateSql = "UPDATE USER_TB SET USER_POINT = USER_POINT - ? WHERE USER_NO = ?";
 	        pstmt = conn.prepareStatement(updateSql);
 	        pstmt.setInt(1, itemPrice);
-	        pstmt.setInt(2, itemNo);
-	        pstmt.setInt(3, userNo);
+	        pstmt.setInt(2, userNo);
 	        int result = pstmt.executeUpdate();
 
 	        if(result > 0) {
@@ -97,7 +146,7 @@ public class ItemDAO {
 	}
 
 	// 아이템 등록
-	public boolean insertItem(int attachNo, String name, int price ) {
+	public boolean insertItem(int attachNo, String name, int price) {
 		try {
 			// ITEM 테이블에 아이템 등록
 			String sql = "INSERT INTO ITEM (ITEM_NO, ITEM_NAME, ITEM_PRICE) VALUES (SEQ_ITEM_NO.NEXTVAL, ?, ?)";
@@ -208,8 +257,8 @@ public class ItemDAO {
 				String priceSql = "select ITEM_PRICE from ITEM where ITEM_NO =?";
 				Connection conn = ConnectionProvider.getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(priceSql);
-				ResultSet rs = pstmt.executeQuery();
 				pstmt.setInt(1, itemNo);
+				ResultSet rs = pstmt.executeQuery();
 				if(rs.next()) {
 					price = rs.getInt("ITEM_PRICE");
 				}
@@ -221,21 +270,3 @@ public class ItemDAO {
 		}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

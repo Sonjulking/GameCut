@@ -1,8 +1,7 @@
 package com.gamecut.util;
 
-import com.gamecut.dao.FileDAO;
-import com.gamecut.dao.PhotoDAO;
-import com.gamecut.dao.VideoDAO;
+import com.gamecut.dao.*;
+import com.gamecut.db.ConnectionProvider;
 import com.gamecut.vo.FileVO;
 import com.gamecut.vo.PhotoVO;
 import com.gamecut.vo.UserVO;
@@ -31,7 +30,6 @@ public class FileUtil {
         String tempDir = "upload";
         String tempRealPath = request.getServletContext().getRealPath(tempDir);
 
-
         MultipartRequest multi = new MultipartRequest(
                 request,
                 tempRealPath,
@@ -39,17 +37,17 @@ public class FileUtil {
                 "utf-8",
                 new DefaultFileRenamePolicy()
         );
+        int userNo = 0;
+        if (multi.getParameter("userNo") != null) {
+            userNo = Integer.parseInt(multi.getParameter("userNo"));
+        }
 
         //세션확인
         UserVO loginUser = (UserVO) request.getSession().getAttribute("loginUSER");
         String userId = null;
         if (loginUser != null) {
             userId = loginUser.getUserId();   // 유저 아이디
-        }
-
-        int userNo = 0;
-        if (multi.getParameter("userNo") != null) {
-            userNo = Integer.parseInt(multi.getParameter("userNo"));
+            userNo = loginUser.getUserNo();
         }
 
 
@@ -57,13 +55,6 @@ public class FileUtil {
         String savedFileName = multi.getFilesystemName(fileParam); //서버에 저장되는 파일명
 
         if (originalFileName == null || savedFileName == null) {
-            //프사 삭제
-            if (multi.getParameter("isProfileDeleted").equals("true")) {
-                System.out.println("isProfileDeleted");
-                FileDAO fileDao = new FileDAO();
-                FileVO fvo = fileDao.selectProfileFileByUserId(userNo);
-                FileUtil.deleteFile(userNo, fvo.getAttachNo(), fvo.getRealPath());
-            }
             return multi;
         } else {
             //확장자 확인
@@ -124,7 +115,6 @@ public class FileUtil {
                 fileVO.setUuid(uuid);
 
 
-                System.out.println(" realPath + File.separator + newFileName" + realPath + File.separator + newFileName);
                 String relativePath = uploadDir + File.separator + newFileName;
                 //웹경로에서는 슬래시 사용
                 fileVO.setFileUrl(relativePath.replace(File.separatorChar, '/'));
@@ -133,11 +123,19 @@ public class FileUtil {
                 fileVO.setOriginalFileName(originalFileName);
                 int attachNo = fileDAO.insertFile(fileVO);
 
+                //아이템일때
+                if (type.equals("item")) {
+                    ItemDAO itemDAO = new ItemDAO();
+                    itemDAO.insertItem(attachNo, multi.getParameter("itemName"), Integer.parseInt(multi.getParameter("itemPrice")));
+                    return multi;
+                }
+
                 if (uploadType.equals("videos")) { //비디오 일떄
                     VideoDAO videoDAO = new VideoDAO();
                     VideoVO videoVO = new VideoVO();
                     videoVO.setAttachNo(attachNo);
-                    videoDAO.insertVideo(videoVO);
+                    int videoNo = videoDAO.insertVideo(videoVO);
+                    request.setAttribute("videoNo", videoNo);
                 } else { //사진일때
                     PhotoDAO photoDAO = new PhotoDAO();
                     PhotoVO photoVO = new PhotoVO();
@@ -154,8 +152,8 @@ public class FileUtil {
     //파일삭제
     public static boolean deleteFile(int userNo, int attachNo, String realPath) {
         FileDAO fileDAO = new FileDAO();
+        PhotoDAO photoDAO = new PhotoDAO();
         FileVO fvo = fileDAO.selectProfileFileByUserId(userNo);
-        System.out.println("deleteFile realPath : " + realPath);
         if (realPath == null || realPath.trim().isEmpty()) {
             return false;
         }
@@ -163,11 +161,12 @@ public class FileUtil {
         File file = new File(realPath);
         if (file.exists()) {
             //TODO : DB 처리!!
+            photoDAO.deletePhotoByAttachNo(attachNo);
+            fileDAO.deleteFileByAttachNo(attachNo);
             return file.delete();
         }
         return false;
     }
-
 
     private static String getUploadType(String ext) {
         String[] imgExts = {"jpg", "jpeg", "png", "gif", "webp"};
@@ -185,4 +184,5 @@ public class FileUtil {
         }
         return "Not Supported";
     }
+
 }

@@ -32,22 +32,36 @@ public class MyPageUpdateOKAction implements GameCutAction {
         request.setCharacterEncoding("utf-8");
         MultipartRequest multi = FileUtil.uploadFile(request, "originalFileName", "profile", 1);
         UserVO u = new UserVO();
-        FileVO f = new FileVO();
         UserDAO userDao = new UserDAO();
         FileDAO fileDao = new FileDAO();
-        PhotoDAO photoDao = new PhotoDAO();
         u.setUserName(multi.getParameter("userName"));
         u.setUserNo(Integer.parseInt(multi.getParameter("userNo")));
         u.setUserNickname(multi.getParameter("userNickname"));
         u.setPhone(multi.getParameter("phone"));
         u.setEmail(multi.getParameter("email"));
-        if (request.getAttribute("photoNo") != null) {
-            u.setPhotoNo((int) request.getAttribute("photoNo"));
+        int oldPhotoNo = Integer.parseInt(multi.getParameter("oldPhotoNo"));
+        FileVO fvo = fileDao.selectProfileFileByUserId(u.getUserNo()); // 기존의 프로필 fileVO
+//        if(multi.getParameter("isProfileDeleted").equals("true")) {
+//        	u.setPhotoNo(0);
+//        } else if(multi.getParameter("oldPhotoNo") != null && Integer.parseInt(multi.getParameter("oldPhotoNo")) != 0) {
+//        	u.setPhotoNo(Integer.parseInt((multi.getParameter("oldPhotoNo"))));
+//        } else {
+//        	u.setPhotoNo((int)request.getAttribute("photoNo"));
+//        }
+        if(multi.getParameter("isProfileDeleted").equals("false")) {
+        	if(multi.getOriginalFileName("originalFileName") != null && !multi.getOriginalFileName("originalFileName").equals("")) {
+        		FileUtil.deleteFile(u.getUserNo(), fvo.getAttachNo(), fvo.getRealPath());
+        		u.setPhotoNo((int)(request.getAttribute("photoNo")));
+        		System.out.println("프사 넣었을때 photono : " + request.getAttribute("photoNo"));
+        	} else {
+        		u.setPhotoNo(oldPhotoNo);
+        	}
+        } else {
+        	FileUtil.deleteFile(u.getUserNo(), fvo.getAttachNo(), fvo.getRealPath());
+        	u.setPhotoNo(0);
         }
-        System.out.println(u);
         userDao.updateUser(u);
-        FileVO fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
-
+        fvo = fileDao.selectProfileFileByUserId(u.getUserNo());
         HttpSession session = request.getSession();
         session.setAttribute("profileUrl", fvo.getFileUrl());
         return "myPage.do";
