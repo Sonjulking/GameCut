@@ -122,6 +122,7 @@ public class ItemDAO {
 			String  insertUserItemSql= "INSERT INTO USER_ITEM (USER_NO, ITEM_NO) VALUES (?, ?)";
 			pstmt = conn.prepareStatement(insertUserItemSql);
 			pstmt.setInt(1, userNo);
+			pstmt.setInt(2, itemNo);
 			pstmt.executeUpdate();
 
 	        // 포인트 차감

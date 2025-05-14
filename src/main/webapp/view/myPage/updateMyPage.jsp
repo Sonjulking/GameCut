@@ -10,7 +10,7 @@
                 <div class="left-column">
                     <div class="profile-image-container">
                         <c:if test="${empty file.originalFileName}">
-                            <img class="oldFile" id="previewImage" src="img/common/empty.png" width="200"
+                            <img class="oldFile" id="previewImage" src="img/main/icons/profile_icon.png" width="200"
                                 height="200" style="border-radius: 100%;">
                         </c:if>
                         <c:if test="${!empty file.originalFileName}">
