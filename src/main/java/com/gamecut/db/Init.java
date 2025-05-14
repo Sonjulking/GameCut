@@ -27,7 +27,7 @@ public class Init {
 	public static void grant() {
 		try {
 			Connection conn = ConnectionProvider.getConnection("system", "manager");			
-			String sql ="grant connect, resource, dba to c##gamecut;";
+			String sql ="grant connect, resource, dba to c##gamecut";
 			PreparedStatement pstmt = conn.prepareStatement(sql);	
 			pstmt.executeUpdate();
 			ConnectionProvider.close(conn, pstmt);
@@ -86,7 +86,22 @@ public class Init {
 	            
 	            "CREATE TABLE GUESS_THE_RANK_HISTORY (GTR_HISTORY_NO NUMBER PRIMARY KEY, GTR_NO NUMBER NOT NULL, USER_NO NUMBER NOT NULL, IS_CORRECT CHAR(1) NOT NULL, SOLVE_DATE DATE DEFAULT SYSDATE NOT NULL, FOREIGN KEY (GTR_NO) REFERENCES GUESS_THE_RANK(GTR_NO), FOREIGN KEY (USER_NO) REFERENCES USER_TB(USER_NO))",
 	            
-	            "CREATE TABLE FOLLOW (FOLLOWER_NO NUMBER NOT NULL, USER_NO NUMBER NOT NULL, CONSTRAINT PK_FOLLOW PRIMARY KEY (FOLLOWER_NO, USER_NO), CONSTRAINT FOLLOWER_NO FOREIGN KEY (FOLLOWER_NO) REFERENCES USER_TB(USER_NO), CONSTRAINT FOLLOW_USER_NO FOREIGN KEY (USER_NO) REFERENCES USER_TB(USER_NO))"
+	            "CREATE TABLE FOLLOW (FOLLOWER_NO NUMBER NOT NULL, USER_NO NUMBER NOT NULL, CONSTRAINT PK_FOLLOW PRIMARY KEY (FOLLOWER_NO, USER_NO), CONSTRAINT FOLLOWER_NO FOREIGN KEY (FOLLOWER_NO) REFERENCES USER_TB(USER_NO), CONSTRAINT FOLLOW_USER_NO FOREIGN KEY (USER_NO) REFERENCES USER_TB(USER_NO))",
+	            
+	            "CREATE SEQUENCE SEQ_COMMENT_NO",
+	            "CREATE SEQUENCE SEQ_GTR_HISTORY_NO",
+	            "CREATE SEQUENCE SEQ_GTR_NO",
+	            "CREATE SEQUENCE SEQ_VIDEO_NO",
+	            "CREATE SEQUENCE SEQ_BOARD_NO",
+	            "CREATE SEQUENCE SEQ_ATTACH_NO",
+	            "CREATE SEQUENCE SEQ_WORLD_CUP_NO",
+	            "CREATE SEQUENCE SEQ_MESSAGE_NO",
+	            "CREATE SEQUENCE SEQ_USER_NO",
+	            "CREATE SEQUENCE SEQ_REPORT_NO",
+	            "CREATE SEQUENCE SEQ_PHOTO_NO",
+	            "CREATE SEQUENCE SEQ_BOARD_TYPE_NO",
+	            "CREATE SEQUENCE SEQ_POINT_HISTORY_NO",
+	            "CREATE SEQUENCE SEQ_ITEM_NO"
 	        };
 			
 			try {
@@ -108,223 +123,200 @@ public class Init {
 	public static void insertData() {
 	   
 		String[] insertStatements = {
-		        // BOARD_TYPE 테이블 데이터
-		        "INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '자유게시판')",
-		        "INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '팁게시판')",
-		        "INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '영상게시판')",
-		        
-		        // TAG 테이블 데이터
-		        "INSERT INTO TAG VALUES ('리그오브레전드', 'lol.png')",
-		        "INSERT INTO TAG VALUES ('배틀그라운드', 'pubg.png')",
-		        "INSERT INTO TAG VALUES ('오버워치', 'overwatch.png')",
-		        "INSERT INTO TAG VALUES ('메이플스토리', 'maple.png')",
-		        "INSERT INTO TAG VALUES ('발로란트', 'valorant.png')",
-		        "INSERT INTO TAG VALUES ('스타크래프트', 'starcraft.png')",
-		        "INSERT INTO TAG VALUES ('FIFA', 'fifa.png')",
-		        "INSERT INTO TAG VALUES ('던전앤파이터', 'dnf.png')",
-		        
-		        // ITEM 테이블 데이터
-		        "INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 골드', 500, NULL)",
-		        "INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 다이아몬드', 1000, NULL)",
-		        "INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '닉네임 색상 변경권', 1500, NULL)",
-		        
-		        // USER_TB 테이블 데이터
-		        "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'admin', 'admin123', '관리자', '게임컷관리자', '010-1234-5678', 'admin@gamecut.com', SYSDATE, NULL, 'basic', 'ROLE_ADMIN', 10000, NULL, NULL)",
-		        "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user1', 'user123', '홍길동', '롤체고수', '010-1111-2222', 'user1@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 1500, 1, NULL)",
-		        "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user2', 'user123', '김철수', '발로란트신', '010-2222-3333', 'user2@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 2500, 2, NULL)",
-		        "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user3', 'user123', '이영희', '스타장인', '010-3333-4444', 'user3@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 3500, 3, NULL)",
-		        "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user4', 'user123', '박민수', '배그킹', '010-4444-5555', 'user4@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 800, NULL, NULL)",
-		        "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user5', 'user123', '최지수', '피파왕', '010-5555-6666', 'user5@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 1200, NULL, NULL)",
-		        
-		        // FILE_TB 테이블 데이터
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 1, 'uuid-admin-1', 'upload/img/2025/05/admin.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\admin.webp', 'image/jpeg',  SYSDATE, 'admin.jpg')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-user1-1', 'upload/img/2025/05/profile1.png', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile1.png', 'image/jpeg',  SYSDATE, 'profile1.png')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-user2-1', 'upload/img/2025/05/profile2.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile2.jpg', 'image/jpeg',  SYSDATE, 'profile2.jpg')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-user3-1', 'upload/img/2025/05/profile3.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile3.jpg', 'image/jpeg', SYSDATE, 'profile3.jpg')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-user4-1', 'upload/img/2025/05/profile4.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile4.webp', 'image/jpeg', SYSDATE, 'profile4.webp')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-user5-1', 'upload/img/2025/05/profile5.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile5.jpg', 'image/jpeg', SYSDATE, 'profile5.jpg')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-post-img3', 'upload/img/2025/05/gold.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\gold.webp', 'image/jpeg', SYSDATE, 'gold.webp')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-post-img2', 'upload/img/2025/05/diamond.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\diamond.webp', 'image/jpeg', SYSDATE, 'diamond.webp')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-post-img1', 'upload/img/2025/05/nicknamecolor.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\nicknamecolor.webp', 'image/jpeg', SYSDATE, 'nicknamecolor.webp')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-video1', 'upload/videos/2025/05/test01.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test01.mp4', 'video/mp4', SYSDATE, 'test01.mp4')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-video2', 'upload/videos/2025/05/test02.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test02.mp4', 'video/mp4', SYSDATE, 'test02.mp4')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-video3', 'upload/videos/2025/05/test03.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test03.mp4', 'video/mp4', SYSDATE, 'test03.mp4')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-video4', 'upload/videos/2025/05/image2.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05', 'video/mp4', SYSDATE, 'pubg_play.mp4')",
-		        "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-video5', 'upload/videos/2025/05/image2.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05', 'video/mp4', SYSDATE, 'fifa_play.mp4')",
-		        
-		        // VIDEO 테이블 데이터
-		        "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 10)",
-		        "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 11)",
-		        "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 12)",
-		        "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 13)",
-		        "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 14)",
-		        
-		        // BOARD 테이블 데이터
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 2, 1, 1, '리그오브레전드 플레이 영상입니다.', '롤 영상 공유합니다~', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 3, 2, 2, '발로란트 에이스 영상입니다!', '발로란트에서 에이스 먹었어요~', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 4, 3, 3, '스타 테란 빌드 공유합니다.', '스타 빌드 공유', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 5, 2, 4, '배틀그라운드 핵 의심 영상', '이거 핵 아닌가요?', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 6, 2, 5, 'FIFA 골 모음', 'FIFA 골 모음 영상입니다', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 2, 1, NULL, '게임 추천 부탁드립니다.', '요즘 뭐가 재밌나요?', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 3, 1, NULL, '발로란트 같이 하실 분!', '발로란트 같이 하실 분 구합니다~', 0, 0, SYSDATE, NULL)",
-		        "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 4, 1, NULL, '메이플 복귀 질문', '지금 메이플 복귀하면 뭐부터 해야하나요?', 0, 0, SYSDATE, NULL)",
-		        
-		        // PHOTO 테이블 데이터
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 1, NULL, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 2, NULL, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 3, NULL, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 4, NULL, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 5, NULL, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 6, NULL, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 7, 1, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 8, 2, 1)",
-		        "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 9, 3, 1)",
-		        
-		        // USER_TB 테이블 PHOTO_NO 업데이트
-		        "UPDATE USER_TB SET PHOTO_NO = 1 WHERE USER_NO = 1",
-		        "UPDATE USER_TB SET PHOTO_NO = 2 WHERE USER_NO = 2",
-		        "UPDATE USER_TB SET PHOTO_NO = 3 WHERE USER_NO = 3",
-		        "UPDATE USER_TB SET PHOTO_NO = 4 WHERE USER_NO = 4",
-		        "UPDATE USER_TB SET PHOTO_NO = 5 WHERE USER_NO = 5",
-		        "UPDATE USER_TB SET PHOTO_NO = 6 WHERE USER_NO = 6",
-		        
-		        // USER_BLOCK 테이블 데이터
-		        "INSERT INTO USER_BLOCK VALUES (2, 5)",
-		        "INSERT INTO USER_BLOCK VALUES (3, 6)",
-		        "INSERT INTO USER_BLOCK VALUES (4, 2)",
-		        "INSERT INTO USER_BLOCK VALUES (5, 3)",
-		        "INSERT INTO USER_BLOCK VALUES (6, 4)",
-		        
-		        // USER_PREFERENCE 테이블 데이터
-		        "INSERT INTO USER_PREFERENCE VALUES (1, '리그오브레전드', 5)",
-		        "INSERT INTO USER_PREFERENCE VALUES (1, '배틀그라운드', 3)",
-		        "INSERT INTO USER_PREFERENCE VALUES (2, '리그오브레전드', 10)",
-		        "INSERT INTO USER_PREFERENCE VALUES (3, '발로란트', 15)",
-		        "INSERT INTO USER_PREFERENCE VALUES (4, '스타크래프트', 20)",
-		        "INSERT INTO USER_PREFERENCE VALUES (5, '배틀그라운드', 25)",
-		        "INSERT INTO USER_PREFERENCE VALUES (6, 'FIFA', 30)",
-		        "INSERT INTO USER_PREFERENCE VALUES (2, '오버워치', 5)",
-		        "INSERT INTO USER_PREFERENCE VALUES (3, '메이플스토리', 7)",
-		        
-		        // POINT_HISTORY 테이블 데이터
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 2, SYSDATE, 100, '게시글 작성')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 3, SYSDATE, 100, '게시글 작성')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 4, SYSDATE, 100, '게시글 작성')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 5, SYSDATE, 100, '게시글 작성')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 6, SYSDATE, 100, '게시글 작성')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 2, SYSDATE, -500, '아이템 구매')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 3, SYSDATE, -1000, '아이템 구매')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 4, SYSDATE, -2000, '아이템 구매')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 5, SYSDATE, -800, '아이템 구매')",
-		        "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 6, SYSDATE, -800, '아이템 구매')",
-		        
-		        // ITEM_IMG 테이블 데이터
-		        "INSERT INTO ITEM_IMG VALUES (1, 7)",
-		        "INSERT INTO ITEM_IMG VALUES (2, 8)",
-		        "INSERT INTO ITEM_IMG VALUES (3, 9)",
-		        
-		        // USER_ITEM 테이블 데이터
-		        "INSERT INTO USER_ITEM VALUES (2, 1)",
-		        "INSERT INTO USER_ITEM VALUES (3, 2)",
-		        "INSERT INTO USER_ITEM VALUES (4, 3)",
-		        
-		        // MESSAGE 테이블 데이터
-		        "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 2, 3, '안녕하세요! 같이 게임하실래요?', SYSDATE, NULL)",
-		        "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 3, 2, '넵! 좋아요~', SYSDATE, NULL)",
-		        "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 4, 5, '배그 같이 하실래요?', SYSDATE, NULL)",
-		        "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 5, 4, '지금 접속 중이니 같이 하시죠!', SYSDATE, NULL)",
-		        "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 6, 2, '게시글 잘 봤습니다!', SYSDATE, NULL)",
-		        "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 2, 6, '감사합니다 ^^', SYSDATE, NULL)",
-		        
-		        // BOARD_LIKE 테이블 데이터
-		        "INSERT INTO BOARD_LIKE VALUES (2, 3)",
-		        "INSERT INTO BOARD_LIKE VALUES (2, 4)",
-		        "INSERT INTO BOARD_LIKE VALUES (3, 1)",
-		        "INSERT INTO BOARD_LIKE VALUES (4, 2)",
-		        "INSERT INTO BOARD_LIKE VALUES (5, 1)",
-		        "INSERT INTO BOARD_LIKE VALUES (6, 5)",
-		        
-		        // 게시글 좋아요 수 업데이트
-		        "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 3",
-		        "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 4",
-		        "UPDATE BOARD SET BOARD_LIKE = 2 WHERE BOARD_NO = 1",
-		        "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 2",
-		        "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 5",
-		        
-		        // GUESS_THE_RANK 테이블 데이터
-		        "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 1, '골드')",
-		        "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 2, '플래티넘')",
-		        "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 3, '다이아몬드')",
-		        "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 4, '실버')",
-		        "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 5, '마스터')",
-		        
-		        // COMMENT_TB 테이블 데이터
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 1, 3, NULL, '와 정말 멋진 플레이네요!', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 2, 4, NULL, '발로란트 고수시네요~', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 3, 5, NULL, '빌드 공유 감사합니다!', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 4, 6, NULL, '정말 핵 같네요...', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 5, 2, NULL, '멋진 골이네요!', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 1, 4, 1, '정말 그렇네요! 대단해요!', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 2, 5, 2, '저도 배우고 싶어요~', SYSDATE, NULL)",
-		        "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 3, 6, 3, '빌드 따라해볼게요!', SYSDATE, NULL)",
-		        
-		        // REPORT 테이블 데이터
-		        "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 2, 4, NULL, '이 게시글은 허위 사실을 포함하고 있습니다.', '허위사실', SYSDATE)",
-		        "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 3, 5, NULL, '광고성 게시글입니다.', '광고', SYSDATE)",
-		        "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 4, NULL, 4, '불쾌한 댓글입니다.', '불쾌한 표현', SYSDATE)",
-		        "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 5, NULL, 5, '스팸 댓글입니다.', '스팸', SYSDATE)",
-		        "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 6, 6, NULL, '도배성 게시글입니다.', '도배', SYSDATE)",
-		        
-		        // TAG_BY_VIDEO 테이블 데이터
-		        "INSERT INTO TAG_BY_VIDEO VALUES (1, '리그오브레전드')",
-		        "INSERT INTO TAG_BY_VIDEO VALUES (2, '발로란트')",
-		        "INSERT INTO TAG_BY_VIDEO VALUES (3, '스타크래프트')",
-		        "INSERT INTO TAG_BY_VIDEO VALUES (4, '배틀그라운드')",
-		        "INSERT INTO TAG_BY_VIDEO VALUES (5, 'FIFA')",
-		        
-		        // MADMOVIE_WORLD_CUP_RESULT 테이블 데이터
-		        "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 1, 2, SYSDATE)",
-		        "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 2, 3, SYSDATE)",
-		        "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 3, 4, SYSDATE)",
-		        "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 4, 5, SYSDATE)",
-		        "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 5, 6, SYSDATE)",
-		        
-		        // COMMENT_LIKE 테이블 데이터
-		        "INSERT INTO COMMENT_LIKE VALUES (1, 2)",
-		        "INSERT INTO COMMENT_LIKE VALUES (2, 3)",
-		        "INSERT INTO COMMENT_LIKE VALUES (3, 4)",
-		        "INSERT INTO COMMENT_LIKE VALUES (4, 5)",
-		        "INSERT INTO COMMENT_LIKE VALUES (5, 6)",
-		        
-		        // GUESS_THE_RANK_HISTORY 테이블 데이터
-		        "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 1, 2, 'Y', SYSDATE)",
-		        "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 2, 3, 'Y', SYSDATE)",
-		        "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 3, 4, 'N', SYSDATE)",
-		        "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 4, 5, 'Y', SYSDATE)",
-		        "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 5, 6, 'N', SYSDATE)",
-		        
-		        // FOLLOW 테이블 데이터
-		        "INSERT INTO FOLLOW VALUES (2, 3)",
-		        "INSERT INTO FOLLOW VALUES (2, 4)",
-		        "INSERT INTO FOLLOW VALUES (3, 2)",
-		        "INSERT INTO FOLLOW VALUES (3, 5)",
-		        "INSERT INTO FOLLOW VALUES (4, 2)",
-		        "INSERT INTO FOLLOW VALUES (4, 6)",
-		        "INSERT INTO FOLLOW VALUES (5, 2)",
-		        "INSERT INTO FOLLOW VALUES (5, 3)",
-		        "INSERT INTO FOLLOW VALUES (6, 2)",
-		        "INSERT INTO FOLLOW VALUES (6, 4)",
-		        
-		        // 조회수 업데이트
-		        "UPDATE BOARD SET BOARD_COUNT = 10 WHERE BOARD_NO = 1",
-		        "UPDATE BOARD SET BOARD_COUNT = 15 WHERE BOARD_NO = 2",
-		        "UPDATE BOARD SET BOARD_COUNT = 20 WHERE BOARD_NO = 3",
-		        "UPDATE BOARD SET BOARD_COUNT = 25 WHERE BOARD_NO = 4",
-		        "UPDATE BOARD SET BOARD_COUNT = 30 WHERE BOARD_NO = 5",
-		        "UPDATE BOARD SET BOARD_COUNT = 5 WHERE BOARD_NO = 6",
-		        "UPDATE BOARD SET BOARD_COUNT = 8 WHERE BOARD_NO = 7",
-		        "UPDATE BOARD SET BOARD_COUNT = 12 WHERE BOARD_NO = 8"
-		    };
+			    "INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '자유게시판')",
+			    "INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '팁게시판')",
+			    "INSERT INTO BOARD_TYPE VALUES (SEQ_BOARD_TYPE_NO.NEXTVAL, '영상게시판')",
+			    
+			    "INSERT INTO TAG VALUES ('리그오브레전드', 'lol.png')",
+			    "INSERT INTO TAG VALUES ('배틀그라운드', 'pubg.png')",
+			    "INSERT INTO TAG VALUES ('오버워치', 'overwatch.png')",
+			    "INSERT INTO TAG VALUES ('메이플스토리', 'maple.png')",
+			    "INSERT INTO TAG VALUES ('발로란트', 'valorant.png')",
+			    "INSERT INTO TAG VALUES ('스타크래프트', 'starcraft.png')",
+			    "INSERT INTO TAG VALUES ('FIFA', 'fifa.png')",
+			    "INSERT INTO TAG VALUES ('던전앤파이터', 'dnf.png')",
+			    
+			    "INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 골드', 500, NULL)",
+			    "INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '프로필 테두리 - 다이아몬드', 1000, NULL)",
+			    "INSERT INTO ITEM VALUES (SEQ_ITEM_NO.NEXTVAL, '닉네임 색상 변경권', 1500, NULL)",
+			    
+			    "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'admin', 'admin123', '관리자', '게임컷관리자', '010-1234-5678', 'admin@gamecut.com', SYSDATE, NULL, 'basic', 'ROLE_ADMIN', 10000, NULL, NULL)",
+			    "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user1', 'user123', '홍길동', '롤체고수', '010-1111-2222', 'user1@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 1500, 1, NULL)",
+			    "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user2', 'user123', '김철수', '발로란트신', '010-2222-3333', 'user2@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 2500, 2, NULL)",
+			    "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user3', 'user123', '이영희', '스타장인', '010-3333-4444', 'user3@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 3500, 3, NULL)",
+			    "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user4', 'user123', '박민수', '배그킹', '010-4444-5555', 'user4@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 800, NULL, NULL)",
+			    "INSERT INTO USER_TB (USER_NO, USER_ID, USER_PWD, USER_NAME, USER_NICKNAME, PHONE, EMAIL, USER_CREATE_DATE, USER_DELETE_DATE, IS_SOCIAL, ROLE, USER_POINT, ITEM_NO, PHOTO_NO) VALUES (SEQ_USER_NO.NEXTVAL, 'user5', 'user123', '최지수', '피파왕', '010-5555-6666', 'user5@example.com', SYSDATE, NULL, 'basic', 'ROLE_USER', 1200, NULL, NULL)",
+			    
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 1, 'uuid-admin-1', 'upload/img/2025/05/admin.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\admin.jpg', 'image/jpeg',  SYSDATE, 'admin.jpg')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-user1-1', 'upload/img/2025/05/profile1.png', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile1.png', 'image/jpeg',  SYSDATE, 'profile1.png')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-user2-1', 'upload/img/2025/05/profile2.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile2.jpg', 'image/jpeg',  SYSDATE, 'profile2.jpg')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-user3-1', 'upload/img/2025/05/profile3.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile3.jpg', 'image/jpeg', SYSDATE, 'profile3.jpg')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-user4-1', 'upload/img/2025/05/profile4.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile4.webp', 'image/jpeg', SYSDATE, 'profile4.webp')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-user5-1', 'upload/img/2025/05/profile5.jpg', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\profile5.jpg', 'image/jpeg', SYSDATE, 'profile5.jpg')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-post-img3', 'upload/img/2025/05/gold.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\gold.webp', 'image/jpeg', SYSDATE, 'gold.webp')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-post-img2', 'upload/img/2025/05/diamond.webp', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\diamond.webp', 'image/jpeg', SYSDATE, 'diamond.webp')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-post-img1', 'upload/img/2025/05/nicknamecolor.png', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\img\\2025\\05\\nicknamecolor.png', 'image/jpeg', SYSDATE, 'nicknamecolor.png')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 2, 'uuid-video1', 'upload/videos/2025/05/test01.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test01.mp4', 'video/mp4', SYSDATE, 'test01.mp4')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 3, 'uuid-video2', 'upload/videos/2025/05/test02.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test02.mp4', 'video/mp4', SYSDATE, 'test02.mp4')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-video3', 'upload/videos/2025/05/test03.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test03.mp4', 'video/mp4', SYSDATE, 'test03.mp4')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 4, 'uuid-video4', 'upload/videos/2025/05/test04.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\test04.mp4', 'video/mp4', SYSDATE, 'test04.mp4')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 5, 'uuid-video5', 'upload/videos/2025/05/short_sample baseball.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\short_sample baseball.mp4', 'video/mp4', SYSDATE, 'short_sample baseball.mp4')",
+			    "INSERT INTO FILE_TB VALUES (SEQ_ATTACH_NO.NEXTVAL, 6, 'uuid-video6', 'upload/videos/2025/05/short_sample.mp4', 'C:\\dev\\project\\GameCut\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\GameCut\\upload\\videos\\2025\\05\\short_sample.mp4', 'video/mp4', SYSDATE, 'short_sample.mp4')",
+			    
+			    "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 10)",
+			    "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 11)",
+			    "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 12)",
+			    "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 13)",
+			    "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 14)",
+			    "INSERT INTO VIDEO VALUES (SEQ_VIDEO_NO.NEXTVAL, 15)",
+			    
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 2, 3, 1, '리그오브레전드 플레이 영상입니다.', '롤 영상 공유합니다~', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 3, 3, 2, '발로란트 에이스 영상입니다!', '발로란트에서 에이스 먹었어요~', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 4, 3, 3, '스타 테란 빌드 공유합니다.', '스타 빌드 공유', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 5, 3, 4, '배틀그라운드 핵 의심 영상', '이거 핵 아닌가요?', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 6, 3, 5, 'FIFA 골 모음', 'FIFA 골 모음 영상입니다', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 6, 3, 6, '생전고인의개쩌는플레이', '감사합니다', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 2, 1, NULL, '게임 추천 부탁드립니다.', '요즘 뭐가 재밌나요?', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 3, 1, NULL, '발로란트 같이 하실 분!', '발로란트 같이 하실 분 구합니다~', 0, 0, SYSDATE, NULL)",
+			    "INSERT INTO BOARD VALUES (SEQ_BOARD_NO.NEXTVAL, 4, 1, NULL, '메이플 복귀 질문', '지금 메이플 복귀하면 뭐부터 해야하나요?', 0, 0, SYSDATE, NULL)",
+			    
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 1, NULL, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 2, NULL, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 3, NULL, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 4, NULL, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 5, NULL, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 6, NULL, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 7, 1, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 8, 2, 1)",
+			    "INSERT INTO PHOTO VALUES (SEQ_PHOTO_NO.NEXTVAL, 9, 3, 1)",
+			    
+			    "UPDATE USER_TB SET PHOTO_NO = 1 WHERE USER_NO = 1",
+			    "UPDATE USER_TB SET PHOTO_NO = 2 WHERE USER_NO = 2",
+			    "UPDATE USER_TB SET PHOTO_NO = 3 WHERE USER_NO = 3",
+			    "UPDATE USER_TB SET PHOTO_NO = 4 WHERE USER_NO = 4",
+			    "UPDATE USER_TB SET PHOTO_NO = 5 WHERE USER_NO = 5",
+			    "UPDATE USER_TB SET PHOTO_NO = 6 WHERE USER_NO = 6",
+			    
+			    "INSERT INTO USER_BLOCK VALUES (2, 5)",
+			    "INSERT INTO USER_BLOCK VALUES (3, 6)",
+			    "INSERT INTO USER_BLOCK VALUES (4, 2)",
+			    "INSERT INTO USER_BLOCK VALUES (5, 3)",
+			    "INSERT INTO USER_BLOCK VALUES (6, 4)",
+			    
+			    "INSERT INTO USER_PREFERENCE VALUES (1, '리그오브레전드', 5)",
+			    "INSERT INTO USER_PREFERENCE VALUES (1, '배틀그라운드', 3)",
+			    "INSERT INTO USER_PREFERENCE VALUES (2, '리그오브레전드', 10)",
+			    "INSERT INTO USER_PREFERENCE VALUES (3, '발로란트', 15)",
+			    "INSERT INTO USER_PREFERENCE VALUES (4, '스타크래프트', 20)",
+			    "INSERT INTO USER_PREFERENCE VALUES (5, '배틀그라운드', 25)",
+			    "INSERT INTO USER_PREFERENCE VALUES (6, 'FIFA', 30)",
+			    "INSERT INTO USER_PREFERENCE VALUES (2, '오버워치', 5)",
+			    "INSERT INTO USER_PREFERENCE VALUES (3, '메이플스토리', 7)",
+			    
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 2, SYSDATE, 100, '게시글 작성')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 3, SYSDATE, 100, '게시글 작성')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 4, SYSDATE, 100, '게시글 작성')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 5, SYSDATE, 100, '게시글 작성')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 6, SYSDATE, 100, '게시글 작성')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 2, SYSDATE, -500, '아이템 구매')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 3, SYSDATE, -1000, '아이템 구매')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 4, SYSDATE, -2000, '아이템 구매')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 5, SYSDATE, -800, '아이템 구매')",
+			    "INSERT INTO POINT_HISTORY VALUES (SEQ_POINT_HISTORY_NO.NEXTVAL, 6, SYSDATE, -800, '아이템 구매')",
+			    
+			    "INSERT INTO ITEM_IMG VALUES (1, 7)",
+			    "INSERT INTO ITEM_IMG VALUES (2, 8)",
+			    "INSERT INTO ITEM_IMG VALUES (3, 9)",
+			    
+			    "INSERT INTO USER_ITEM VALUES (2, 1)",
+			    "INSERT INTO USER_ITEM VALUES (3, 2)",
+			    "INSERT INTO USER_ITEM VALUES (4, 3)",
+			    
+			    "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 2, 3, '안녕하세요! 같이 게임하실래요?', SYSDATE, NULL)",
+			    "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 3, 2, '넵! 좋아요~', SYSDATE, NULL)",
+			    "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 4, 5, '배그 같이 하실래요?', SYSDATE, NULL)",
+			    "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 5, 4, '지금 접속 중이니 같이 하시죠!', SYSDATE, NULL)",
+			    "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 6, 2, '게시글 잘 봤습니다!', SYSDATE, NULL)",
+			    "INSERT INTO MESSAGE VALUES (SEQ_MESSAGE_NO.NEXTVAL, 2, 6, '감사합니다 ^^', SYSDATE, NULL)",
+			    
+			    "INSERT INTO BOARD_LIKE VALUES (2, 3)",
+			    "INSERT INTO BOARD_LIKE VALUES (2, 4)",
+			    "INSERT INTO BOARD_LIKE VALUES (3, 1)",
+			    "INSERT INTO BOARD_LIKE VALUES (4, 2)",
+			    "INSERT INTO BOARD_LIKE VALUES (5, 1)",
+			    "INSERT INTO BOARD_LIKE VALUES (6, 5)",
+			    
+			    "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 3",
+			    "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 4",
+			    "UPDATE BOARD SET BOARD_LIKE = 2 WHERE BOARD_NO = 1",
+			    "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 2",
+			    "UPDATE BOARD SET BOARD_LIKE = 1 WHERE BOARD_NO = 5",
+			    
+			    "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 1, '골드')",
+			    "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 2, '플래티넘')",
+			    "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 3, '다이아몬드')",
+			    "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 4, '실버')",
+			    "INSERT INTO GUESS_THE_RANK VALUES (SEQ_GTR_NO.NEXTVAL, 5, '마스터')",
+			    
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 1, 3, NULL, '와 정말 멋진 플레이네요!', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 2, 4, NULL, '발로란트 고수시네요~', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 3, 5, NULL, '빌드 공유 감사합니다!', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 4, 6, NULL, '정말 핵 같네요...', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 5, 2, NULL, '멋진 골이네요!', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 1, 4, 1, '정말 그렇네요! 대단해요!', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 2, 5, 2, '저도 배우고 싶어요~', SYSDATE, NULL)",
+			    "INSERT INTO COMMENT_TB VALUES (SEQ_COMMENT_NO.NEXTVAL, 3, 6, 3, '빌드 따라해볼게요!', SYSDATE, NULL)",
+			    
+			    "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 2, 4, NULL, '이 게시글은 허위 사실을 포함하고 있습니다.', '허위사실', SYSDATE)",
+			    "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 3, 5, NULL, '광고성 게시글입니다.', '광고', SYSDATE)",
+			    "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 4, NULL, 4, '불쾌한 댓글입니다.', '불쾌한 표현', SYSDATE)",
+			    "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 5, NULL, 5, '스팸 댓글입니다.', '스팸', SYSDATE)",
+			    "INSERT INTO REPORT VALUES (SEQ_REPORT_NO.NEXTVAL, 6, 6, NULL, '도배성 게시글입니다.', '도배', SYSDATE)",
+			    
+			    "INSERT INTO TAG_BY_VIDEO VALUES (1, '리그오브레전드')",
+			    "INSERT INTO TAG_BY_VIDEO VALUES (2, '발로란트')",
+			    "INSERT INTO TAG_BY_VIDEO VALUES (3, '스타크래프트')",
+			    "INSERT INTO TAG_BY_VIDEO VALUES (4, '배틀그라운드')",
+			    "INSERT INTO TAG_BY_VIDEO VALUES (5, 'FIFA')",
+			    
+			    "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 1, 2, SYSDATE)",
+			    "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 2, 3, SYSDATE)",
+			    "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 3, 4, SYSDATE)",
+			    "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 4, 5, SYSDATE)",
+			    "INSERT INTO MADMOVIE_WORLD_CUP_RESULT VALUES (SEQ_WORLD_CUP_NO.NEXTVAL, 5, 6, SYSDATE)",
+			    
+			    "INSERT INTO COMMENT_LIKE VALUES (1, 2)",
+			    "INSERT INTO COMMENT_LIKE VALUES (2, 3)",
+			    "INSERT INTO COMMENT_LIKE VALUES (3, 4)",
+			    "INSERT INTO COMMENT_LIKE VALUES (4, 5)",
+			    "INSERT INTO COMMENT_LIKE VALUES (5, 6)",
+			    
+			    "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 1, 2, 'Y', SYSDATE)",
+			    "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 2, 3, 'Y', SYSDATE)",
+			    "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 3, 4, 'N', SYSDATE)",
+			    "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 4, 5, 'Y', SYSDATE)",
+			    "INSERT INTO GUESS_THE_RANK_HISTORY VALUES (SEQ_GTR_HISTORY_NO.NEXTVAL, 5, 6, 'N', SYSDATE)",
+			    
+			    "INSERT INTO FOLLOW VALUES (2, 3)",
+			    "INSERT INTO FOLLOW VALUES (2, 4)",
+			    "INSERT INTO FOLLOW VALUES (3, 2)",
+			    "INSERT INTO FOLLOW VALUES (3, 5)",
+			    "INSERT INTO FOLLOW VALUES (4, 2)",
+			    "INSERT INTO FOLLOW VALUES (4, 6)",
+			    "INSERT INTO FOLLOW VALUES (5, 2)",
+			    "INSERT INTO FOLLOW VALUES (5, 3)",
+			    "INSERT INTO FOLLOW VALUES (6, 2)",
+			    "INSERT INTO FOLLOW VALUES (6, 4)",
+			    
+			    "UPDATE BOARD SET BOARD_COUNT = 10 WHERE BOARD_NO = 1",
+			    "UPDATE BOARD SET BOARD_COUNT = 15 WHERE BOARD_NO = 2",
+			    "UPDATE BOARD SET BOARD_COUNT = 20 WHERE BOARD_NO = 3",
+			    "UPDATE BOARD SET BOARD_COUNT = 25 WHERE BOARD_NO = 4",
+			    "UPDATE BOARD SET BOARD_COUNT = 30 WHERE BOARD_NO = 5",
+			    "UPDATE BOARD SET BOARD_COUNT = 5 WHERE BOARD_NO = 6",
+			    "UPDATE BOARD SET BOARD_COUNT = 8 WHERE BOARD_NO = 7",
+			    "UPDATE BOARD SET BOARD_COUNT = 12 WHERE BOARD_NO = 8"
+			};
 
 	    try {
 	    	 Connection conn = ConnectionProvider.getConnection("c##gamecut", "gamecut");
