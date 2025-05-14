@@ -6,7 +6,7 @@
 
 ## 팀 구성
 - **팀명**: 개코
-- **팀장 : 조세창: AJAX & Fetch API 비동기 통신 구현  
+- **팀장** : 조세창: AJAX & Fetch API 비동기 통신 구현  
 - **팀원**  
   - 고강찬: FileUtil 클래스 설계 (static)  
   - 공우진, 전희재: 자동 로그아웃, UI/UX  
@@ -27,9 +27,10 @@
 ## 기술 스택
 - **백엔드**: Java, JSP/Servlet (MVC 패턴), JSTL  
 - **프론트엔드**: HTML5, CSS3, JavaScript (AJAX, Fetch API)  
-- **DB**: Oracle DB (ERD 설계 및 SQL 명세서 제공)  
+- **DB**: Oracle DB (ERD 설계 및 SQL 명세서 제공), ERD CLOUD  
 - **서버**: Apache Tomcat  
-- **협업 도구**: GitHub, PPT, 팀 위키 
+- **협업 도구**: GitHub, 구글 스프레드시트&슬라이드
+- **IDE** : 이클립스, 인텔리제이
 
 ## 설치 및 실행
 1. 저장소 클론  
