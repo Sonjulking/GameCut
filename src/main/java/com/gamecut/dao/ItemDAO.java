@@ -118,6 +118,11 @@ public class ItemDAO {
 	        	System.out.println(userName +"님의 포인트가 부족합니다.");
 	        	return;
 	        }
+			// 구매목록 등록
+			String  insertUserItemSql= "INSERT INTO USER_ITEM (USER_NO, ITEM_NO) VALUES (?, ?)";
+			pstmt = conn.prepareStatement(insertUserItemSql);
+			pstmt.setInt(1, userNo);
+			pstmt.executeUpdate();
 
 	        // 포인트 차감
 	        String updateSql = "UPDATE USER_TB SET USER_POINT = USER_POINT - ? WHERE USER_NO = ?";
