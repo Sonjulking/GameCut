@@ -48,20 +48,42 @@ mvn clean package
 4. Tomcat에 WAR 배포
 
 ##  프로젝트 구조
-├─ src/
-│  ├─ main/
-│  │  ├─ java/com/gamecut/
-│  │  │  ├─ controller/
-│  │  │  ├─ dao/
-│  │  │  └─ vo/
-│  │  └─ webapp/
-│  │     ├─ WEB-INF/jsp/
-│  │     ├─ static/css/
-│  │     └─ static/js/
-├─ db/
-│  ├─ schema.sql
-│  └─ data.sql
-└─ README.md
+"프로젝트/
+├── src/
+│   └── main/
+│       ├── java/
+│       │   └── com/
+│       │       └── gamecut/
+│       │           ├── action/         # 요청 처리용 액션 클래스
+│       │           ├── controller/     # DispatcherServlet 등 컨트롤러 클래스
+│       │           ├── dao/            # DB 접근용 DAO 클래스
+│       │           ├── db/             # DB 연결 유틸리티 (ConnectionProvider)
+│       │           ├── util/             # 유틸리티 클래스 
+│       │           └── vo/             # 데이터 전달용 VO 클래스
+│       ├── resources/                 
+│       └── webapp/
+│           ├── css/                      # css 파일 저장 폴더
+│           ├── img/                      # 이미지 파일 저장 폴더
+│           ├── js/                         # js 파일 저장 폴더
+│           ├── index.jsp               # 메인 페이지 JSP
+│           ├── upload/                 # 업로드 파일 저장 폴더
+│           └── WEB-INF/
+│               ├── classes/           # 컴파일된 .class 파일 저장 폴더
+│               ├── lib/               # 의존 라이브러리(JAR) 저장
+│               ├── gamecut.properties # 요청 URL과 액션 매핑 설정
+│               └── web.xml            
+├── bin/                            
+├── docs/                               #DDL, Git사용법, memo 등 문서 저장 폴더
+
+
+
+
+
+
+
+
+
+"
 
 ## 회고 및 개선점
 - 조세창: 비동기 처리 경험, 다음에는 더 완성도 높은 기능 구현
