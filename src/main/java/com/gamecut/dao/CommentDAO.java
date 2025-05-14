@@ -16,7 +16,7 @@ public class CommentDAO {
 	    ArrayList<CommentVO> list = new ArrayList<>();
 
 		//1차문제
-	    String sql = "SELECT u.user_nickname AS comment_writer, c.comment_no, c.board_no, c.user_no, c.comment_content, c.comment_create_date, c.parent_comment_no FROM comment_tb c JOIN user_tb u ON c.user_no = u.user_no WHERE c.board_no = ?";
+	    String sql = "SELECT u.user_nickname AS comment_writer, c.comment_no, c.board_no, c.user_no, c.comment_content, c.comment_create_date, c.parent_comment_no FROM comment_tb c JOIN user_tb u ON c.user_no = u.user_no WHERE c.board_no = ? and comment_delete_date is null order by comment_no";
 
 
 	    try (Connection conn = ConnectionProvider.getConnection();
